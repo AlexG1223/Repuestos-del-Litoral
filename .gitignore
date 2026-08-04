@@ -1,0 +1,20 @@
+# Entorno y credenciales
+.env
+
+# Dependencias Composer
+/vendor/
+composer.lock
+
+# Archivos de log
+private/logs/*.log
+!private/logs/.gitkeep
+
+# Subidas de usuarios (excepto gitkeep)
+public_html/assets/uploads/products/*
+!public_html/assets/uploads/products/.gitkeep
+
+# Archivos de sistema / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

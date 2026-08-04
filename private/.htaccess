@@ -1,0 +1,5 @@
+# private/.htaccess
+# Bloqueo total de acceso web a la carpeta private (defensa en profundidad)
+Require all denied
+Order deny,allow
+Deny from all

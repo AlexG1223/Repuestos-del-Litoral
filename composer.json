@@ -1,0 +1,12 @@
+{
+    "name": "repuestos-del-litoral/ecommerce",
+    "description": "E-commerce Repuestos del Litoral (Fase 1: Base + Catálogo)",
+    "type": "project",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "RepuestosDelLitoral\\": "private/"
+        }
+    },
+    "require": {}
+}
