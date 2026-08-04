@@ -7,11 +7,13 @@ use RepuestosDelLitoral\Config\Database;
 use RepuestosDelLitoral\Models\Order;
 use RepuestosDelLitoral\Models\OrderItem;
 use RepuestosDelLitoral\Models\Product;
+use RepuestosDelLitoral\Services\SessionService;
+use RepuestosDelLitoral\Services\PricingService;
 
 class CheckoutController {
 
     /**
-     * Procesa la solicitud de checkout, valida datos, recalcula precios en BD y registra la orden.
+     * Procesa la solicitud de checkout, valida datos, recalcula precios en BD según sesión y registra la orden.
      */
     public function submitOrder(array $payload): array {
         $errors = $this->validatePayload($payload);
@@ -26,19 +28,21 @@ class CheckoutController {
         $customerPhone   = trim((string)$payload['customerPhone']);
         $customerAddress = isset($payload['customerAddress']) ? trim((string)$payload['customerAddress']) : '';
 
+        $currentUser = SessionService::currentUser();
         $db = Database::getConnection();
         
         $verifiedItems = [];
         $skippedItems  = [];
         $total         = 0.0;
+        $appliedTier   = 'retail'; // Por defecto
 
-        // Recalcular precios y stock contra la base de datos
+        // Recalcular precios y stock contra la base de datos aplicando PricingService
         foreach ($payload['items'] as $item) {
             $productId = (int)$item['productId'];
             $qtyRequested = (int)$item['quantity'];
 
             // Consultar producto directo de la BD por ID
-            $stmt = $db->prepare("SELECT id, name, code, retail_price, stock, active FROM products WHERE id = ? LIMIT 1");
+            $stmt = $db->prepare("SELECT id, name, code, retail_price, wholesale_price, stock, active FROM products WHERE id = ? LIMIT 1");
             $stmt->execute([$productId]);
             $product = $stmt->fetch();
 
@@ -63,7 +67,13 @@ class CheckoutController {
                 ];
             }
 
-            $unitPrice = (float)$product['retail_price'];
+            // Resolver precio server-side usando la sesión activa
+            $priceInfo = PricingService::resolvePrice($product, $currentUser);
+            $unitPrice = $priceInfo['price'];
+            if ($priceInfo['tier'] === 'wholesale') {
+                $appliedTier = 'wholesale';
+            }
+
             $itemSubtotal = $unitPrice * $finalQty;
             $total += $itemSubtotal;
 
@@ -91,11 +101,11 @@ class CheckoutController {
             $db->beginTransaction();
 
             $orderId = Order::create([
-                'user_id'          => null,
+                'user_id'          => $currentUser ? (int)$currentUser['id'] : null,
                 'customer_name'    => $customerName,
                 'customer_phone'   => $customerPhone,
                 'customer_address' => $customerAddress !== '' ? $customerAddress : null,
-                'price_tier'       => 'retail',
+                'price_tier'       => $appliedTier,
                 'total'            => $total,
                 'status'           => 'sent_to_whatsapp'
             ]);
@@ -111,7 +121,7 @@ class CheckoutController {
         }
 
         // Construcción centralizada del mensaje de WhatsApp
-        $whatsappMessage = $this->buildWhatsappMessage($orderId, $customerName, $customerPhone, $customerAddress, $verifiedItems, $total);
+        $whatsappMessage = $this->buildWhatsappMessage($orderId, $customerName, $customerPhone, $customerAddress, $verifiedItems, $total, $appliedTier);
 
         return [
             'success' => true,
@@ -139,7 +149,6 @@ class CheckoutController {
 
         // Teléfono
         $phone = isset($payload['customerPhone']) ? trim((string)$payload['customerPhone']) : '';
-        // Contar solo dígitos
         $digitsOnly = preg_replace('/\D/', '', $phone);
         if (strlen($digitsOnly) < 8 || !preg_match('/^[0-9\+\-\s\(\)]+$/', $phone)) {
             $errors['customerPhone'] = 'Ingrese un teléfono de contacto válido (mínimo 8 dígitos).';
@@ -169,12 +178,14 @@ class CheckoutController {
         string $phone, 
         string $address, 
         array $items, 
-        float $total
+        float $total,
+        string $priceTier = 'retail'
     ): string {
         $orderNumberFormatted = str_pad((string)$orderId, 5, '0', STR_PAD_LEFT);
+        $tierLabel = $priceTier === 'wholesale' ? ' (Precio Mayorista Aplicado)' : '';
         
         $lines = [];
-        $lines[] = "🛒 *Nuevo pedido — Repuestos del Litoral*";
+        $lines[] = "🛒 *Nuevo pedido{$tierLabel} — Repuestos del Litoral*";
         $lines[] = "";
         $lines[] = "*Cliente:* {$name}";
         $lines[] = "*Teléfono:* {$phone}";

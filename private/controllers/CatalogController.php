@@ -5,10 +5,12 @@ namespace RepuestosDelLitoral\Controllers;
 
 use RepuestosDelLitoral\Models\Product;
 use RepuestosDelLitoral\Models\Category;
+use RepuestosDelLitoral\Services\SessionService;
+use RepuestosDelLitoral\Services\PricingService;
 
 class CatalogController {
     /**
-     * Devuelve la lista paginada de productos según parámetros de búsqueda.
+     * Devuelve la lista paginada de productos adaptada al tipo de usuario en sesión.
      */
     public function listProducts(array $queryParams): array {
         $page = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
@@ -27,18 +29,34 @@ class CatalogController {
             $filters['search'] = trim((string)$queryParams['search']);
         }
 
-        return Product::paginate($page, $perPage, $filters);
+        $result = Product::paginate($page, $perPage, $filters);
+        $currentUser = SessionService::currentUser();
+
+        // Aplicar la lógica de precios dinámicos minorista/mayorista
+        foreach ($result['items'] as &$item) {
+            $item = PricingService::applyToProduct($item, $currentUser);
+        }
+        unset($item);
+
+        return $result;
     }
 
     /**
-     * Devuelve el detalle de un producto por su slug.
+     * Devuelve el detalle de un producto por su slug adaptado al tipo de usuario en sesión.
      */
     public function getProductDetail(string $slug): ?array {
         $cleanSlug = trim($slug);
         if ($cleanSlug === '') {
             return null;
         }
-        return Product::findBySlug($cleanSlug);
+
+        $product = Product::findBySlug($cleanSlug);
+        if (!$product) {
+            return null;
+        }
+
+        $currentUser = SessionService::currentUser();
+        return PricingService::applyToProduct($product, $currentUser);
     }
 
     /**

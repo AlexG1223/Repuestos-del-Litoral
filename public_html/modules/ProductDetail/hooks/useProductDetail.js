@@ -4,19 +4,28 @@ import { addItem } from '../../Cart/services/cartService.js';
 
 export function useProductDetail() {
   let container = null;
+  let currentSlug = null;
 
   async function init() {
     container = document.getElementById('detail-root');
     if (!container) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const slug = urlParams.get('slug');
+    currentSlug = urlParams.get('slug');
 
-    if (!slug) {
+    if (!currentSlug) {
       renderError('No se ha especificado un producto válido.');
       return;
     }
 
+    document.addEventListener('auth:changed', () => {
+      if (currentSlug) loadDetail(currentSlug);
+    });
+
+    loadDetail(currentSlug);
+  }
+
+  async function loadDetail(slug) {
     renderLoading();
 
     try {
@@ -90,13 +99,13 @@ export function useProductDetail() {
     if (btnAddCart) {
       btnAddCart.onclick = () => {
         const qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
-        
         const primaryImg = product.images && product.images.length > 0 ? product.images[0].url : '/assets/uploads/products/placeholder.jpg';
         
         addItem({
           id: product.id,
           name: product.name,
-          retail_price: product.retail_price,
+          retail_price: product.price || product.retail_price,
+          unitPrice: product.price || product.retail_price,
           primary_image: primaryImg,
           stock: product.stock
         }, qty);

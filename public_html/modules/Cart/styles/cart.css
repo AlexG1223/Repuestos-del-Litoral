@@ -5,11 +5,11 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.08);
   color: var(--color-light);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 0.95rem;
   border-radius: 20px;
   cursor: pointer;
   font-family: var(--font-heading);
@@ -17,18 +17,25 @@
   font-size: 0.85rem;
   transition: var(--transition);
   text-decoration: none;
+  box-sizing: border-box;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .header-cart-btn:hover {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
   color: var(--color-light);
+  box-shadow: 0 4px 12px rgba(245, 130, 31, 0.25);
 }
 
 .cart-icon-svg {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .cart-badge {
@@ -41,6 +48,7 @@
   min-width: 20px;
   text-align: center;
   transition: var(--transition);
+  display: inline-block;
 }
 
 .cart-badge.badge-empty {
@@ -106,7 +114,6 @@
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-
 }
 
 .btn-close-drawer {

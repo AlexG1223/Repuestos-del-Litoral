@@ -26,6 +26,11 @@ export function useCatalog() {
     if (urlParams.has('search')) state.searchTerm = urlParams.get('search');
     if (urlParams.has('page')) state.currentPage = parseInt(urlParams.get('page'), 10) || 1;
 
+    // Escuchar cambios de sesión para refrescar precios sin recargar
+    document.addEventListener('auth:changed', () => {
+      loadProducts();
+    });
+
     try {
       state.isLoading = true;
       render();
@@ -132,7 +137,6 @@ export function useCatalog() {
             const product = JSON.parse(rawData);
             addItem(product, 1);
 
-            // Confirmación visual breve por 1.5 segundos
             const originalText = btn.innerHTML;
             btn.innerHTML = '✓ ¡Agregado!';
             btn.classList.add('added-success');

@@ -1,0 +1,104 @@
+<?php
+declare(strict_types=1);
+
+namespace RepuestosDelLitoral\Models;
+
+use RepuestosDelLitoral\Config\Database;
+use PDO;
+
+class User {
+    /**
+     * Registra un nuevo usuario en la base de datos con contraseña hasheada.
+     */
+    public static function create(array $data): int {
+        $db = Database::getConnection();
+
+        $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+        $wantsWholesale = !empty($data['wants_wholesale']);
+        
+        $role = $wantsWholesale ? 'wholesale' : 'retail';
+        $approved = $role === 'retail' ? 1 : 0;
+        $businessName = $wantsWholesale && !empty($data['business_name']) ? trim((string)$data['business_name']) : null;
+
+        $sql = "
+            INSERT INTO users (
+                name,
+                email,
+                phone,
+                business_name,
+                password_hash,
+                role,
+                approved,
+                created_at
+            ) VALUES (
+                :name,
+                :email,
+                :phone,
+                :business_name,
+                :password_hash,
+                :role,
+                :approved,
+                NOW()
+            )
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            ':name'          => trim((string)$data['name']),
+            ':email'         => strtolower(trim((string)$data['email'])),
+            ':phone'         => isset($data['phone']) ? trim((string)$data['phone']) : null,
+            ':business_name' => $businessName,
+            ':password_hash' => $passwordHash,
+            ':role'          => $role,
+            ':approved'      => $approved
+        ]);
+
+        return (int)$db->lastInsertId();
+    }
+
+    /**
+     * Busca un usuario por su dirección de email. Devuelve el registro completo (incluye hash para login).
+     */
+    public static function findByEmail(string $email): ?array {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("
+            SELECT id, name, email, phone, business_name, password_hash, role, approved, created_at 
+            FROM users 
+            WHERE email = ? 
+            LIMIT 1
+        ");
+        $stmt->execute([strtolower(trim($email))]);
+        $user = $stmt->fetch();
+        return $user ?: null;
+    }
+
+    /**
+     * Busca un usuario por su ID. Devuelve el perfil seguro (sin password_hash).
+     */
+    public static function findById(int $id): ?array {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("
+            SELECT id, name, email, phone, business_name, role, approved, created_at 
+            FROM users 
+            WHERE id = ? 
+            LIMIT 1
+        ");
+        $stmt->execute([$id]);
+        $user = $stmt->fetch();
+        if ($user) {
+            $user['approved'] = (int)$user['approved'];
+        }
+        return $user ?: null;
+    }
+
+    /**
+     * Limpia la contraseña hasheada del objeto de usuario antes de enviarlo al cliente.
+     */
+    public static function sanitize(array $user): array {
+        unset($user['password_hash']);
+        if (isset($user['approved'])) {
+            $user['approved'] = (int)$user['approved'];
+        }
+        return $user;
+    }
+}
