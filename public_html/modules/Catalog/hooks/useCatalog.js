@@ -1,4 +1,5 @@
 import { fetchProducts, fetchCategories } from '../services/catalogService.js';
+import { addItem } from '../../Cart/services/cartService.js';
 import { ProductList } from '../components/ProductList.js';
 import { CategoryFilter } from '../components/CategoryFilter.js';
 
@@ -55,7 +56,6 @@ export function useCatalog() {
     } finally {
       state.isLoading = false;
       render();
-      attachEvents();
     }
   }
 
@@ -114,11 +114,38 @@ export function useCatalog() {
           updateUrlParams();
           loadProducts();
           
-          // Desplazar suavemente hasta el inicio del catálogo
           const catalogTitle = document.getElementById('catalogo');
           if (catalogTitle) {
             catalogTitle.scrollIntoView({ behavior: 'smooth' });
           }
+        }
+      };
+    });
+
+    // Eventos de Agregar al Carrito directo desde la tarjeta
+    const addCartBtns = container.querySelectorAll('.btn-add-cart');
+    addCartBtns.forEach(btn => {
+      btn.onclick = () => {
+        try {
+          const rawData = btn.getAttribute('data-product');
+          if (rawData) {
+            const product = JSON.parse(rawData);
+            addItem(product, 1);
+
+            // Confirmación visual breve por 1.5 segundos
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '✓ ¡Agregado!';
+            btn.classList.add('added-success');
+            btn.disabled = true;
+
+            setTimeout(() => {
+              btn.innerHTML = originalText;
+              btn.classList.remove('added-success');
+              btn.disabled = false;
+            }, 1500);
+          }
+        } catch (e) {
+          console.error('Error al agregar producto al carrito:', e);
         }
       };
     });

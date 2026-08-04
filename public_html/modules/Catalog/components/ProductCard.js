@@ -1,7 +1,7 @@
 import { formatCurrency, getImageUrl } from '../../../globals/main.js';
 
 /**
- * Componente JS puro para renderizar la tarjeta de un producto.
+ * Componente JS puro para renderizar la tarjeta de un producto en el catálogo.
  * @param {Object} product 
  * @returns {string} HTML String
  */
@@ -15,6 +15,15 @@ export function ProductCard(product) {
   const stockBadge = inStock 
     ? '<span class="badge badge-success">En Stock</span>'
     : '<span class="badge badge-warning">Consulte Stock</span>';
+
+  // Objeto serializado de forma segura para pasar al botón de agregar al carrito
+  const productData = {
+    id: product.id,
+    name: product.name,
+    retail_price: product.retail_price,
+    primary_image: product.primary_image,
+    stock: product.stock
+  };
 
   return `
     <article class="product-card" data-slug="${product.slug}">
@@ -38,9 +47,17 @@ export function ProductCard(product) {
             ${stockBadge}
           </div>
         </div>
-        <a href="${detailUrl}" class="btn btn-primary product-card-btn">
-          Ver detalle
-        </a>
+        <div class="product-card-actions">
+          <button type="button" 
+                  class="btn btn-primary btn-add-cart" 
+                  data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'
+                  ${!inStock ? 'disabled' : ''}>
+            🛒 Agregar al carrito
+          </button>
+          <a href="${detailUrl}" class="btn btn-outline btn-card-detail">
+            Ver detalle
+          </a>
+        </div>
       </div>
     </article>
   `;

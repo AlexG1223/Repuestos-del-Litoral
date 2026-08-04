@@ -13,7 +13,6 @@ export function ProductDetailView(product) {
   const primaryImage = images.find(img => img.is_primary) || images[0];
   const primaryUrl = getImageUrl(primaryImage.url);
 
-  // Galería de miniaturas (thumbnails)
   const thumbnailsHtml = images.length > 1 ? images.map((img, idx) => {
     const activeClass = img.url === primaryImage.url ? 'active' : '';
     const imgUrl = getImageUrl(img.url);
@@ -68,7 +67,7 @@ export function ProductDetailView(product) {
             <span class="price-notice">IVA Incluido</span>
           </div>
 
-          <!-- Selector de Cantidad (preparado para Fase 2) -->
+          <!-- Selector de Cantidad y Botones de Acción -->
           <div class="detail-actions">
             <div class="quantity-selector">
               <label for="product-qty">Cantidad:</label>
@@ -79,10 +78,16 @@ export function ProductDetailView(product) {
               </div>
             </div>
 
-            <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-consult-wa">
-              <svg viewBox="0 0 32 32" style="width:20px; height:20px; fill:currentColor;"><path d="M16 2a13 13 0 0 0-11 20L3 29l7.2-1.9A13 13 0 1 0 16 2zm0 24c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-4.3 1.1 1.1-4.2-.3-.5A10.9 10.9 0 1 1 16 2zm6-8.2c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8.2 8.2 0 0 1-2.5-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.7l.5-.6.3-.5v-.5c0-.2-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5s-.3-.2-.6-.4z"/></svg>
-              Consultar por WhatsApp
-            </a>
+            <div class="detail-buttons-group">
+              <button type="button" class="btn btn-primary btn-add-cart-detail" id="btn-add-to-cart-detail" ${!inStock ? 'disabled' : ''}>
+                🛒 Agregar al Carrito
+              </button>
+
+              <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-consult-wa">
+                <svg viewBox="0 0 32 32" style="width:18px; height:18px; fill:currentColor;"><path d="M16 2a13 13 0 0 0-11 20L3 29l7.2-1.9A13 13 0 1 0 16 2zm0 24c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-4.3 1.1 1.1-4.2-.3-.5A10.9 10.9 0 1 1 16 2zm6-8.2c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8.2 8.2 0 0 1-2.5-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.7l.5-.6.3-.5v-.5c0-.2-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5s-.3-.2-.6-.4z"/></svg>
+                Consulta Directa
+              </a>
+            </div>
           </div>
 
           <!-- Descripción -->

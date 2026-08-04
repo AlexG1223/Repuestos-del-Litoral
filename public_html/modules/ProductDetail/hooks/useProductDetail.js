@@ -1,5 +1,6 @@
 import { fetchProductDetail } from '../services/detailService.js';
 import { ProductDetailView } from '../components/ProductDetailView.js';
+import { addItem } from '../../Cart/services/cartService.js';
 
 export function useProductDetail() {
   let container = null;
@@ -81,6 +82,35 @@ export function useProductDetail() {
         if (val < max) {
           qtyInput.value = val + 1;
         }
+      };
+    }
+
+    // Botón Agregar al Carrito desde detalle
+    const btnAddCart = container.querySelector('#btn-add-to-cart-detail');
+    if (btnAddCart) {
+      btnAddCart.onclick = () => {
+        const qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
+        
+        const primaryImg = product.images && product.images.length > 0 ? product.images[0].url : '/assets/uploads/products/placeholder.jpg';
+        
+        addItem({
+          id: product.id,
+          name: product.name,
+          retail_price: product.retail_price,
+          primary_image: primaryImg,
+          stock: product.stock
+        }, qty);
+
+        const originalText = btnAddCart.innerHTML;
+        btnAddCart.innerHTML = '✓ ¡Agregado al Carrito!';
+        btnAddCart.style.backgroundColor = 'var(--color-success)';
+        btnAddCart.disabled = true;
+
+        setTimeout(() => {
+          btnAddCart.innerHTML = originalText;
+          btnAddCart.style.backgroundColor = '';
+          btnAddCart.disabled = false;
+        }, 1500);
       };
     }
   }

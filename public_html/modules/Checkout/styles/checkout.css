@@ -1,0 +1,261 @@
+/* Estilos del Módulo Checkout */
+
+.checkout-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.checkout-page-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  border-left: 5px solid var(--color-primary);
+  padding-left: 0.8rem;
+}
+
+/* Layout dos columnas */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Caja de Formulario */
+.checkout-form-box {
+  background-color: var(--color-light);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-gray-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  color: var(--color-dark);
+  margin: 0;
+}
+
+.form-subtitle {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-top: -0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-dark);
+}
+
+.form-group .required {
+  color: var(--color-danger);
+}
+
+.form-group .optional {
+  font-weight: normal;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.8rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  border: 2px solid var(--color-gray-border);
+  border-radius: var(--radius-sm);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(245, 130, 31, 0.15);
+}
+
+.form-group.has-error input,
+.form-group.has-error textarea {
+  border-color: var(--color-danger);
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.btn-submit-checkout {
+  width: 100%;
+  padding: 1.1rem 1.5rem;
+  font-size: 1rem;
+  background-color: #25D366;
+  color: white;
+
+}
+
+.btn-submit-checkout:hover:not([disabled]) {
+  background-color: #1EBE5D;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+}
+
+.btn-submit-checkout[disabled] {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Caja de Resumen de la Orden */
+.order-summary-box {
+  background-color: var(--color-light);
+  border-radius: var(--radius-md);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-gray-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: sticky;
+  top: 90px;
+}
+
+.summary-title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--color-dark);
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--color-gray-light);
+  padding-bottom: 0.75rem;
+  margin: 0;
+}
+
+.summary-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.summary-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--color-gray-light);
+}
+
+.summary-item-img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #FAFAFA;
+  border: 1px solid var(--color-gray-border);
+  flex-shrink: 0;
+}
+
+.summary-item-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.summary-item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-item-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+
+.summary-item-qty {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.summary-item-subtotal {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  white-space: nowrap;
+}
+
+.summary-total-block {
+  background-color: var(--color-gray-light);
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.summary-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.total-price {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--color-primary-dark);
+}
+
+.summary-notice {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Caja Carrito Vacío */
+.checkout-empty-box {
+  background-color: var(--color-light);
+  padding: 4rem 2rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-gray-border);
+  margin: 2rem 0;
+}
+
+.checkout-empty-box .empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 850px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary-box {
+    position: static;
+  }
+}
