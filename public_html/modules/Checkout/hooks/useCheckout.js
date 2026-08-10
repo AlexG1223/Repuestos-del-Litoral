@@ -6,7 +6,7 @@ import { OrderSummary } from '../components/OrderSummary.js';
 export function useCheckout() {
   let container = null;
   let state = {
-    formData: { customerName: '', customerPhone: '', customerAddress: '' },
+    formData: { customerName: '', customerPhone: '', customerAddress: '', paymentMethod: 'whatsapp' },
     errors: {},
     isSubmitting: false,
     noticeMessage: null
@@ -139,6 +139,31 @@ export function useCheckout() {
 
     const form = container.querySelector('#checkout-form');
     if (form) {
+      const radios = form.querySelectorAll('input[name="paymentMethod"]');
+      const cards = form.querySelectorAll('.payment-option-card');
+      const submitBtn = form.querySelector('#btn-submit-order');
+
+      radios.forEach(radio => {
+        radio.onchange = () => {
+          state.formData.paymentMethod = radio.value;
+          const isMp = radio.value === 'mercado_pago';
+
+          cards.forEach(card => {
+            const cardInput = card.querySelector('input');
+            if (cardInput && cardInput.checked) {
+              card.classList.add('selected');
+            } else {
+              card.classList.remove('selected');
+            }
+          });
+
+          if (submitBtn && !state.isSubmitting) {
+            submitBtn.className = `btn btn-submit-checkout ${isMp ? 'btn-pay-mercado_pago' : 'btn-pay-whatsapp'}`;
+            submitBtn.innerHTML = isMp ? '💳 CONFIRMAR PEDIDO' : '💬 CONFIRMAR PEDIDO';
+          }
+        };
+      });
+
       form.onsubmit = handleSubmit;
     }
   }

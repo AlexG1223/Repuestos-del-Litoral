@@ -15,7 +15,7 @@ require_once __DIR__ . '/../private/config/settings.php';
   <!-- Estilos globales, del módulo Cart y del Checkout -->
   <link rel="stylesheet" href="/globals/main.css">
   <link rel="stylesheet" href="/modules/Cart/styles/cart.css">
-  <link rel="stylesheet" href="/modules/Checkout/styles/checkout.css">
+  <link rel="stylesheet" href="/modules/Checkout/styles/checkout.css?v=1.0.2">
 </head>
 <body>
 
@@ -39,6 +39,6 @@ require_once __DIR__ . '/../private/config/settings.php';
   <?php require_once __DIR__ . '/includes/footer.php'; ?>
 
   <!-- Script Principal de la Aplicación -->
-  <script type="module" src="/app.js"></script>
+  <script type="module" src="/app.js?v=1.0.2"></script>
 </body>
 </html>

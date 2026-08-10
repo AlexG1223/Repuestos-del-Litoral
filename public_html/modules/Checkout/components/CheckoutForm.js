@@ -12,6 +12,7 @@ export function CheckoutForm(formData = {}, errors = {}, isSubmitting = false) {
   const genErr = errors.general ? `<div class="alert-error" style="margin-bottom:1rem;">⚠️ ${errors.general}</div>` : '';
 
   const paymentMethod = formData.paymentMethod || 'whatsapp';
+  const isMp = paymentMethod === 'mercado_pago';
 
   return `
     <form id="checkout-form" class="checkout-form-box" novalidate>
@@ -69,21 +70,28 @@ export function CheckoutForm(formData = {}, errors = {}, isSubmitting = false) {
         >${formData.customerAddress || ''}</textarea>
       </div>
 
-      <h2 class="form-title" style="margin-top: 2rem;">💳 Método de Pago</h2>
-      <div class="form-group">
-        <label style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; cursor:pointer;">
-          <input type="radio" name="paymentMethod" value="whatsapp" ${paymentMethod === 'whatsapp' ? 'checked' : ''} />
-          <span>Coordinar pago y envío por WhatsApp</span>
+      <h2 class="form-title" style="margin-top: 1.5rem;">💳 Método de Pago</h2>
+      <div class="payment-options-list">
+        <label class="payment-option-card ${!isMp ? 'selected' : ''}">
+          <input type="radio" name="paymentMethod" value="whatsapp" ${!isMp ? 'checked' : ''} />
+          <div class="payment-option-content">
+            <span class="payment-option-title">Coordinar pago y envío por WhatsApp</span>
+            <span class="payment-option-desc">Finalizar pedido e iniciar chat directo para acordar pago y entrega</span>
+          </div>
         </label>
-        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
-          <input type="radio" name="paymentMethod" value="mercado_pago" ${paymentMethod === 'mercado_pago' ? 'checked' : ''} />
-          <span>Pagar ahora con Mercado Pago (Tarjetas, Redpagos, Abitab)</span>
+        
+        <label class="payment-option-card ${isMp ? 'selected' : ''}">
+          <input type="radio" name="paymentMethod" value="mercado_pago" ${isMp ? 'checked' : ''} />
+          <div class="payment-option-content">
+            <span class="payment-option-title">Pagar ahora con Mercado Pago</span>
+            <span class="payment-option-desc">Tarjetas de crédito/débito, Redpagos o Abitab</span>
+          </div>
         </label>
       </div>
 
-      <div class="form-actions">
-        <button type="submit" id="btn-submit-order" class="btn btn-primary btn-submit-checkout" ${isSubmitting ? 'disabled' : ''}>
-          ${isSubmitting ? 'Procesando pedido...' : (paymentMethod === 'whatsapp' ? '💬 Confirmar Pedido (WhatsApp)' : '💳 Pagar con Mercado Pago')}
+      <div class="form-actions" style="margin-top: 1rem;">
+        <button type="submit" id="btn-submit-order" class="btn btn-submit-checkout ${isMp ? 'btn-pay-mercado_pago' : 'btn-pay-whatsapp'}" ${isSubmitting ? 'disabled' : ''}>
+          ${isSubmitting ? 'Procesando pedido...' : (isMp ? '💳 CONFIRMAR PEDIDO' : '💬 CONFIRMAR PEDIDO')}
         </button>
       </div>
     </form>
