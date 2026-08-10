@@ -36,6 +36,18 @@ export async function deleteProduct(id) {
   return res.json();
 }
 
+export async function toggleProductStatus(id, active) {
+  const res = await fetch('/api/admin/product-delete.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': getCsrfToken()
+    },
+    body: JSON.stringify({ id, active })
+  });
+  return res.json();
+}
+
 export async function uploadImage(productId, file) {
   const formData = new FormData();
   formData.append('product_id', productId);

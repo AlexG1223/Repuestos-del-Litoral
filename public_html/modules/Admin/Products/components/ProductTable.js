@@ -14,6 +14,10 @@ export function ProductTable(products) {
       ? formatCurrency(p.wholesale_price) 
       : '-';
 
+    const toggleStatusBtn = p.active 
+      ? `<button type="button" class="admin-btn warning btn-toggle-status" data-id="${p.id}" data-active="0" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" title="Dar de baja (desactivar del catálogo)">Baja</button>`
+      : `<button type="button" class="admin-btn success btn-toggle-status" data-id="${p.id}" data-active="1" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" title="Dar de alta (activar en el catálogo)">Alta</button>`;
+
     return `
       <tr>
         <td>
@@ -27,8 +31,11 @@ export function ProductTable(products) {
         <td>${p.stock}</td>
         <td>${statusBadge}</td>
         <td>
-          <a href="/admin/producto-editar.php?id=${p.id}" class="admin-btn secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Editar</a>
-          ${p.active ? `<button type="button" class="admin-btn danger btn-delete-product" data-id="${p.id}" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Baja</button>` : ''}
+          <div style="display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap;">
+            <a href="/admin/producto-editar.php?id=${p.id}" class="admin-btn secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Editar</a>
+            ${toggleStatusBtn}
+            <button type="button" class="admin-btn danger btn-delete-product" data-id="${p.id}" data-name="${p.name}" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" title="Eliminar permanentemente este producto de la base de datos">Eliminar</button>
+          </div>
         </td>
       </tr>
     `;

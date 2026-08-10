@@ -44,7 +44,11 @@ class AdminProductController {
     }
 
     public function delete(int $id): void {
-        Product::setActive($id, false);
+        Product::deletePermanently($id);
+    }
+
+    public function toggleActive(int $id, bool $active): void {
+        Product::setActive($id, $active);
     }
 
     public function uploadImage(int $productId, array $file): array {

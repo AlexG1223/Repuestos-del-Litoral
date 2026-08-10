@@ -1,4 +1,4 @@
-import { fetchProducts, fetchProductById, deleteProduct } from '../services/adminProductService.js';
+import { fetchProducts, fetchProductById, deleteProduct, toggleProductStatus } from '../services/adminProductService.js';
 import { ProductTable } from '../components/ProductTable.js';
 
 export function useAdminProducts() {
@@ -27,15 +27,35 @@ export function useAdminProducts() {
   }
 
   function attachTableEvents() {
+    // Alternar estado activo / inactivo (Baja / Alta)
+    document.querySelectorAll('.btn-toggle-status').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.currentTarget.dataset.id;
+        const targetActive = e.currentTarget.dataset.active === '1';
+        const actionLabel = targetActive ? 'dar de alta' : 'dar de baja';
+
+        if (confirm(`¿Estás seguro de que deseas ${actionLabel} este producto?`)) {
+          const res = await toggleProductStatus(id, targetActive);
+          if (res.success) {
+            loadProducts();
+          } else {
+            alert('Error al cambiar estado: ' + res.error);
+          }
+        }
+      });
+    });
+
+    // Eliminar permanentemente de la base de datos
     document.querySelectorAll('.btn-delete-product').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         const id = e.currentTarget.dataset.id;
-        if (confirm('¿Estás seguro de que deseas dar de baja este producto?')) {
+        const name = e.currentTarget.dataset.name || 'este producto';
+        if (confirm(`⚠️ ALERTA: ¿Estás seguro de que deseas ELIMINAR PERMANENTEMENTE el producto "${name}"?\n\nEsta acción eliminará el producto y sus imágenes de la base de datos de forma definitiva.`)) {
           const res = await deleteProduct(id);
           if (res.success) {
-            loadProducts(); // recargar
+            loadProducts();
           } else {
-            alert('Error al eliminar: ' + res.error);
+            alert('Error al eliminar permanentemente: ' + res.error);
           }
         }
       });

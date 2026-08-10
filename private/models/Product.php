@@ -342,6 +342,28 @@ class Product {
     }
 
     /**
+     * ADMINISTRACIÓN: Elimina permanentemente un producto de la base de datos.
+     */
+    public static function deletePermanently(int $id): void {
+        $db = Database::getConnection();
+
+        // Eliminar carpeta de imágenes del producto si existe en disco
+        $uploadDir = dirname(__DIR__, 2) . '/public_html/assets/uploads/products/' . $id;
+        if (is_dir($uploadDir)) {
+            $files = glob($uploadDir . '/*');
+            if ($files) {
+                foreach ($files as $file) {
+                    if (is_file($file)) unlink($file);
+                }
+            }
+            @rmdir($uploadDir);
+        }
+
+        $stmt = $db->prepare("DELETE FROM products WHERE id = ?");
+        $stmt->execute([$id]);
+    }
+
+    /**
      * Busca un producto por su código.
      */
     public static function findByCode(string $code): ?array {
