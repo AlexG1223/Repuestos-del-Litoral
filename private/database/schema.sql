@@ -1,4 +1,4 @@
-﻿-- Repuestos del Litoral Schema
+-- Repuestos del Litoral Schema
 DROP TABLE IF EXISTS import_logs;
 DROP TABLE IF EXISTS order_items;
 DROP TABLE IF EXISTS orders;
@@ -50,6 +50,7 @@ CREATE TABLE users (
     name VARCHAR(150) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     phone VARCHAR(30) NULL,
+    business_name VARCHAR(150) NULL,
     password_hash VARCHAR(255) NOT NULL,
     role ENUM('retail','wholesale','admin') NOT NULL DEFAULT 'retail',
     approved TINYINT(1) NOT NULL DEFAULT 0,

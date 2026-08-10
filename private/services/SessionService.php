@@ -108,4 +108,27 @@ class SessionService {
 
         return $_SESSION['user'];
     }
+
+    /**
+     * Verifica si el usuario actual ha iniciado sesión.
+     */
+    public static function isLoggedIn(): bool {
+        return self::currentUser() !== null;
+    }
+
+    /**
+     * Verifica si el usuario actual tiene rol de administrador.
+     */
+    public static function isAdmin(): bool {
+        $user = self::currentUser();
+        return $user !== null && isset($user['role']) && $user['role'] === 'admin';
+    }
+
+    /**
+     * Verifica si el usuario actual tiene rol mayorista aprobado.
+     */
+    public static function isWholesale(): bool {
+        $user = self::currentUser();
+        return $user !== null && isset($user['role']) && $user['role'] === 'wholesale' && (int)($user['approved'] ?? 0) === 1;
+    }
 }
