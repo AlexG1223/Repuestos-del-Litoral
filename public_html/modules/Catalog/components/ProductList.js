@@ -22,16 +22,16 @@ export function ProductList(products, meta) {
   // Generador de Paginación
   let paginationHtml = '';
   if (meta && meta.total_pages > 1) {
-    const currentPage = meta.page;
-    const totalPages = meta.total_pages;
+    const currentPage = parseInt(meta.page, 10) || 1;
+    const totalPages = parseInt(meta.total_pages, 10) || 1;
 
     let pageButtonsHtml = '';
 
     // Botón anterior
     const prevDisabled = currentPage <= 1 ? 'disabled' : '';
-    pageButtonsHtml += `<button class="pagination-btn" data-page="${currentPage - 1}" ${prevDisabled}>&laquo; Anterior</button>`;
+    pageButtonsHtml += `<button class="pagination-btn pagination-nav-btn" data-page="${currentPage - 1}" ${prevDisabled} title="Página anterior">&laquo; Anterior</button>`;
 
-    // Números de página (máximo 9 números visibles en la ventana)
+    // Determinar ventana deslizante de máximo 9 números de página
     const maxVisiblePages = 9;
     let startPage = 1;
     let endPage = totalPages;
@@ -48,12 +48,14 @@ export function ProductList(products, meta) {
 
     for (let i = startPage; i <= endPage; i++) {
       const activeClass = i === currentPage ? 'active' : '';
-      pageButtonsHtml += `<button class="pagination-btn ${activeClass}" data-page="${i}">${i}</button>`;
+      const distance = Math.abs(i - currentPage);
+      const farClass = distance >= 3 ? 'page-num-far' : '';
+      pageButtonsHtml += `<button class="pagination-btn page-num ${activeClass} ${farClass}" data-page="${i}">${i}</button>`;
     }
 
     // Botón siguiente
     const nextDisabled = currentPage >= totalPages ? 'disabled' : '';
-    pageButtonsHtml += `<button class="pagination-btn" data-page="${currentPage + 1}" ${nextDisabled}>Siguiente &raquo;</button>`;
+    pageButtonsHtml += `<button class="pagination-btn pagination-nav-btn" data-page="${currentPage + 1}" ${nextDisabled} title="Página siguiente">Siguiente &raquo;</button>`;
 
     paginationHtml = `
       <nav class="catalog-pagination">
