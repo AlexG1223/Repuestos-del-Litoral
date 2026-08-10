@@ -10,6 +10,8 @@ require_once __DIR__ . '/../../private/config/settings.php';
 require_once __DIR__ . '/../../private/models/Category.php';
 require_once __DIR__ . '/../../private/models/ProductImage.php';
 require_once __DIR__ . '/../../private/models/Product.php';
+require_once __DIR__ . '/../../private/services/SessionService.php';
+require_once __DIR__ . '/../../private/services/PricingService.php';
 require_once __DIR__ . '/../../private/controllers/CatalogController.php';
 
 use RepuestosDelLitoral\Controllers\CatalogController;

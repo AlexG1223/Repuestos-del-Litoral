@@ -1,0 +1,32 @@
+.settings-container {
+  background-color: var(--color-light);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  max-width: 600px;
+}
+
+.settings-group {
+  margin-bottom: 1.5rem;
+}
+
+.settings-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-dark);
+}
+
+.settings-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-gray-border);
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+}
+
+.settings-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}

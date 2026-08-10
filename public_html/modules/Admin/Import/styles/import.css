@@ -1,0 +1,99 @@
+.import-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.import-step {
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.import-step h3 {
+  margin-top: 0;
+  color: var(--color-primary);
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.raw-preview {
+  background: #222;
+  color: #0f0;
+  padding: 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.admin-table input[type="text"], 
+.admin-table input[type="number"] {
+  width: 100%;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-table .excluded {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.action-create {
+  color: #2ecc71;
+  font-weight: bold;
+}
+
+.action-update {
+  color: #f39c12;
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.summary-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.stat-box {
+  background: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #eee;
+}
+
+.stat-box.success {
+  border-left: 4px solid #2ecc71;
+}
+
+.stat-box.warning {
+  border-left: 4px solid #f39c12;
+}
+
+.stat-box.danger {
+  border-left: 4px solid #e74c3c;
+}
+
+.stat-box .num {
+  font-size: 2rem;
+  font-weight: bold;
+  display: block;
+}

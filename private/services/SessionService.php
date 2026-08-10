@@ -5,6 +5,9 @@ namespace RepuestosDelLitoral\Services;
 
 use RepuestosDelLitoral\Models\User;
 
+require_once __DIR__ . '/../models/User.php';
+require_once __DIR__ . '/../config/database.php';
+
 class SessionService {
     private static bool $started = false;
 

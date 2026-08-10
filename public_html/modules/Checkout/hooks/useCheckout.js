@@ -24,8 +24,17 @@ export function useCheckout() {
     if (state.isSubmitting) return;
 
     const cartItems = getCart();
+    const total = getTotal();
+
     if (cartItems.length === 0) {
       state.errors = { general: 'El carrito está vacío.' };
+      render();
+      return;
+    }
+
+    const minOrder = window.APP_CONFIG?.minOrderAmount || 2000;
+    if (total < minOrder) {
+      state.errors = { general: `El pedido mínimo es de $U ${minOrder}.` };
       render();
       return;
     }
@@ -36,8 +45,10 @@ export function useCheckout() {
     const formData = new FormData(form);
     state.formData = {
       customerName: (formData.get('customerName') || '').toString().trim(),
+      customerEmail: (formData.get('customerEmail') || '').toString().trim(),
       customerPhone: (formData.get('customerPhone') || '').toString().trim(),
-      customerAddress: (formData.get('customerAddress') || '').toString().trim()
+      customerAddress: (formData.get('customerAddress') || '').toString().trim(),
+      paymentMethod: (formData.get('paymentMethod') || 'whatsapp').toString()
     };
 
     state.isSubmitting = true;
@@ -62,6 +73,11 @@ export function useCheckout() {
 
       // Limpiar el carrito local
       clear();
+
+      if (res.data.paymentMethod === 'mercado_pago' && res.data.init_point) {
+        window.location.href = res.data.init_point;
+        return;
+      }
 
       // Redirigir a WhatsApp con el mensaje formateado por el backend
       const whatsappMessage = res.data.whatsappMessage;

@@ -1,0 +1,271 @@
+/* Layout compartido de Administración */
+:root {
+  --admin-sidebar-width: 250px;
+  --admin-bg: #f8f9fa;
+  --admin-header-h: 60px;
+}
+
+body.admin-body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body), sans-serif;
+  background-color: var(--admin-bg);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: var(--admin-sidebar-width);
+  background-color: var(--color-dark);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.admin-sidebar-brand {
+  height: var(--admin-header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-nav {
+  flex: 1;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-nav a {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.admin-nav a:hover {
+  background-color: rgba(255,255,255,0.05);
+  color: #fff;
+}
+
+.admin-nav a.active {
+  background-color: var(--color-primary);
+  color: #111;
+}
+
+.admin-nav-footer {
+  padding: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-nav-footer a {
+  display: block;
+  text-align: center;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.admin-nav-footer a:hover {
+  color: #fff;
+}
+
+/* Main Content */
+.admin-main {
+  flex: 1;
+  margin-left: var(--admin-sidebar-width);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-header {
+  height: var(--admin-header-h);
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-dark);
+}
+
+.admin-content {
+  padding: 2rem;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Controles comunes de UI Admin */
+.admin-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary);
+  color: var(--color-dark);
+  font-weight: 700;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.admin-btn:hover {
+  opacity: 0.9;
+}
+
+.admin-btn.danger {
+  background-color: #e74c3c;
+  color: #fff;
+}
+.admin-btn.secondary {
+  background-color: #eee;
+  color: #333;
+}
+
+.admin-table-wrapper {
+  overflow-x: auto;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-table th, .admin-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.admin-table th {
+  background-color: #f9f9f9;
+  font-weight: 700;
+  color: #555;
+}
+
+.admin-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.admin-badge.success { background: #d4edda; color: #155724; }
+.admin-badge.warning { background: #fff3cd; color: #856404; }
+.admin-badge.danger { background: #f8d7da; color: #721c24; }
+.admin-badge.secondary { background: #e2e3e5; color: #383d41; }
+
+/* Forms */
+.admin-form-group {
+  margin-bottom: 1.5rem;
+}
+
+.admin-form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.admin-form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+.admin-form-control:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(243, 156, 18, 0.2);
+}
+
+/* Mobile Sidebar Toggle */
+.admin-sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 15px;
+  z-index: 105;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #111;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.admin-sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .admin-sidebar-toggle {
+    display: block;
+  }
+  
+  .admin-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 100;
+  }
+  
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .admin-sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+  }
+  
+  .admin-main {
+    margin-left: 0;
+  }
+  
+  .admin-header {
+    padding-left: 4.5rem; /* leave space for hamburger */
+  }
+}

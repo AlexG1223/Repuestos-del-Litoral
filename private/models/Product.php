@@ -18,7 +18,6 @@ class Product {
         $where = ["p.active = 1"];
         $params = [];
 
-        // Filtro por categoría (id o slug)
         if (!empty($filters['category_id'])) {
             $where[] = "p.category_id = ?";
             $params[] = (int)$filters['category_id'];
@@ -27,10 +26,10 @@ class Product {
             $params[] = $filters['category_slug'];
         }
 
-        // Filtro por búsqueda textual (nombre o código)
         if (!empty($filters['search'])) {
             $searchTerm = '%' . trim($filters['search']) . '%';
-            $where[] = "(p.name LIKE ? OR p.code LIKE ? OR p.description LIKE ?)";
+            $where[] = "(p.name LIKE ? OR p.code LIKE ? OR p.description LIKE ? OR CAST(p.retail_price AS CHAR) LIKE ?)";
+            $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
@@ -38,7 +37,6 @@ class Product {
 
         $whereClause = implode(' AND ', $where);
 
-        // Consulta de recuento total
         $countSql = "
             SELECT COUNT(DISTINCT p.id) as total 
             FROM products p 
@@ -49,7 +47,6 @@ class Product {
         $stmtCount->execute($params);
         $total = (int)($stmtCount->fetchColumn() ?: 0);
 
-        // Consulta de productos
         $sql = "
             SELECT 
                 p.id,
@@ -61,6 +58,7 @@ class Product {
                 p.slug,
                 p.description,
                 p.retail_price,
+                p.wholesale_price,
                 p.stock,
                 p.created_at,
                 (
@@ -89,9 +87,9 @@ class Product {
         $stmt->execute();
         $items = $stmt->fetchAll();
 
-        // Formateo ligero de items (asegurar tipos)
         foreach ($items as &$item) {
             $item['retail_price'] = (float)$item['retail_price'];
+            $item['wholesale_price'] = isset($item['wholesale_price']) ? (float)$item['wholesale_price'] : null;
             $item['stock'] = (int)$item['stock'];
             if (empty($item['primary_image'])) {
                 $item['primary_image'] = '/assets/uploads/products/placeholder.jpg';
@@ -126,6 +124,7 @@ class Product {
                 p.slug,
                 p.description,
                 p.retail_price,
+                p.wholesale_price,
                 p.stock,
                 p.active,
                 p.created_at,
@@ -144,6 +143,7 @@ class Product {
         }
 
         $product['retail_price'] = (float)$product['retail_price'];
+        $product['wholesale_price'] = isset($product['wholesale_price']) ? (float)$product['wholesale_price'] : null;
         $product['stock'] = (int)$product['stock'];
         $product['images'] = ProductImage::allByProduct((int)$product['id']);
 
@@ -160,5 +160,236 @@ class Product {
         }
 
         return $product;
+    }
+
+    /**
+     * ADMINISTRACIÓN: Devuelve una lista de productos (incluyendo inactivos).
+     */
+    public static function allForAdmin(array $filters): array {
+        $db = Database::getConnection();
+
+        $where = ["1=1"];
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $searchTerm = '%' . trim($filters['search']) . '%';
+            $where[] = "(p.name LIKE ? OR p.code LIKE ?)";
+            $params[] = $searchTerm;
+            $params[] = $searchTerm;
+        }
+
+        if (!empty($filters['category_id'])) {
+            $where[] = "p.category_id = ?";
+            $params[] = (int)$filters['category_id'];
+        }
+
+        if (isset($filters['active']) && $filters['active'] !== '') {
+            $where[] = "p.active = ?";
+            $params[] = (int)$filters['active'];
+        }
+
+        $whereClause = implode(' AND ', $where);
+
+        $sql = "
+            SELECT 
+                p.id,
+                p.category_id,
+                c.name AS category_name,
+                p.code,
+                p.name,
+                p.retail_price,
+                p.wholesale_price,
+                p.stock,
+                p.active,
+                (
+                    SELECT url 
+                    FROM product_images pi 
+                    WHERE pi.product_id = p.id 
+                    ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC 
+                    LIMIT 1
+                ) AS primary_image
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            WHERE {$whereClause}
+            ORDER BY p.id DESC
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute($params);
+        $items = $stmt->fetchAll();
+
+        foreach ($items as &$item) {
+            $item['retail_price'] = (float)$item['retail_price'];
+            $item['wholesale_price'] = isset($item['wholesale_price']) ? (float)$item['wholesale_price'] : null;
+            $item['stock'] = (int)$item['stock'];
+            $item['active'] = (int)$item['active'];
+            if (empty($item['primary_image'])) {
+                $item['primary_image'] = '/assets/uploads/products/placeholder.jpg';
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * ADMINISTRACIÓN: Busca un producto por su ID incluyendo galería para edición.
+     */
+    public static function findByIdForAdmin(int $id): ?array {
+        $db = Database::getConnection();
+        $sql = "
+            SELECT 
+                p.*
+            FROM products p
+            WHERE p.id = ?
+            LIMIT 1
+        ";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([$id]);
+        $product = $stmt->fetch();
+
+        if (!$product) {
+            return null;
+        }
+
+        $product['retail_price'] = (float)$product['retail_price'];
+        $product['wholesale_price'] = isset($product['wholesale_price']) ? (float)$product['wholesale_price'] : null;
+        $product['stock'] = (int)$product['stock'];
+        $product['active'] = (int)$product['active'];
+        $product['images'] = ProductImage::allByProduct((int)$product['id']);
+
+        return $product;
+    }
+
+    /**
+     * ADMINISTRACIÓN: Crea un nuevo producto.
+     */
+    public static function create(array $data): int {
+        $db = Database::getConnection();
+        $slug = self::generateSlug($data['name']);
+
+        $sql = "
+            INSERT INTO products (category_id, code, name, slug, description, retail_price, wholesale_price, stock, active)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            $data['category_id'] ? (int)$data['category_id'] : null,
+            trim($data['code'] ?? ''),
+            trim($data['name']),
+            $slug,
+            $data['description'] ?? '',
+            (float)($data['retail_price'] ?? 0),
+            isset($data['wholesale_price']) && $data['wholesale_price'] !== '' ? (float)$data['wholesale_price'] : null,
+            (int)($data['stock'] ?? 0),
+            (int)($data['active'] ?? 1)
+        ]);
+
+        return (int)$db->lastInsertId();
+    }
+
+    /**
+     * ADMINISTRACIÓN: Actualiza un producto existente.
+     */
+    public static function update(int $id, array $data): void {
+        $db = Database::getConnection();
+        
+        // Si el nombre cambió significativamente, podríamos regenerar el slug o mantener el que se pasó si se permite editar manual.
+        // Asumiremos regenerar si no viene slug manual o basándonos en el nombre si cambió.
+        // Pero el prompt dice: "slug autogenerado pero editable".
+        // Así que si viene un slug en data lo validamos, si no generamos uno.
+        $slug = $data['slug'] ?? '';
+        if (trim($slug) === '') {
+            $slug = self::generateSlug($data['name'], $id);
+        } else {
+            // Validar unicidad del slug provisto
+            $stmt = $db->prepare("SELECT id FROM products WHERE slug = ? AND id != ?");
+            $stmt->execute([$slug, $id]);
+            if ($stmt->fetch()) {
+                $slug = self::generateSlug($slug, $id); // Si choca, generamos uno seguro
+            }
+        }
+
+        $sql = "
+            UPDATE products 
+            SET category_id = ?, code = ?, name = ?, slug = ?, description = ?, 
+                retail_price = ?, wholesale_price = ?, stock = ?, active = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([
+            $data['category_id'] ? (int)$data['category_id'] : null,
+            trim($data['code'] ?? ''),
+            trim($data['name']),
+            $slug,
+            $data['description'] ?? '',
+            (float)($data['retail_price'] ?? 0),
+            isset($data['wholesale_price']) && $data['wholesale_price'] !== '' ? (float)$data['wholesale_price'] : null,
+            (int)($data['stock'] ?? 0),
+            (int)($data['active'] ?? 1),
+            $id
+        ]);
+    }
+
+    /**
+     * ADMINISTRACIÓN: Cambia el estado de activo (Baja Lógica).
+     */
+    public static function setActive(int $id, bool $active): void {
+        $db = Database::getConnection();
+        $stmt = $db->prepare("UPDATE products SET active = ? WHERE id = ?");
+        $stmt->execute([$active ? 1 : 0, $id]);
+    }
+
+    /**
+     * Busca un producto por su código.
+     */
+    public static function findByCode(string $code): ?array {
+        $db = Database::getConnection();
+        $sql = "SELECT * FROM products WHERE code = ? LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->execute([trim($code)]);
+        $product = $stmt->fetch();
+        return $product ?: null;
+    }
+
+    /**
+     * Helper: Genera un slug único a partir de un string.
+     */
+    private static function generateSlug(string $name, ?int $ignoreId = null): string {
+        // Sacar acentos y caracteres raros
+        $slug = preg_replace('~[^\pL\d]+~u', '-', $name);
+        $slug = iconv('utf-8', 'us-ascii//TRANSLIT', $slug);
+        $slug = preg_replace('~[^-\w]+~', '', $slug);
+        $slug = trim($slug, '-');
+        $slug = preg_replace('~-+~', '-', $slug);
+        $slug = strtolower($slug);
+
+        if (empty($slug)) {
+            $slug = 'producto';
+        }
+
+        $db = Database::getConnection();
+        $originalSlug = $slug;
+        $counter = 1;
+
+        while (true) {
+            $sql = "SELECT id FROM products WHERE slug = ?";
+            $params = [$slug];
+            if ($ignoreId !== null) {
+                $sql .= " AND id != ?";
+                $params[] = $ignoreId;
+            }
+            $stmt = $db->prepare($sql);
+            $stmt->execute($params);
+            
+            if (!$stmt->fetch()) {
+                break;
+            }
+            $slug = $originalSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

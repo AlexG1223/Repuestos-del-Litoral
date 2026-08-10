@@ -25,8 +25,10 @@ class CheckoutController {
         }
 
         $customerName    = trim((string)$payload['customerName']);
+        $customerEmail   = trim((string)$payload['customerEmail']);
         $customerPhone   = trim((string)$payload['customerPhone']);
         $customerAddress = isset($payload['customerAddress']) ? trim((string)$payload['customerAddress']) : '';
+        $paymentMethod   = isset($payload['paymentMethod']) && $payload['paymentMethod'] === 'mercado_pago' ? 'mercado_pago' : 'whatsapp';
 
         $currentUser = SessionService::currentUser();
         $db = Database::getConnection();
@@ -103,11 +105,13 @@ class CheckoutController {
             $orderId = Order::create([
                 'user_id'          => $currentUser ? (int)$currentUser['id'] : null,
                 'customer_name'    => $customerName,
+                'customer_email'   => $customerEmail,
                 'customer_phone'   => $customerPhone,
                 'customer_address' => $customerAddress !== '' ? $customerAddress : null,
                 'price_tier'       => $appliedTier,
                 'total'            => $total,
-                'status'           => 'sent_to_whatsapp'
+                'payment_method'   => $paymentMethod,
+                'status'           => 'pendiente'
             ]);
 
             OrderItem::createMany($orderId, $verifiedItems);
@@ -120,6 +124,30 @@ class CheckoutController {
             throw $e;
         }
 
+        if ($paymentMethod === 'mercado_pago') {
+            try {
+                $initPoint = $this->createMercadoPagoPreference($orderId, $customerEmail, $verifiedItems);
+                return [
+                    'success' => true,
+                    'data'    => [
+                        'orderId'         => $orderId,
+                        'total'           => $total,
+                        'items'           => $verifiedItems,
+                        'skippedItems'    => $skippedItems,
+                        'paymentMethod'   => 'mercado_pago',
+                        'init_point'      => $initPoint
+                    ]
+                ];
+            } catch (\Exception $e) {
+                return [
+                    'success' => false,
+                    'errors'  => [
+                        'general' => 'Error al contactar con Mercado Pago: ' . $e->getMessage()
+                    ]
+                ];
+            }
+        }
+
         // Construcción centralizada del mensaje de WhatsApp
         $whatsappMessage = $this->buildWhatsappMessage($orderId, $customerName, $customerPhone, $customerAddress, $verifiedItems, $total, $appliedTier);
 
@@ -130,6 +158,7 @@ class CheckoutController {
                 'total'           => $total,
                 'items'           => $verifiedItems,
                 'skippedItems'    => $skippedItems,
+                'paymentMethod'   => 'whatsapp',
                 'whatsappMessage' => $whatsappMessage
             ]
         ];
@@ -145,6 +174,12 @@ class CheckoutController {
         $name = isset($payload['customerName']) ? trim((string)$payload['customerName']) : '';
         if (mb_strlen($name) < 2 || mb_strlen($name) > 150) {
             $errors['customerName'] = 'Por favor ingrese su nombre y apellido (mínimo 2 caracteres).';
+        }
+
+        // Email
+        $email = isset($payload['customerEmail']) ? trim((string)$payload['customerEmail']) : '';
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors['customerEmail'] = 'Por favor ingrese un email válido.';
         }
 
         // Teléfono
@@ -205,5 +240,64 @@ class CheckoutController {
         $lines[] = "Pedido #{$orderNumberFormatted} generado desde sitio web";
 
         return implode("\n", $lines);
+    }
+
+    /**
+     * Llama a la API de Mercado Pago vía cURL para crear la preferencia.
+     */
+    private function createMercadoPagoPreference(int $orderId, string $email, array $items): string {
+        $token = getenv('MP_ACCESS_TOKEN');
+        if (!$token) {
+            throw new \Exception("Mercado Pago no está configurado en el servidor.");
+        }
+
+        $mpItems = [];
+        foreach ($items as $item) {
+            $mpItems[] = [
+                'id' => (string)$item['product_id'],
+                'title' => $item['name'],
+                'quantity' => (int)$item['quantity'],
+                'unit_price' => (float)$item['unit_price'],
+                'currency_id' => 'UYU'
+            ];
+        }
+
+        // Webhook config
+        $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        
+        $preferenceData = [
+            'items' => $mpItems,
+            'payer' => [
+                'email' => $email
+            ],
+            'external_reference' => (string)$orderId,
+            'notification_url' => $baseUrl . '/api/webhooks/mercadopago.php',
+            'back_urls' => [
+                'success' => $baseUrl . '/index.php?payment_status=success',
+                'pending' => $baseUrl . '/index.php?payment_status=pending',
+                'failure' => $baseUrl . '/index.php?payment_status=failure'
+            ],
+            'auto_return' => 'approved'
+        ];
+
+        $ch = curl_init('https://api.mercadopago.com/checkout/preferences');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $token,
+            'Content-Type: application/json'
+        ]);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($preferenceData));
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode !== 200 && $httpCode !== 201) {
+            throw new \Exception("Error MP: " . $response);
+        }
+
+        $result = json_decode($response, true);
+        return $result['init_point'];
     }
 }

@@ -24,22 +24,6 @@ require_once __DIR__ . '/../private/config/settings.php';
   <!-- Cabecera compartida -->
   <?php require_once __DIR__ . '/includes/header.php'; ?>
 
-  <!-- Banner Héroe / Presentación -->
-  <section class="hero-banner"
-    style="background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('/assets/uploads/products/placeholder.jpg') center/cover; padding: 4rem 1.5rem; text-align: center; color: white;">
-    <div style="max-width: 800px; margin: 0 auto;">
-      <h1
-        style="font-family: var(--font-heading); font-size: 2.5rem; text-transform: uppercase; font-weight: 900; margin-bottom: 1rem; color: var(--color-primary);">
-        Repuestos del Litoral
-      </h1>
-      <p style="font-size: 1.15rem; color: #E0E0E0; margin-bottom: 1.5rem;">
-        Especialistas en repuestos y servicio para motosierras, desmalezadoras y maquinaria de jardín. Venta minorista y
-        mayorista.
-      </p>
-      <a href="#catalogo" class="btn btn-primary" style="padding: 0.9rem 2rem; font-size: 1rem;">Ver Catálogo de
-        Productos</a>
-    </div>
-  </section>
 
   <!-- Punto de Entrada del Catálogo Interactive JS -->
   <main class="main-content">

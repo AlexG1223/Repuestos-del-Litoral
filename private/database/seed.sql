@@ -1,5 +1,5 @@
 -- ============================================================
--- Repuestos del Litoral — Seed data inicial (Fase 1)
+-- Repuestos del Litoral — Seed data inicial
 -- ============================================================
 
 -- Categorías
@@ -11,7 +11,7 @@ INSERT INTO categories (id, parent_id, name, slug) VALUES
 
 -- Productos
 INSERT INTO products (id, category_id, code, name, slug, description, retail_price, wholesale_price, stock, active) VALUES
-(1, 1, 'MS-250', 'Motosierra Stihl MS 250 - 45.4 cc', 'motosierra-stihl-ms-250', 'Motosierra compacta de alta potencia para trabajos de leña y mantenimiento en fincas o chacras. Motor de 2.3 kW, paso de cadena 325".', 18900.00, 16500.00, 5, 1),
+(1, 1, 'MS-250', 'Motosierra Stihl MS 250 - 45.4 cc', 'motosierra-stihl-ms-250', 'Motosierra compacta de alta potencia para trabajos de leña y mantenimiento en fincas o chacras. Motor de 2.3 kW, paso de cadena .325".', 18900.00, 16500.00, 5, 1),
 (2, 1, 'HUSQ-120', 'Motosierra Husqvarna 120 Mark II', 'motosierra-husqvarna-120-mark-ii', 'Motosierra fácil de usar, ideal para tareas cotidianas de corte. Motor X-Torq con bajas emisiones y reducido consumo de combustible.', 15400.00, 13800.00, 8, 1),
 (3, 2, 'DES-FS55', 'Desmalezadora Stihl FS 55', 'desmalezadora-stihl-fs-55', 'Desmalezadora liviana y maniobrable con manillar abierto. Ideal para bordear césped y desmalezar césped alto.', 13900.00, 12200.00, 6, 1),
 (4, 2, 'DES-HUSQ143R', 'Desmalezadora Husqvarna 143R-II', 'desmalezadora-husqvarna-143r-ii', 'Desmalezadora robusta diseñada para trabajo pesado en condiciones exigentes. Incluye arnés doble profesional.', 24500.00, NULL, 4, 1),

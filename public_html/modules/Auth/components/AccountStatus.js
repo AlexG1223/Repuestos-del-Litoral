@@ -27,6 +27,7 @@ export function AccountStatus(user = null) {
         ${roleBadge}
       </div>
       <div class="user-actions">
+        ${user.role === 'admin' ? '<a href="/admin/index.php" class="nav-user-link" style="color:var(--color-primary); font-weight:bold;">Admin Panel</a>' : ''}
         <a href="/mi-cuenta.php" class="nav-user-link">Mi Cuenta</a>
         <button type="button" id="btn-header-logout" class="btn-logout-link">Salir</button>
       </div>

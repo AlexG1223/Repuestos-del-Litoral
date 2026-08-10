@@ -36,9 +36,15 @@ export function CartDrawer(items = [], total = 0) {
             <span>Subtotal estimado:</span>
             <strong class="cart-total-amount">${formatCurrency(total)}</strong>
           </div>
-          <p class="cart-footer-note">Envío y pago a coordinar por WhatsApp.</p>
+          ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? `
+            <p class="cart-footer-note" style="color: var(--color-danger); font-weight: bold;">
+              El pedido mínimo es de ${formatCurrency(window.APP_CONFIG?.minOrderAmount || 2000)}. Te faltan ${formatCurrency((window.APP_CONFIG?.minOrderAmount || 2000) - total)}.
+            </p>
+          ` : `
+            <p class="cart-footer-note">Envío y pago a coordinar por WhatsApp.</p>
+          `}
           <div class="cart-footer-actions">
-            <a href="/checkout.php" class="btn btn-primary btn-block">
+            <a href="/checkout.php" class="btn btn-primary btn-block ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? 'disabled' : ''}" ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>
               Finalizar Pedido por WhatsApp &raquo;
             </a>
           </div>

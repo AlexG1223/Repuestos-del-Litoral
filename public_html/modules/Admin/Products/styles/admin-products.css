@@ -1,0 +1,48 @@
+/* Estilos específicos para el módulo de Productos en el Panel de Administración */
+
+.admin-filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-filter-bar input[type="text"] {
+  flex: 1;
+  min-width: 250px;
+}
+
+.admin-filter-bar select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Image Uploader Styles */
+.image-uploader-controls {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.image-card {
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.image-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.image-card button {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
