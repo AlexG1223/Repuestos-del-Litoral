@@ -29,7 +29,7 @@ export function ProductDetailView(product) {
     : '<span class="badge badge-warning">Consulte Disponibilidad</span>';
 
   const waMessage = encodeURIComponent(`Hola! Estoy interesado en el producto: ${product.name} (Cód: ${product.code || 'S/N'}).`);
-  const waUrl = `https://wa.me/59899655283?text=${waMessage}`;
+  const waUrl = `https://wa.me/59892492756?text=${waMessage}`;
 
   return `
     <article class="product-detail-container">

@@ -81,7 +81,7 @@ export function useCheckout() {
 
       // Redirigir a WhatsApp con el mensaje formateado por el backend
       const whatsappMessage = res.data.whatsappMessage;
-      const targetPhone = '59899655283';
+      const targetPhone = '59892492756';
       const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(whatsappMessage)}`;
 
       window.location.href = waUrl;

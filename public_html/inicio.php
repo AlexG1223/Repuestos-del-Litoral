@@ -200,7 +200,7 @@ require_once __DIR__ . '/../private/config/settings.php';
 
       <div style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); height: 450px;">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3302.26197171439!2d-58.2198084!3d-33.5350314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2ddbb7153a801%3A0x6b772c842fb14777!2sAsencio%201930%2C%20Dolores%2C%20Departamento%20de%20Soriano!5e0!3m2!1ses!2suy!4v1700000000000!5m2!1ses!2suy"
+          src="https://maps.google.com/maps?q=Asencio+1930,+Dolores,+Soriano,+Uruguay&t=&z=16&ie=UTF8&iwloc=&output=embed"
           width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>

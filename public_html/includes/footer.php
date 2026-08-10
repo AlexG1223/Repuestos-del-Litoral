@@ -9,8 +9,8 @@
     <div class="footer-col">
       <h3>Contacto & Local</h3>
       <ul>
-        <li>📍 Dirección: Local Físico (Consulte ubicación)</li>
-        <li>📞 Teléfono / WhatsApp: <a href="https://wa.me/59892492756" target="_blank" rel="noopener">099 655 283</a>
+        <li>📍 Dirección: Asencio 1930, Dolores, Soriano</li>
+        <li>📞 Teléfono / WhatsApp: <a href="https://wa.me/59892492756" target="_blank" rel="noopener">092 492 756</a>
         </li>
         <li>💬 Atencion inmediata vía WhatsApp</li>
       </ul>
