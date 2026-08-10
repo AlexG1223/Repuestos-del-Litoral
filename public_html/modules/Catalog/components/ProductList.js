@@ -31,8 +31,22 @@ export function ProductList(products, meta) {
     const prevDisabled = currentPage <= 1 ? 'disabled' : '';
     pageButtonsHtml += `<button class="pagination-btn" data-page="${currentPage - 1}" ${prevDisabled}>&laquo; Anterior</button>`;
 
-    // Números de página
-    for (let i = 1; i <= totalPages; i++) {
+    // Números de página (máximo 9 números visibles en la ventana)
+    const maxVisiblePages = 9;
+    let startPage = 1;
+    let endPage = totalPages;
+
+    if (totalPages > maxVisiblePages) {
+      startPage = Math.max(1, currentPage - 4);
+      endPage = startPage + maxVisiblePages - 1;
+
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
       const activeClass = i === currentPage ? 'active' : '';
       pageButtonsHtml += `<button class="pagination-btn ${activeClass}" data-page="${i}">${i}</button>`;
     }
