@@ -101,11 +101,15 @@ export function useProductDetail() {
         const qty = parseInt(qtyInput ? qtyInput.value : 1, 10) || 1;
         const primaryImg = product.images && product.images.length > 0 ? product.images[0].url : '/assets/uploads/products/placeholder.jpg';
         
+        const effectivePrice = product.display_price !== undefined 
+          ? product.display_price 
+          : (product.price !== undefined ? product.price : product.retail_price);
+        
         addItem({
           id: product.id,
           name: product.name,
-          retail_price: product.price || product.retail_price,
-          unitPrice: product.price || product.retail_price,
+          retail_price: effectivePrice,
+          unitPrice: effectivePrice,
           primary_image: primaryImg,
           stock: product.stock
         }, qty);

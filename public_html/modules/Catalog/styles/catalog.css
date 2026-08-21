@@ -208,11 +208,20 @@
   color: var(--color-text-muted);
 }
 
+.product-card-price-label.label-wholesale {
+  color: #e67e22;
+  font-weight: 700;
+}
+
 .product-card-price {
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 1.35rem;
   color: var(--color-dark);
+}
+
+.product-card-price.wholesale-price {
+  color: #d35400;
 }
 
 .product-card-actions {

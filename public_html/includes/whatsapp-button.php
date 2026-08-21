@@ -1,8 +1,8 @@
-<a href="https://wa.me/59892492756?text=Hola!%20Quisiera%20consultar%20por%20repuestos%20y%20productos." 
+<a href="https://wa.me/59899655283?text=Hola!%20Quisiera%20consultar%20por%20repuestos%20y%20productos." 
    class="whatsapp-float" 
    target="_blank" 
    rel="noopener"
-   title="Consultar por WhatsApp (092 492 756)">
+   title="Consultar por WhatsApp (099 655 283)">
   <svg viewBox="0 0 32 32">
     <path d="M16 2a13 13 0 0 0-11 20L3 29l7.2-1.9A13 13 0 1 0 16 2zm0 24c-2.1 0-4.1-.6-5.8-1.7l-.4-.3-4.3 1.1 1.1-4.2-.3-.5A10.9 10.9 0 1 1 16 26zm6-8.2c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6 0a8.2 8.2 0 0 1-2.5-1.5 9 9 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.7l.5-.6.3-.5v-.5c0-.2-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4s-1.2 1.2-1.2 2.8 1.2 3.2 1.4 3.4 2.4 3.7 5.8 5.1c.8.3 1.4.5 1.9.7.8.2 1.5.2 2.1.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5s-.3-.2-.6-.4z"/>
   </svg>

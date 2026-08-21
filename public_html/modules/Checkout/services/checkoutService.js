@@ -5,11 +5,14 @@
 export async function submitOrder(customerData, cartItems) {
   const payload = {
     customerName: customerData.customerName,
+    customerEmail: customerData.customerEmail,
     customerPhone: customerData.customerPhone,
     customerAddress: customerData.customerAddress,
+    paymentMethod: customerData.paymentMethod,
     items: cartItems.map(item => ({
       productId: item.productId,
-      quantity: item.quantity
+      quantity: item.quantity,
+      name: item.name
     }))
   };
 

@@ -18,6 +18,9 @@ export function CartDrawer(items = [], total = 0) {
     </div>
   ` : items.map(item => CartItem(item)).join('');
 
+  const minOrderAmount = window.APP_CONFIG?.minOrderAmount ?? 2000;
+  const isBelowMin = total < minOrderAmount;
+
   return `
     <div class="cart-drawer-overlay" id="cart-drawer-overlay"></div>
     <aside class="cart-drawer" id="cart-drawer-aside">
@@ -36,15 +39,15 @@ export function CartDrawer(items = [], total = 0) {
             <span>Subtotal estimado:</span>
             <strong class="cart-total-amount">${formatCurrency(total)}</strong>
           </div>
-          ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? `
+          ${isBelowMin ? `
             <p class="cart-footer-note" style="color: var(--color-danger); font-weight: bold;">
-              El pedido mínimo es de ${formatCurrency(window.APP_CONFIG?.minOrderAmount || 2000)}. Te faltan ${formatCurrency((window.APP_CONFIG?.minOrderAmount || 2000) - total)}.
+              El pedido mínimo es de ${formatCurrency(minOrderAmount)}. Te faltan ${formatCurrency(minOrderAmount - total)}.
             </p>
           ` : `
             <p class="cart-footer-note">Envío y pago a coordinar por WhatsApp.</p>
           `}
           <div class="cart-footer-actions">
-            <a href="/checkout.php" class="btn btn-primary btn-block ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? 'disabled' : ''}" ${total < (window.APP_CONFIG?.minOrderAmount || 2000) ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>
+            <a href="/checkout.php" class="btn btn-primary btn-block ${isBelowMin ? 'disabled' : ''}" ${isBelowMin ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>
               Finalizar Pedido por WhatsApp &raquo;
             </a>
           </div>

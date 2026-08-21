@@ -32,7 +32,11 @@ export function getCart() {
 export function addItem(product, qty = 1) {
   const cart = getCart();
   const id = product.productId || product.id;
-  const price = product.unitPrice !== undefined ? product.unitPrice : (product.retail_price || 0);
+  const price = product.unitPrice !== undefined 
+    ? product.unitPrice 
+    : (product.display_price !== undefined 
+      ? product.display_price 
+      : (product.price !== undefined ? product.price : (product.retail_price || 0)));
   const image = product.image || product.primary_image || '/assets/uploads/products/placeholder.jpg';
   const stock = product.stock !== undefined ? product.stock : 99;
 

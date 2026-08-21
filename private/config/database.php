@@ -11,7 +11,7 @@ class Database
 {
     private static ?PDO $instance = null;
 
-    private static function loadEnv(): void
+    public static function loadEnv(): void
     {
         $envPath = dirname(__DIR__, 2) . '/.env';
         if (file_exists($envPath)) {
@@ -57,6 +57,24 @@ class Database
             try {
                 self::$instance = new PDO($dsn, $user, $pass, $options);
             } catch (PDOException $e) {
+                // Intentar fallback si falla por credenciales incorretas (root vs producción Hostinger)
+                $fallbacks = [
+                    ['user' => 'u750013204_repdellitoral', 'pass' => 'jDA9JvLL9'],
+                    ['user' => 'root', 'pass' => '']
+                ];
+
+                foreach ($fallbacks as $fb) {
+                    if ($fb['user'] === $user && $fb['pass'] === $pass) {
+                        continue;
+                    }
+                    try {
+                        self::$instance = new PDO($dsn, $fb['user'], $fb['pass'], $options);
+                        return self::$instance;
+                    } catch (PDOException $fbEx) {
+                        // continuar intentando
+                    }
+                }
+
                 throw new RuntimeException("Error de conexión a la Base de Datos: " . $e->getMessage(), (int) $e->getCode());
             }
         }

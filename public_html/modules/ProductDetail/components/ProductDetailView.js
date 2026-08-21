@@ -29,7 +29,14 @@ export function ProductDetailView(product) {
     : '<span class="badge badge-warning">Consulte Disponibilidad</span>';
 
   const waMessage = encodeURIComponent(`Hola! Estoy interesado en el producto: ${product.name} (Cód: ${product.code || 'S/N'}).`);
-  const waUrl = `https://wa.me/59892492756?text=${waMessage}`;
+  const waUrl = `https://wa.me/59899655283?text=${waMessage}`;
+
+  const effectivePrice = product.display_price !== undefined 
+    ? product.display_price 
+    : (product.price !== undefined ? product.price : product.retail_price);
+
+  const isWholesale = product.is_wholesale || product.price_tier === 'wholesale';
+  const showOriginalPrice = isWholesale && product.retail_price && product.retail_price > effectivePrice;
 
   return `
     <article class="product-detail-container">
@@ -62,8 +69,9 @@ export function ProductDetailView(product) {
           </div>
 
           <div class="detail-price-box">
-            <span class="price-label">Precio al contado:</span>
-            <div class="detail-price-value">${formatCurrency(product.retail_price)}</div>
+            <span class="price-label">${isWholesale ? '🏷️ Precio mayorista:' : 'Precio al contado:'}</span>
+            <div class="detail-price-value ${isWholesale ? 'wholesale-price' : ''}">${formatCurrency(effectivePrice)}</div>
+            ${showOriginalPrice ? `<div class="price-original" style="text-decoration: line-through; color: #888; font-size: 0.95rem; margin-top: 0.2rem;">Minorista: ${formatCurrency(product.retail_price)}</div>` : ''}
             <span class="price-notice">IVA Incluido</span>
           </div>
 

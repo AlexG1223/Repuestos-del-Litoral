@@ -16,7 +16,7 @@ if (!defined('SITE_NAME')) {
       <ul>
         <li><a href="/inicio.php" class="<?php echo $_SERVER['SCRIPT_NAME'] === '/inicio.php' ? 'active' : ''; ?>">Inicio</a></li>
         <li><a href="/index.php" class="<?php echo $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''; ?>">Catálogo</a></li>
-        <li><a href="https://wa.me/59892492756" target="_blank" rel="noopener">Contacto Directo</a></li>
+        <li><a href="https://wa.me/59899655283" target="_blank" rel="noopener">Contacto Directo</a></li>
 
 
         <!-- Estado de Autenticación de Usuario (Login / Registro / Mi Cuenta) -->

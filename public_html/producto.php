@@ -44,7 +44,7 @@ $slug = isset($_GET['slug']) ? htmlspecialchars((string) $_GET['slug'], ENT_QUOT
   <?php require_once __DIR__ . '/includes/footer.php'; ?>
 
   <!-- Script Principal de la Aplicación -->
-  <script type="module" src="/app.js"></script>
+  <script type="module" src="/app.js?v=1.0.3"></script>
 </body>
 
 </html>

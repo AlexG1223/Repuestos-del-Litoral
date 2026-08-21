@@ -48,10 +48,16 @@ class CheckoutController {
             $stmt->execute([$productId]);
             $product = $stmt->fetch();
 
+            $fallbackName = isset($item['name']) ? trim((string)$item['name']) : '';
+            $productName  = !empty($product['name']) ? trim((string)$product['name']) : $fallbackName;
+            if ($productName === '') {
+                $productName = !empty($product['code']) ? 'Producto ' . trim((string)$product['code']) : 'Producto #' . $productId;
+            }
+
             if (!$product || (int)$product['active'] !== 1 || (int)$product['stock'] <= 0) {
                 $skippedItems[] = [
                     'productId' => $productId,
-                    'name'      => $product['name'] ?? 'Producto no disponible',
+                    'name'      => $productName,
                     'reason'    => 'Sin stock o inactivo'
                 ];
                 continue;
@@ -64,7 +70,7 @@ class CheckoutController {
             if ($finalQty < $qtyRequested) {
                 $skippedItems[] = [
                     'productId' => $productId,
-                    'name'      => $product['name'],
+                    'name'      => $productName,
                     'reason'    => "Cantidad ajustada de {$qtyRequested} a {$finalQty} por límite de stock"
                 ];
             }
@@ -81,8 +87,8 @@ class CheckoutController {
 
             $verifiedItems[] = [
                 'product_id' => (int)$product['id'],
-                'name'       => $product['name'],
-                'code'       => $product['code'],
+                'name'       => $productName,
+                'code'       => !empty($product['code']) ? trim((string)$product['code']) : '',
                 'quantity'   => $finalQty,
                 'unit_price' => $unitPrice,
                 'subtotal'   => $itemSubtotal
@@ -97,6 +103,10 @@ class CheckoutController {
                 ]
             ];
         }
+
+        // Asegurar esquema fuera de la transacción para evitar COMMIT implícito de DDL en MySQL
+        Order::ensureTable();
+        OrderItem::ensureTable();
 
         // Abrir transacción PDO
         try {
@@ -176,17 +186,20 @@ class CheckoutController {
             $errors['customerName'] = 'Por favor ingrese su nombre y apellido (mínimo 2 caracteres).';
         }
 
-        // Email
+        // Email (Requerido para Mercado Pago o si se ingresó valor)
+        $paymentMethod = isset($payload['paymentMethod']) && $payload['paymentMethod'] === 'mercado_pago' ? 'mercado_pago' : 'whatsapp';
         $email = isset($payload['customerEmail']) ? trim((string)$payload['customerEmail']) : '';
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['customerEmail'] = 'Por favor ingrese un email válido.';
+        if ($paymentMethod === 'mercado_pago' || $email !== '') {
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors['customerEmail'] = 'Por favor ingrese un email válido.';
+            }
         }
 
         // Teléfono
         $phone = isset($payload['customerPhone']) ? trim((string)$payload['customerPhone']) : '';
         $digitsOnly = preg_replace('/\D/', '', $phone);
-        if (strlen($digitsOnly) < 8 || !preg_match('/^[0-9\+\-\s\(\)]+$/', $phone)) {
-            $errors['customerPhone'] = 'Ingrese un teléfono de contacto válido (mínimo 8 dígitos).';
+        if (strlen($digitsOnly) < 6) {
+            $errors['customerPhone'] = 'Ingrese un teléfono de contacto válido.';
         }
 
         // Ítems
@@ -229,11 +242,12 @@ class CheckoutController {
         $lines[] = "*Productos:*";
 
         foreach ($items as $item) {
-            $formattedSubtotal = "$U " . number_format($item['subtotal'], 0, ',', '.');
-            $lines[] = "- {$item['name']} x{$item['quantity']} — {$formattedSubtotal}";
+            $formattedSubtotal = '$U ' . number_format((float)$item['subtotal'], 0, ',', '.');
+            $codeSuffix = !empty($item['code']) ? " (Cód: {$item['code']})" : '';
+            $lines[] = "- {$item['name']}{$codeSuffix} x{$item['quantity']} — {$formattedSubtotal}";
         }
 
-        $formattedTotal = "$U " . number_format($total, 0, ',', '.');
+        $formattedTotal = '$U ' . number_format((float)$total, 0, ',', '.');
         $lines[] = "";
         $lines[] = "*Total: {$formattedTotal}*";
         $lines[] = "";
@@ -262,8 +276,11 @@ class CheckoutController {
             ];
         }
 
-        // Webhook config
+        // Webhook y URLs de retorno
         $baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        $appUrl  = getenv('APP_URL') ? rtrim(getenv('APP_URL'), '/') : $baseUrl;
+        
+        $notificationUrl = getenv('MP_NOTIFICATION_URL') ?: ($appUrl . '/api/webhooks/mercadopago.php');
         
         $preferenceData = [
             'items' => $mpItems,
@@ -271,11 +288,11 @@ class CheckoutController {
                 'email' => $email
             ],
             'external_reference' => (string)$orderId,
-            'notification_url' => $baseUrl . '/api/webhooks/mercadopago.php',
+            'notification_url'  => $notificationUrl,
             'back_urls' => [
-                'success' => $baseUrl . '/index.php?payment_status=success',
-                'pending' => $baseUrl . '/index.php?payment_status=pending',
-                'failure' => $baseUrl . '/index.php?payment_status=failure'
+                'success' => $appUrl . '/index.php?payment_status=success',
+                'pending' => $appUrl . '/index.php?payment_status=pending',
+                'failure' => $appUrl . '/index.php?payment_status=failure'
             ],
             'auto_return' => 'approved'
         ];

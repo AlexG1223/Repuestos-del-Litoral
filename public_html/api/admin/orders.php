@@ -5,9 +5,11 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../../../private/config/database.php';
 require_once __DIR__ . '/../../../private/models/Order.php';
+require_once __DIR__ . '/../../../private/models/OrderItem.php';
 require_once __DIR__ . '/../../../private/services/SessionService.php';
 
 use RepuestosDelLitoral\Models\Order;
+use RepuestosDelLitoral\Models\OrderItem;
 use RepuestosDelLitoral\Services\SessionService;
 
 SessionService::start();
@@ -23,6 +25,18 @@ $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 try {
     if ($method === 'GET') {
+        if (isset($_GET['id'])) {
+            $orderId = (int)$_GET['id'];
+            $order = Order::findByIdWithItems($orderId);
+            if (!$order) {
+                http_response_code(404);
+                echo json_encode(['success' => false, 'error' => 'Pedido no encontrado']);
+                exit;
+            }
+            echo json_encode(['success' => true, 'data' => $order]);
+            exit;
+        }
+
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $result = Order::paginate($page, 20);
         echo json_encode(['success' => true, 'data' => $result]);
@@ -43,14 +57,18 @@ try {
             throw new \Exception("Pedido no encontrado");
         }
 
-        $currentStatus = $order['status'];
-
-        if ($action === 'cancel' && $currentStatus === 'pendiente') {
+        if ($action === 'delete') {
+            Order::delete($orderId);
+        } elseif ($action === 'finalize') {
+            Order::processPaymentStatus($orderId, 'finalizado');
+        } elseif ($action === 'pay') {
+            Order::processPaymentStatus($orderId, 'pagado');
+        } elseif ($action === 'cancel') {
             Order::updateStatus($orderId, 'cancelado');
-        } elseif ($action === 'finalize' && $currentStatus === 'pagado') {
-            Order::updateStatus($orderId, 'finalizado');
+        } elseif ($action === 'pending' || $action === 'reopen') {
+            Order::updateStatus($orderId, 'pendiente');
         } else {
-            throw new \Exception("Transición de estado no permitida para el estado actual ({$currentStatus})");
+            throw new \Exception("Acción no válida ({$action})");
         }
 
         echo json_encode(['success' => true]);

@@ -16,11 +16,20 @@ export function ProductCard(product) {
     ? '<span class="badge badge-success">En Stock</span>'
     : '<span class="badge badge-warning">Consulte Stock</span>';
 
+  // Determinar precio efectivo según sesión (mayorista o minorista)
+  const effectivePrice = product.display_price !== undefined 
+    ? product.display_price 
+    : (product.price !== undefined ? product.price : product.retail_price);
+  
+  const isWholesale = product.is_wholesale || product.price_tier === 'wholesale';
+  const showOriginalPrice = isWholesale && product.retail_price && product.retail_price > effectivePrice;
+
   // Objeto serializado de forma segura para pasar al botón de agregar al carrito
   const productData = {
     id: product.id,
     name: product.name,
-    retail_price: product.retail_price,
+    unitPrice: effectivePrice,
+    retail_price: effectivePrice,
     primary_image: product.primary_image,
     stock: product.stock
   };
@@ -40,8 +49,11 @@ export function ProductCard(product) {
         </h3>
         <div class="product-card-footer">
           <div class="product-card-price-wrapper">
-            <span class="product-card-price-label">Precio contado:</span>
-            <span class="product-card-price">${formatCurrency(product.retail_price)}</span>
+            <span class="product-card-price-label ${isWholesale ? 'label-wholesale' : ''}">
+              ${isWholesale ? '🏷️ Precio mayorista:' : 'Precio contado:'}
+            </span>
+            <span class="product-card-price ${isWholesale ? 'wholesale-price' : ''}">${formatCurrency(effectivePrice)}</span>
+            ${showOriginalPrice ? `<span class="product-card-original-price" style="text-decoration: line-through; color: #888; font-size: 0.8rem; margin-top: 0.1rem;">Minorista: ${formatCurrency(product.retail_price)}</span>` : ''}
           </div>
           <div class="product-card-stock">
             ${stockBadge}

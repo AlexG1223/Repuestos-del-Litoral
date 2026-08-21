@@ -71,7 +71,7 @@ class Product {
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE {$whereClause}
-            ORDER BY p.id DESC
+            ORDER BY p.name ASC, p.id DESC
             LIMIT ? OFFSET ?
         ";
 
@@ -113,6 +113,9 @@ class Product {
      */
     public static function findBySlug(string $slug): ?array {
         $db = Database::getConnection();
+        $cleanSlug = trim(urldecode($slug));
+        $normalizedSlug = strtolower(trim((string)preg_replace('~[^\pL\d]+~u', '-', $cleanSlug), '-'));
+
         $sql = "
             SELECT 
                 p.id,
@@ -131,11 +134,17 @@ class Product {
                 p.updated_at
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            WHERE p.slug = ? AND p.active = 1
+            WHERE (p.slug = ? OR p.slug = ? OR p.code = ?" . (is_numeric($cleanSlug) ? " OR p.id = ?" : "") . ") AND p.active = 1
             LIMIT 1
         ";
+        
+        $params = [$cleanSlug, $normalizedSlug, $cleanSlug];
+        if (is_numeric($cleanSlug)) {
+            $params[] = (int)$cleanSlug;
+        }
+
         $stmt = $db->prepare($sql);
-        $stmt->execute([$slug]);
+        $stmt->execute($params);
         $product = $stmt->fetch();
 
         if (!$product) {
@@ -211,7 +220,7 @@ class Product {
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE {$whereClause}
-            ORDER BY p.id DESC
+            ORDER BY p.name ASC, p.id DESC
         ";
 
         $stmt = $db->prepare($sql);
@@ -294,21 +303,9 @@ class Product {
     public static function update(int $id, array $data): void {
         $db = Database::getConnection();
         
-        // Si el nombre cambió significativamente, podríamos regenerar el slug o mantener el que se pasó si se permite editar manual.
-        // Asumiremos regenerar si no viene slug manual o basándonos en el nombre si cambió.
-        // Pero el prompt dice: "slug autogenerado pero editable".
-        // Así que si viene un slug en data lo validamos, si no generamos uno.
-        $slug = $data['slug'] ?? '';
-        if (trim($slug) === '') {
-            $slug = self::generateSlug($data['name'], $id);
-        } else {
-            // Validar unicidad del slug provisto
-            $stmt = $db->prepare("SELECT id FROM products WHERE slug = ? AND id != ?");
-            $stmt->execute([$slug, $id]);
-            if ($stmt->fetch()) {
-                $slug = self::generateSlug($slug, $id); // Si choca, generamos uno seguro
-            }
-        }
+        $rawSlug = isset($data['slug']) ? trim((string)$data['slug']) : '';
+        $slugToProcess = $rawSlug !== '' ? $rawSlug : $data['name'];
+        $slug = self::generateSlug($slugToProcess, $id);
 
         $sql = "
             UPDATE products 

@@ -1,6 +1,6 @@
 import { getCart, getTotal, updateQuantity, removeItem } from '../services/cartService.js';
 import { updateCartBadge } from '../components/CartBadge.js';
-import { CartDrawer } from '../components/CartDrawer.js';
+import { CartDrawer } from '../components/CartDrawer.js?v=1.0.3';
 
 export function useCart() {
   let isDrawerOpen = false;

@@ -9,7 +9,7 @@
         }
     },
     "require": {
-        "smalot/pdfparser": "^2.9",
-        "mercadopago/dx-php": "*"
+        "smalot/pdfparser": "^2.9"
     }
 }
+

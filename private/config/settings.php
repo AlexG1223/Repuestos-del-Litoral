@@ -8,7 +8,7 @@ if (!defined('SITE_NAME')) {
 }
 
 if (!defined('WHATSAPP_NUMBER')) {
-    define('WHATSAPP_NUMBER', getenv('WHATSAPP_NUMBER') ?: '59892492756');
+    define('WHATSAPP_NUMBER', getenv('WHATSAPP_NUMBER') ?: '59899655283');
 }
 
 if (!defined('SITE_URL')) {

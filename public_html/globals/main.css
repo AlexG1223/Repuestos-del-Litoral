@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap');
 @import url('/modules/Cart/styles/cart.css');
 @import url('/modules/Auth/styles/auth.css');
 
@@ -345,3 +346,58 @@ body {
     height: 28px;
   }
 }
+
+/* Banner de Notificación de Estado de Pago */
+.payment-feedback-banner {
+  max-width: var(--max-width);
+  margin: 1rem auto;
+  padding: 1.2rem 1.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  animation: fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.payment-feedback-banner.success {
+  background-color: #E8F5E9;
+  border: 1px solid #C8E6C9;
+  color: #1B5E20;
+}
+
+.payment-feedback-banner.pending {
+  background-color: #FFF3E0;
+  border: 1px solid #FFE0B2;
+  color: #E65100;
+}
+
+.payment-feedback-banner.failure {
+  background-color: #FFEBEE;
+  border: 1px solid #FFCDD2;
+  color: #B71C1C;
+}
+
+.payment-feedback-banner .btn-close-banner {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  padding: 0 0.4rem;
+  transition: opacity 0.2s;
+}
+
+.payment-feedback-banner .btn-close-banner:hover {
+  opacity: 1;
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

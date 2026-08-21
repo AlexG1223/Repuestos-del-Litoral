@@ -1,5 +1,5 @@
 import { getCart, getTotal, clear } from '../../Cart/services/cartService.js';
-import { submitOrder } from '../services/checkoutService.js';
+import { submitOrder } from '../services/checkoutService.js?v=1.0.4';
 import { CheckoutForm } from '../components/CheckoutForm.js';
 import { OrderSummary } from '../components/OrderSummary.js';
 
@@ -32,7 +32,7 @@ export function useCheckout() {
       return;
     }
 
-    const minOrder = window.APP_CONFIG?.minOrderAmount || 2000;
+    const minOrder = window.APP_CONFIG?.minOrderAmount ?? 2000;
     if (total < minOrder) {
       state.errors = { general: `El pedido mínimo es de $U ${minOrder}.` };
       render();
@@ -81,7 +81,7 @@ export function useCheckout() {
 
       // Redirigir a WhatsApp con el mensaje formateado por el backend
       const whatsappMessage = res.data.whatsappMessage;
-      const targetPhone = '59892492756';
+      const targetPhone = '59899655283';
       const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(whatsappMessage)}`;
 
       window.location.href = waUrl;

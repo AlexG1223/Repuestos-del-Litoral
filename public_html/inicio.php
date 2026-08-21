@@ -194,13 +194,20 @@ require_once __DIR__ . '/../private/config/settings.php';
         style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem; text-transform: uppercase;">
         Visítanos en nuestro local
       </h2>
-      <p style="font-size: 1.1rem; color: #CCCCCC; margin-bottom: 3rem;">
-        📍 Asencio 1930, Dolores, Soriano
+      <p style="font-size: 1.1rem; color: #CCCCCC; margin-bottom: 1rem;">
+        📍 Asencio 1930, Dolores, Soriano, Uruguay
       </p>
+      <div style="margin-bottom: 2rem;">
+        <a href="https://www.google.com/maps/place/Semiller%C3%ADa+My.Vi.Da/@-33.5279796,-58.248913,13.57z/data=!4m10!1m2!2m1!1sAsencio+1930,+Dolores,+Soriano,+Uruguay!3m6!1s0x95a5291884f9ab0f:0x6aa8bf331873e2d1!8m2!3d-33.5352914!4d-58.2143246!15sCidBc2VuY2lvIDE5MzAsIERvbG9yZXMsIFNvcmlhbm8sIFVydWd1YXlaJiIkYXNlbmNpbyAxOTMwIGRvbG9yZXMgc29yaWFubyB1cnVndWF5kgEOaGFyZHdhcmVfc3RvcmXgAQA!16s%2Fg%2F11sg5q09v5?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D"
+           target="_blank" rel="noopener noreferrer"
+           style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; background-color: var(--color-primary); color: #000; font-weight: bold; border-radius: var(--radius-sm); text-decoration: none;">
+          🗺️ Ver en Google Maps
+        </a>
+      </div>
 
       <div style="border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); height: 450px;">
         <iframe
-          src="https://maps.google.com/maps?q=Asencio+1930,+Dolores,+Soriano,+Uruguay&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3319.4678!2d-58.2143246!3d-33.5352914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a5291884f9ab0f%3A0x6aa8bf331873e2d1!2sSemiller%C3%ADa%20My.Vi.Da!5e0!3m2!1ses!2suy"
           width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
           referrerpolicy="no-referrer-when-downgrade">
         </iframe>
@@ -215,7 +222,7 @@ require_once __DIR__ . '/../private/config/settings.php';
   <?php require_once __DIR__ . '/includes/footer.php'; ?>
 
   <!-- Script Principal de la Aplicación -->
-  <script type="module" src="/app.js?v=1.0.1"></script>
+  <script type="module" src="/app.js?v=1.0.3"></script>
 </body>
 
 </html>

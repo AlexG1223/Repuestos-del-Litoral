@@ -43,7 +43,7 @@ require_once __DIR__ . '/../private/config/settings.php';
   <?php require_once __DIR__ . '/includes/footer.php'; ?>
 
   <!-- Script Principal de la Aplicación -->
-  <script type="module" src="/app.js?v=1.0.1"></script>
+  <script type="module" src="/app.js?v=1.0.3"></script>
 </body>
 
 </html>
