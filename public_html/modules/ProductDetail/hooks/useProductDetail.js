@@ -60,6 +60,10 @@ export function useProductDetail() {
     // Cambio de imagen en miniaturas
     const thumbBtns = container.querySelectorAll('.thumb-btn');
     const mainImg = container.querySelector('#detail-main-img');
+    const lightbox = container.querySelector('#image-lightbox');
+    const lightboxImg = container.querySelector('#lightbox-img');
+    const mainImgWrapper = container.querySelector('#detail-main-img-wrapper');
+    const lightboxCloseBtn = container.querySelector('#lightbox-close-btn');
 
     thumbBtns.forEach(btn => {
       btn.onclick = () => {
@@ -71,6 +75,39 @@ export function useProductDetail() {
         }
       };
     });
+
+    // Abrir Lightbox al hacer clic en la imagen principal
+    if (mainImgWrapper && lightbox && lightboxImg && mainImg) {
+      mainImgWrapper.onclick = () => {
+        lightboxImg.src = mainImg.src;
+        lightbox.classList.add('active');
+        lightbox.setAttribute('aria-hidden', 'false');
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove('active');
+        lightbox.setAttribute('aria-hidden', 'true');
+      };
+
+      if (lightboxCloseBtn) {
+        lightboxCloseBtn.onclick = (e) => {
+          e.stopPropagation();
+          closeLightbox();
+        };
+      }
+
+      lightbox.onclick = (e) => {
+        if (e.target === lightbox || e.target.classList.contains('lightbox-close')) {
+          closeLightbox();
+        }
+      };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+          closeLightbox();
+        }
+      });
+    }
 
     // Controladores del selector de cantidad
     const qtyInput = container.querySelector('#product-qty');

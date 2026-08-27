@@ -41,18 +41,31 @@ export function ProductDetailView(product) {
   return `
     <article class="product-detail-container">
       <nav class="breadcrumb">
-        <a href="/index.php">Inicio</a> &gt; 
-        <a href="/index.php?category=${encodeURIComponent(product.category_slug || '')}#catalogo">${product.category_name || 'Catálogo'}</a> &gt; 
+        <a href="/inicio.php">Inicio</a> &gt; 
+        <a href="/index.php?category=${encodeURIComponent(product.category_slug || '')}#catalogo">${product.category_name || 'Tienda'}</a> &gt; 
         <span>${product.name}</span>
       </nav>
 
       <div class="product-detail-layout">
         <!-- Galería de Imágenes -->
         <div class="product-detail-gallery">
-          <div class="main-image-wrapper">
+          <div class="main-image-wrapper" id="detail-main-img-wrapper" title="Haz clic para ver la imagen completa">
             <img id="detail-main-img" src="${primaryUrl}" alt="${product.name}" onerror="this.onerror=null; this.src='/assets/uploads/products/placeholder.jpg';" />
+            <div class="image-zoom-overlay">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg>
+              <span>Ampliar</span>
+            </div>
           </div>
           ${thumbnailsHtml ? `<div class="thumbnails-grid">${thumbnailsHtml}</div>` : ''}
+        </div>
+
+        <!-- Lightbox Modal para ver la imagen a pantalla completa -->
+        <div id="image-lightbox" class="image-lightbox" role="dialog" aria-hidden="true">
+          <div class="lightbox-content">
+            <button type="button" class="lightbox-close" id="lightbox-close-btn" title="Cerrar">&times;</button>
+            <img id="lightbox-img" src="${primaryUrl}" alt="${product.name}" />
+            <div class="lightbox-caption">${product.name}</div>
+          </div>
         </div>
 
         <!-- Ficha Técnica e Información -->
