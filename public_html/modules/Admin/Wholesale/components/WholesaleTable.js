@@ -16,7 +16,7 @@ export function WholesaleTable(clients) {
         <td>${c.email}</td>
         <td>${c.phone || '-'}</td>
         <td>${statusBadge}</td>
-        <td>${new Date(c.created_at).toLocaleDateString()}</td>
+        <td>${c.created_at ? new Date(c.created_at.includes(' ') ? c.created_at.replace(' ', 'T') : c.created_at).toLocaleDateString('es-UY', { timeZone: 'America/Montevideo' }) : '-'}</td>
         <td>
           ${isApproved 
             ? `<button type="button" class="admin-btn danger btn-revoke" data-id="${c.id}" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Revocar</button>`

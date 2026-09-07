@@ -19,8 +19,11 @@ class PricingService {
             : null;
 
         $isWholesaleApproved = $sessionUser !== null 
-            && isset($sessionUser['role']) && $sessionUser['role'] === 'wholesale' 
-            && isset($sessionUser['approved']) && (int)$sessionUser['approved'] === 1;
+            && isset($sessionUser['role']) 
+            && (
+                ($sessionUser['role'] === 'wholesale' && isset($sessionUser['approved']) && (int)$sessionUser['approved'] === 1)
+                || $sessionUser['role'] === 'admin'
+            );
 
         if ($isWholesaleApproved && $wholesalePrice !== null && $wholesalePrice > 0) {
             return [

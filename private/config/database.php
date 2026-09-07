@@ -56,6 +56,7 @@ class Database
 
             try {
                 self::$instance = new PDO($dsn, $user, $pass, $options);
+                self::$instance->exec("SET time_zone = '-03:00'");
             } catch (PDOException $e) {
                 // Intentar fallback si falla por credenciales incorretas (root vs producción Hostinger)
                 $fallbacks = [
@@ -69,6 +70,7 @@ class Database
                     }
                     try {
                         self::$instance = new PDO($dsn, $fb['user'], $fb['pass'], $options);
+                        self::$instance->exec("SET time_zone = '-03:00'");
                         return self::$instance;
                     } catch (PDOException $fbEx) {
                         // continuar intentando

@@ -13,6 +13,8 @@ $pageTitle = "Configuración - Admin Repuestos del Litoral";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($pageTitle) ?></title>
   
+  <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
+  <link rel="shortcut icon" href="/assets/img/logo.png" type="image/x-icon">
   <link rel="stylesheet" href="/globals/main.css">
   <link rel="stylesheet" href="/modules/Admin/shared/styles/admin-layout.css">
   <link rel="stylesheet" href="/modules/Admin/Settings/styles/settings.css">

@@ -1,4 +1,26 @@
 export function useOrders() {
+  function formatUruguayDate(rawDateStr) {
+    if (!rawDateStr) return '';
+    let isoStr = rawDateStr.includes(' ') ? rawDateStr.replace(' ', 'T') : rawDateStr;
+    try {
+      const d = new Date(isoStr);
+      if (isNaN(d.getTime())) return rawDateStr;
+
+      return d.toLocaleString('es-UY', {
+        timeZone: 'America/Montevideo',
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
+    } catch (e) {
+      return rawDateStr;
+    }
+  }
+
   let orders = [];
   let page = 1;
   let totalPages = 1;
@@ -92,7 +114,7 @@ export function useOrders() {
     }
 
     const orderNum = `#${order.id.toString().padStart(5, '0')}`;
-    const dateStr = new Date(order.created_at).toLocaleString('es-UY');
+    const dateStr = formatUruguayDate(order.created_at);
     const totalFormatted = parseFloat(order.total).toLocaleString('es-UY');
 
     const rawPhone = (order.customer_phone || '').replace(/\D/g, '');
@@ -297,7 +319,7 @@ export function useOrders() {
           `;
         }
 
-        const dateStr = new Date(o.created_at).toLocaleString('es-UY');
+        const dateStr = formatUruguayDate(o.created_at);
         const formattedId = `#${o.id.toString().padStart(5, '0')}`;
         const totalVal = `$U ${parseFloat(o.total).toLocaleString('es-UY')}`;
         const payMethod = o.payment_method === 'mercado_pago' ? '💳 Mercado Pago' : '💬 WhatsApp';

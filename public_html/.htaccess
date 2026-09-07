@@ -11,6 +11,9 @@ Options -Indexes
     # RewriteCond %{HTTPS} off
     # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+    # Reescritura para sitemap.xml
+    RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
     # Reescritura de URL amigable para producto: /producto/slug-ejemplo -> producto.php?slug=slug-ejemplo
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d

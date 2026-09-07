@@ -48,7 +48,7 @@ export function CartDrawer(items = [], total = 0) {
           `}
           <div class="cart-footer-actions">
             <a href="/checkout.php" class="btn btn-primary btn-block ${isBelowMin ? 'disabled' : ''}" ${isBelowMin ? 'style="pointer-events: none; opacity: 0.5;"' : ''}>
-              Finalizar Pedido por WhatsApp &raquo;
+              Finalizar Pedido
             </a>
           </div>
         </div>

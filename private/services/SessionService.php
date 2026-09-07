@@ -129,6 +129,9 @@ class SessionService {
      */
     public static function isWholesale(): bool {
         $user = self::currentUser();
-        return $user !== null && isset($user['role']) && $user['role'] === 'wholesale' && (int)($user['approved'] ?? 0) === 1;
+        if ($user === null || !isset($user['role'])) {
+            return false;
+        }
+        return ($user['role'] === 'wholesale' && (int)($user['approved'] ?? 0) === 1) || $user['role'] === 'admin';
     }
 }

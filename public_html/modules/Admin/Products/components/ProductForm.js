@@ -16,9 +16,11 @@ export async function renderProductForm(containerId, productId = 0, initialData 
 
   const p = initialData || {};
 
-  const catOptions = categories.map(c => 
-    `<option value="${c.id}" ${p.category_id == c.id ? 'selected' : ''}>${c.name}</option>`
-  ).join('');
+  const catOptions = categories.map(c => {
+    const prefix = c.parent_id ? '  └─ ' : '';
+    const selected = p.category_id == c.id ? 'selected' : '';
+    return `<option value="${c.id}" ${selected}>${prefix}${c.name}</option>`;
+  }).join('');
 
   container.innerHTML = `
     <form id="admin-product-form" class="admin-card">

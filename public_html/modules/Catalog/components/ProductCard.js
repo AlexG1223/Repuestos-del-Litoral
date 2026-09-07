@@ -24,6 +24,9 @@ export function ProductCard(product) {
   const isWholesale = product.is_wholesale || product.price_tier === 'wholesale';
   const showOriginalPrice = isWholesale && product.retail_price && product.retail_price > effectivePrice;
 
+  const waAdviceMessage = encodeURIComponent(`Hola! Quisiera solicitar asesoramiento sobre el producto: ${product.name}${product.code ? ` (Cód: ${product.code})` : ''}.`);
+  const waAdviceUrl = `https://wa.me/59899655283?text=${waAdviceMessage}`;
+
   // Objeto serializado de forma segura para pasar al botón de agregar al carrito
   const productData = {
     id: product.id,
@@ -47,6 +50,9 @@ export function ProductCard(product) {
         <h3 class="product-card-title">
           <a href="${detailUrl}">${product.name}</a>
         </h3>
+        <a href="${waAdviceUrl}" target="_blank" rel="noopener" class="product-card-advice-link" title="Solicitar asesoramiento por WhatsApp">
+          💬 Solicitar asesoramiento sobre ${product.name}
+        </a>
         <div class="product-card-footer">
           <div class="product-card-price-wrapper">
             <span class="product-card-price-label ${isWholesale ? 'label-wholesale' : ''}">

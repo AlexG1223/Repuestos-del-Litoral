@@ -20,6 +20,7 @@ export function renderAdminSidebar(currentPath) {
         <a href="/admin/index.php" class="${currentPath === '/admin/index.php' || currentPath === '/admin/' ? 'active' : ''}">Dashboard</a>
         <a href="/admin/pedidos.php" class="${currentPath.includes('pedido') ? 'active' : ''}">📦 Pedidos</a>
         <a href="/admin/productos.php" class="${currentPath.includes('producto') ? 'active' : ''}">Productos</a>
+        <a href="/admin/categorias.php" class="${currentPath.includes('categoria') ? 'active' : ''}">📁 Categorías</a>
         <a href="/admin/importar.php" class="${currentPath.includes('importar') ? 'active' : ''}">Importar Catálogo</a>
         <a href="/admin/clientes.php" class="${currentPath.includes('clientes') ? 'active' : ''}">Mayoristas</a>
         <a href="/admin/configuracion.php" class="${currentPath.includes('configuracion') ? 'active' : ''}">Configuración</a>

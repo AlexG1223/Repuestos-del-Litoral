@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace RepuestosDelLitoral\Config;
 
+// Configurar zona horaria oficial de Uruguay (UTC-3)
+date_default_timezone_set('America/Montevideo');
+
 if (!defined('SITE_NAME')) {
     define('SITE_NAME', getenv('SITE_NAME') ?: 'Repuestos del Litoral');
 }

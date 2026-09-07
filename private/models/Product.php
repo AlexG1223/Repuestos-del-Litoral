@@ -19,11 +19,15 @@ class Product {
         $params = [];
 
         if (!empty($filters['category_id'])) {
-            $where[] = "p.category_id = ?";
-            $params[] = (int)$filters['category_id'];
+            $catId = (int)$filters['category_id'];
+            $where[] = "(p.category_id = ? OR p.category_id IN (SELECT id FROM categories WHERE parent_id = ?))";
+            $params[] = $catId;
+            $params[] = $catId;
         } elseif (!empty($filters['category_slug'])) {
-            $where[] = "c.slug = ?";
-            $params[] = $filters['category_slug'];
+            $catSlug = trim((string)$filters['category_slug']);
+            $where[] = "(c.slug = ? OR p.category_id IN (SELECT child.id FROM categories child JOIN categories parent ON child.parent_id = parent.id WHERE parent.slug = ?))";
+            $params[] = $catSlug;
+            $params[] = $catSlug;
         }
 
         if (!empty($filters['search'])) {

@@ -95,18 +95,40 @@ export function useCatalog() {
       };
     }
 
-    // Categorías
-    const pills = container.querySelectorAll('.category-pill');
-    pills.forEach(pill => {
-      pill.onclick = () => {
-        const cat = pill.getAttribute('data-category');
-        if (state.selectedCategory !== cat) {
+    // Categorías y subcategorías
+    const catButtons = container.querySelectorAll('.category-pill, .category-dropdown-item');
+    catButtons.forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const cat = btn.getAttribute('data-category');
+        if (cat !== null && state.selectedCategory !== cat) {
           state.selectedCategory = cat;
           state.currentPage = 1;
+          
+          // Cerrar desplegables abiertos
+          container.querySelectorAll('.category-dropdown-wrapper.open').forEach(w => w.classList.remove('open'));
+
           updateUrlParams();
           loadProducts();
         }
       };
+    });
+
+    // Toggle manual para abrir/cerrar subcategorías en móviles/touch
+    const dropdownToggles = container.querySelectorAll('.category-dropdown-toggle');
+    dropdownToggles.forEach(toggle => {
+      toggle.onclick = (e) => {
+        e.stopPropagation();
+        const wrapper = toggle.closest('.category-dropdown-wrapper');
+        if (wrapper) {
+          wrapper.classList.toggle('open');
+        }
+      };
+    });
+
+    // Cerrar desplegables al hacer clic fuera
+    document.addEventListener('click', () => {
+      container.querySelectorAll('.category-dropdown-wrapper.open').forEach(w => w.classList.remove('open'));
     });
 
     // Paginación
