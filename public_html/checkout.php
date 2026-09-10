@@ -6,6 +6,7 @@ require_once __DIR__ . '/../private/config/settings.php';
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checkout — Finalizar Pedido | Repuestos del Litoral</title>

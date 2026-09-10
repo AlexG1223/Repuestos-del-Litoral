@@ -13,17 +13,18 @@ $localSchema = SeoService::getLocalBusinessSchema();
 <html lang="es">
 
 <head>
+  <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Repuestos del Litoral | Repuestos de Maquinaria, Ferretería, Calzado, Mates y Pesca en Dolores, Soriano</title>
+  <title>Repuestos del Litoral | Motosierras y Ferretería en Dolores</title>
   <meta name="description"
-    content="Venta minorista y mayorista de repuestos para maquinaria agrícola e industrial, artículos de ferretería, calzado de trabajo, mates, artículos de pesca y productos para mascotas. Ubicados en Asencio 1930, Dolores, Soriano, Uruguay. Envíos a todo el país.">
+    content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de motosierras, desmalezadoras, repuestos agrícolas y herramientas de jardín.">
   <link rel="canonical" href="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 
   <!-- Open Graph / Redes Sociales -->
-  <meta property="og:title" content="Repuestos del Litoral | Repuestos, Ferretería, Calzado y Mas en Dolores, Soriano">
-  <meta property="og:description" content="Repuestos de maquinaria agrícola/industrial, ferretería, calzado de trabajo, mates, artículos de pesca y mascotas en Dolores, Soriano, Uruguay.">
+  <meta property="og:title" content="Repuestos del Litoral | Motosierras y Ferretería en Dolores">
+  <meta property="og:description" content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de motosierras, desmalezadoras, repuestos agrícolas y herramientas de jardín.">
   <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">

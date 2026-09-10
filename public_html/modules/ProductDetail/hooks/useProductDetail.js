@@ -1,6 +1,7 @@
 import { fetchProductDetail } from '../services/detailService.js';
 import { ProductDetailView } from '../components/ProductDetailView.js';
 import { addItem } from '../../Cart/services/cartService.js';
+import { trackViewItem } from '../../Analytics/analytics.js';
 
 export function useProductDetail() {
   let container = null;
@@ -31,6 +32,7 @@ export function useProductDetail() {
     try {
       const product = await fetchProductDetail(slug);
       render(product);
+      trackViewItem(product);
     } catch (err) {
       renderError(err.message || 'Error al cargar el producto.');
     }

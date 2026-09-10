@@ -28,9 +28,10 @@ if ($slug !== '') {
 $baseUrl = SeoService::getBaseUrl();
 
 if ($product) {
-    $pageTitle = htmlspecialchars($product['name']) . ' | Repuestos del Litoral';
+    $productSeo = SeoService::getProductSeoMeta($product);
+    $pageTitle = htmlspecialchars($productSeo['title']);
     $rawDesc = !empty($product['description']) ? strip_tags($product['description']) : ($product['name'] . ' disponible en Repuestos del Litoral, Dolores, Soriano, Uruguay.');
-    $metaDescription = htmlspecialchars(mb_substr($rawDesc, 0, 160) . '... Compra online en UYU.');
+    $metaDescription = htmlspecialchars($productSeo['meta_description']);
     $canonicalUrl = $baseUrl . '/producto/' . rawurlencode($product['slug']);
 
     $primaryImg = '/assets/uploads/products/placeholder.jpg';
@@ -65,6 +66,7 @@ if ($product) {
 <html lang="es">
 
 <head>
+  <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $pageTitle ?></title>
@@ -157,6 +159,17 @@ if ($product) {
             <div style="margin-top: 1.5rem; padding: 1rem; background: #FFF9F2; border-radius: 6px; font-size: 0.9rem;">
               <p>📍 <strong>Vendido por Repuestos del Litoral</strong> — Asencio 1930, Dolores, Soriano, Uruguay.</p>
               <p>📞 Consultas telefónicas: 4534 4109 | WhatsApp: 099 655 283</p>
+            </div>
+            
+            <!-- Enlazado interno SEO hacia categorías principales -->
+            <div style="margin-top: 1.5rem; border-top: 1px dashed #eee; padding-top: 1rem; font-size: 0.88rem; color: #555;">
+              <p><strong>Explora categorías relacionadas:</strong></p>
+              <ul style="list-style: none; padding-left: 0; margin-top: 0.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <li>👉 <a href="/index.php?category=motosierras" style="color: var(--color-primary); text-decoration: underline;">Motosierras a Nafta y Repuestos</a></li>
+                <li>👉 <a href="/index.php?category=desmalezadoras" style="color: var(--color-primary); text-decoration: underline;">Desmalezadoras y Repuestos</a></li>
+                <li>👉 <a href="/motosierra-a-nafta.php" style="color: var(--color-primary); text-decoration: underline;">Guía de Motosierras a Nafta</a></li>
+                <li>👉 <a href="/index.php" style="color: var(--color-primary); text-decoration: underline;">Ferretería y Herramientas de Jardín</a></li>
+              </ul>
             </div>
           </div>
         </div>

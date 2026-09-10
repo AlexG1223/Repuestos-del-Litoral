@@ -1,3 +1,5 @@
+import { trackAddToCart } from '../../Analytics/analytics.js';
+
 /**
  * Servicio de gestión del Carrito de compras (localStorage).
  * Única fuente de verdad del estado del carrito en el cliente.
@@ -59,6 +61,7 @@ export function addItem(product, qty = 1) {
   }
 
   save(cart);
+  trackAddToCart(product, qty);
 }
 
 export function updateQuantity(productId, qty) {

@@ -2,6 +2,7 @@ import { getCart, getTotal, clear } from '../../Cart/services/cartService.js';
 import { submitOrder } from '../services/checkoutService.js?v=1.0.4';
 import { CheckoutForm } from '../components/CheckoutForm.js';
 import { OrderSummary } from '../components/OrderSummary.js';
+import { trackBeginCheckout, trackPurchase } from '../../Analytics/analytics.js';
 
 export function useCheckout() {
   let container = null;
@@ -15,6 +16,12 @@ export function useCheckout() {
   function init() {
     container = document.getElementById('checkout-root');
     if (!container) return;
+
+    const cartItems = getCart();
+    const total = getTotal();
+    if (cartItems.length > 0) {
+      trackBeginCheckout(cartItems, total);
+    }
 
     render();
   }
@@ -64,6 +71,9 @@ export function useCheckout() {
         render();
         return;
       }
+
+      // Disparar evento de conversión de compra (GA4 / Meta Pixel)
+      trackPurchase(res.data.orderId, res.data.total, res.data.items);
 
       // Si hubo ítems salteados o ajustados por el servidor por cambios de stock
       if (res.data.skippedItems && res.data.skippedItems.length > 0) {

@@ -29,3 +29,21 @@ if (!defined('UPLOADS_URL')) {
 if (!defined('ITEMS_PER_PAGE')) {
     define('ITEMS_PER_PAGE', 12);
 }
+
+// Configuración de Analítica y Tracking (GTM, GA4, Meta Pixel, Search Console)
+if (!defined('GTM_CONTAINER_ID')) {
+    define('GTM_CONTAINER_ID', getenv('GTM_CONTAINER_ID') ?: 'GTM-XXXXXXX');
+}
+
+if (!defined('GA4_MEASUREMENT_ID')) {
+    define('GA4_MEASUREMENT_ID', getenv('GA4_MEASUREMENT_ID') ?: 'G-XXXXXXX');
+}
+
+if (!defined('META_PIXEL_ID')) {
+    define('META_PIXEL_ID', getenv('META_PIXEL_ID') ?: 'XXXXXXXXXXXXXXX');
+}
+
+if (!defined('SEARCH_CONSOLE_VERIFICATION')) {
+    define('SEARCH_CONSOLE_VERIFICATION', getenv('SEARCH_CONSOLE_VERIFICATION') ?: '');
+}
+

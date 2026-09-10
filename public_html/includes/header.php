@@ -2,6 +2,9 @@
 if (!defined('SITE_NAME')) {
     define('SITE_NAME', 'Repuestos del Litoral');
 }
+
+// Inyección de snippet GTM (noscript) al inicio de <body>
+require_once __DIR__ . '/gtm-body.php';
 ?>
 <header class="site-header">
   <div class="header-container">

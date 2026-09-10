@@ -17,12 +17,17 @@ $breadcrumbSchema = SeoService::getBreadcrumbSchema([
     ['name' => 'Tienda y Catálogo', 'url' => '/index.php']
 ]);
 
+$selectedCategory = isset($_GET['category']) ? trim((string)$_GET['category']) : null;
+$seoMeta = SeoService::getCategorySeoMeta($selectedCategory);
+
+$canonicalUrl = $baseUrl . '/index.php' . ($selectedCategory ? '?category=' . rawurlencode($selectedCategory) : '');
+
 // Cargar categorías e ítems principales para fallback SSR
 $categories = [];
 $featuredProducts = [];
 try {
     $categories = Category::all();
-    $paginateResult = Product::paginate(1, 12, []);
+    $paginateResult = Product::paginate(1, 12, $selectedCategory ? ['category' => $selectedCategory] : []);
     $featuredProducts = $paginateResult['items'] ?? [];
 } catch (\Throwable $e) {
     // Fallback silencioso
@@ -32,18 +37,18 @@ try {
 <html lang="es">
 
 <head>
+  <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Catálogo de Productos | Repuestos de Maquinaria, Ferretería, Calzado, Mates y Pesca | Repuestos del Litoral</title>
-  <meta name="description"
-    content="Catálogo online de Repuestos del Litoral en Dolores, Soriano (Uruguay). Repuestos agrícolas e industriales, motosierras, desmalezadoras, herramientas de ferretería, calzado de trabajo, pesca, mates y mascotas.">
-  <link rel="canonical" href="<?= htmlspecialchars($baseUrl . '/index.php') ?>">
+  <title><?= htmlspecialchars($seoMeta['title']) ?></title>
+  <meta name="description" content="<?= htmlspecialchars($seoMeta['meta_description']) ?>">
+  <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Catálogo de Productos | Repuestos del Litoral (Dolores, Soriano)">
-  <meta property="og:description" content="Explora repuestos originales, herramientas de ferretería, calzado de trabajo, mates, pesca y mascotas en Repuestos del Litoral.">
-  <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/index.php') ?>">
+  <meta property="og:title" content="<?= htmlspecialchars($seoMeta['title']) ?>">
+  <meta property="og:description" content="<?= htmlspecialchars($seoMeta['meta_description']) ?>">
+  <meta property="og:url" content="<?= htmlspecialchars($canonicalUrl) ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">
 
@@ -79,8 +84,8 @@ try {
     <!-- Fallback semántico HTML para Crawlers e IAs sin ejecución JS -->
     <noscript>
       <section style="padding: 2rem 1.5rem; max-width: var(--max-width); margin: 0 auto;">
-        <h1>Catálogo de Repuestos, Ferretería y Artículos Generales — Repuestos del Litoral</h1>
-        <p>Ubicados en Asencio 1930, Dolores, Soriano, Uruguay. Venta minorista y mayorista.</p>
+        <h1><?= htmlspecialchars($seoMeta['h1']) ?></h1>
+        <p>📍 Repuestos del Litoral — Asencio 1930, Dolores, Soriano, Uruguay. Venta minorista y mayorista.</p>
         
         <h2>Categorías Disponibles</h2>
         <ul>
