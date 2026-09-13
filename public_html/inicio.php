@@ -88,24 +88,7 @@ $localSchema = SeoService::getLocalBusinessSchema();
       }
     }
 
-    .category-pills {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.75rem;
-      margin-top: 1.5rem;
-    }
 
-    .category-pill {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: white;
-      padding: 0.4rem 1rem;
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
   </style>
 </head>
 
@@ -138,14 +121,6 @@ $localSchema = SeoService::getLocalBusinessSchema();
         Tu comercio integral en <strong>Dolores, Soriano (Uruguay)</strong>. Especialistas en repuestos de maquinaria agrícola e industrial, herramientas de ferretería, calzado de trabajo, mates, artículos de pesca y mascotas. Venta minorista y mayorista.
       </p>
 
-      <div class="category-pills">
-        <span class="category-pill">🚜 Repuestos Agrícolas</span>
-        <span class="category-pill">⚙️ Ferretería Industrial</span>
-        <span class="category-pill">🥾 Calzado de Trabajo</span>
-        <span class="category-pill">🧉 Mates & Regionales</span>
-        <span class="category-pill">🎣 Pesca & Camping</span>
-        <span class="category-pill">🐾 Mascotas</span>
-      </div>
 
       <div style="margin-top: 2rem;">
         <a href="/index.php" class="btn btn-primary"
@@ -243,8 +218,11 @@ $localSchema = SeoService::getLocalBusinessSchema();
         style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-primary); margin-bottom: 1rem; text-transform: uppercase;">
         Visítanos en nuestro local en Dolores
       </h2>
-      <p style="font-size: 1.1rem; color: #CCCCCC; margin-bottom: 1rem;">
+      <p style="font-size: 1.1rem; color: #CCCCCC; margin-bottom: 0.5rem;">
         📍 Asencio 1930, Dolores, Departamento de Soriano, Uruguay | Tel. 4534 4109
+      </p>
+      <p style="font-size: 1rem; color: var(--color-primary); margin-bottom: 1.5rem;">
+        🕒 Horarios de atención: Lunes a Viernes de 08:00 a 12:00 y 14:00 a 18:00 hs | Sábados de 08:00 a 12:00 hs
       </p>
       <div style="margin-bottom: 2rem;">
         <a href="https://www.google.com/maps/place/Semiller%C3%ADa+My.Vi.Da/@-33.5279796,-58.248913,13.57z/data=!4m10!1m2!2m1!1sAsencio+1930,+Dolores,+Soriano,+Uruguay!3m6!1s0x95a5291884f9ab0f:0x6aa8bf331873e2d1!8m2!3d-33.5352914!4d-58.2143246!15sCidBc2VuY2lvIDE5MzAsIERvbG9yZXMsIFNvcmlhbm8sIFVydWd1YXlaJiIkYXNlbmNpbyAxOTMwIGRvbG9yZXMgc29yaWFubyB1cnVndWF5kgEOaGFyZHdhcmVfc3RvcmXgAQA!16s%2Fg%2F11sg5q09v5?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D"

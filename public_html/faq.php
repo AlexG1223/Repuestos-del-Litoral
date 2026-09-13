@@ -31,7 +31,7 @@ $qaList = [
     ],
     [
         'question' => '¿Cuáles son la dirección y horarios de atención en Dolores, Soriano?',
-        'answer' => 'Estamos en Asencio 1930, Dolores, Soriano. Horarios: Lunes a Viernes de 08:00 a 12:00 y de 14:30 a 19:00 hs. Sábados de 08:00 a 12:30 hs.'
+        'answer' => 'Estamos en Asencio 1930, Dolores, Soriano. Horarios: Lunes a Viernes de 08:00 a 12:00 y de 14:00 a 18:00 hs. Sábados de 08:00 a 12:00 hs.'
     ],
     [
         'question' => '¿Realizan envíos a todo Uruguay?',
