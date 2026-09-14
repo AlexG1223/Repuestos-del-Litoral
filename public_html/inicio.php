@@ -1,13 +1,24 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/../private/config/database.php';
 require_once __DIR__ . '/../private/config/settings.php';
+require_once __DIR__ . '/../private/models/Product.php';
+require_once __DIR__ . '/../private/models/ProductImage.php';
 require_once __DIR__ . '/../private/services/SeoService.php';
 
 use RepuestosDelLitoral\Services\SeoService;
+use RepuestosDelLitoral\Models\Product;
 
 $baseUrl = SeoService::getBaseUrl();
 $localSchema = SeoService::getLocalBusinessSchema();
+
+$topBestSellers = [];
+try {
+    $topBestSellers = Product::getTopBestSellers(3);
+} catch (\Throwable $e) {
+    $topBestSellers = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -210,6 +221,76 @@ $localSchema = SeoService::getLocalBusinessSchema();
       </div>
     </div>
   </section>
+
+  <?php if (!empty($topBestSellers)): ?>
+  <!-- Sección de Productos Más Vendidos -->
+  <section style="padding: 4rem 1.5rem; background-color: #F8F9FA; border-top: 1px solid #E2E8F0;">
+    <div style="max-width: var(--max-width); margin: 0 auto; text-align: center;">
+      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); text-transform: uppercase; margin-bottom: 0.5rem;">
+        🔥 Productos Más Vendidos
+      </h2>
+      <p style="color: var(--color-text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;">
+        Los repuestos y herramientas más elegidos por nuestros clientes
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left;">
+        <?php foreach ($topBestSellers as $prod): 
+          $prodUrl = '/producto/' . rawurlencode($prod['slug']);
+          $price = (float)($prod['display_price'] ?? $prod['retail_price']);
+          $imgUrl = !empty($prod['primary_image']) ? $prod['primary_image'] : '/assets/uploads/products/placeholder.jpg';
+        ?>
+          <article style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; position: relative; border: 1px solid #EDF2F7; transition: transform 0.25s, box-shadow 0.25s;"
+                   onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.1)';" 
+                   onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-card)';">
+            
+            <!-- Insignia Destacada -->
+            <span style="position: absolute; top: 12px; left: 12px; background: var(--color-primary); color: white; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 20px; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+              🔥 Top Venta
+            </span>
+
+            <!-- Imagen del Producto (Clickable) -->
+            <a href="<?= htmlspecialchars($prodUrl) ?>" style="display: block; height: 230px; overflow: hidden; background: #FFF;">
+              <img src="<?= htmlspecialchars($imgUrl) ?>" 
+                   alt="<?= htmlspecialchars($prod['name']) ?>" 
+                   loading="lazy"
+                   style="width: 100%; height: 100%; object-fit: contain; padding: 1rem; transition: transform 0.3s;"
+                   onmouseover="this.style.transform='scale(1.06)'" 
+                   onmouseout="this.style.transform='scale(1)'">
+            </a>
+
+            <!-- Contenido del Producto -->
+            <div style="padding: 1.25rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+              <div>
+                <?php if (!empty($prod['category_name'])): ?>
+                  <span style="font-size: 0.78rem; text-transform: uppercase; color: var(--color-primary); font-weight: 700; letter-spacing: 0.5px; display: block; margin-bottom: 0.3rem;">
+                    <?= htmlspecialchars($prod['category_name']) ?>
+                  </span>
+                <?php endif; ?>
+                
+                <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-dark); margin: 0 0 0.75rem 0; line-height: 1.35;">
+                  <a href="<?= htmlspecialchars($prodUrl) ?>" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-dark)'">
+                    <?= htmlspecialchars($prod['name']) ?>
+                  </a>
+                </h3>
+              </div>
+
+              <div>
+                <div style="font-size: 1.3rem; font-weight: 800; color: var(--color-dark); margin-bottom: 1rem;">
+                  UYU $<?= number_format($price, 2) ?>
+                </div>
+
+                <a href="<?= htmlspecialchars($prodUrl) ?>" class="btn btn-primary" style="width: 100%; box-sizing: border-box; text-align: center; justify-content: center; font-size: 0.9rem; border-radius: var(--radius-sm);">
+                  Ver Detalles del Producto
+                </a>
+              </div>
+            </div>
+
+          </article>
+        <?php endforeach; ?>
+      </div>
+    </div>
+  </section>
+  <?php endif; ?>
 
   <!-- Sección de Ubicación (Mapa) -->
   <section style="padding: 4rem 1.5rem; background-color: var(--color-dark); color: white; text-align: center;">

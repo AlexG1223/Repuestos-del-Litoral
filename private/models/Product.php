@@ -176,6 +176,64 @@ class Product {
     }
 
     /**
+     * Devuelve los N productos más vendidos en la web que estén activos y tengan foto real.
+     */
+    public static function getTopBestSellers(int $limit = 3): array {
+        $db = Database::getConnection();
+        $limit = max(1, $limit);
+
+        $sql = "
+            SELECT 
+                p.id,
+                p.category_id,
+                c.name AS category_name,
+                c.slug AS category_slug,
+                p.code,
+                p.name,
+                p.slug,
+                p.description,
+                p.retail_price,
+                p.wholesale_price,
+                p.stock,
+                p.active,
+                (
+                    SELECT pi.url 
+                    FROM product_images pi 
+                    WHERE pi.product_id = p.id 
+                      AND pi.url IS NOT NULL 
+                      AND pi.url != '' 
+                      AND pi.url NOT LIKE '%placeholder.jpg%'
+                    ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC 
+                    LIMIT 1
+                ) AS primary_image,
+                COALESCE(SUM(oi.quantity), 0) AS total_sold
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN order_items oi ON oi.product_id = p.id
+            WHERE p.active = 1
+            GROUP BY p.id
+            HAVING primary_image IS NOT NULL AND primary_image != ''
+            ORDER BY total_sold DESC, p.id DESC
+            LIMIT :limit
+        ";
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($items as &$item) {
+            $item['retail_price'] = (float)$item['retail_price'];
+            $item['wholesale_price'] = isset($item['wholesale_price']) ? (float)$item['wholesale_price'] : null;
+            $item['stock'] = (int)$item['stock'];
+            $item['total_sold'] = (int)$item['total_sold'];
+        }
+        unset($item);
+
+        return $items;
+    }
+
+    /**
      * ADMINISTRACIÓN: Devuelve una lista de productos (incluyendo inactivos).
      */
     public static function allForAdmin(array $filters): array {
