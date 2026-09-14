@@ -206,13 +206,23 @@ class Product {
                     ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC 
                     LIMIT 1
                 ) AS primary_image,
-                COALESCE(SUM(oi.quantity), 0) AS total_sold
+                COALESCE((
+                    SELECT SUM(oi.quantity) 
+                    FROM order_items oi 
+                    WHERE oi.product_id = p.id 
+                       OR (p.code IS NOT NULL AND p.code != '' AND oi.product_code = p.code)
+                ), 0) AS total_sold
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
-            LEFT JOIN order_items oi ON oi.product_id = p.id
             WHERE p.active = 1
-            GROUP BY p.id
-            HAVING primary_image IS NOT NULL AND primary_image != ''
+              AND EXISTS (
+                  SELECT 1 
+                  FROM product_images pi2 
+                  WHERE pi2.product_id = p.id 
+                    AND pi2.url IS NOT NULL 
+                    AND pi2.url != '' 
+                    AND pi2.url NOT LIKE '%placeholder.jpg%'
+              )
             ORDER BY total_sold DESC, p.id DESC
             LIMIT :limit
         ";
