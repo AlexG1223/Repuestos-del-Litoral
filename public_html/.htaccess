@@ -1,7 +1,8 @@
 # public_html/.htaccess
 
-# Evitar listado de directorios
+# Evitar listado de directorios y definir inicio.php como página principal por defecto
 Options -Indexes
+DirectoryIndex inicio.php index.php
 
 # Configuración de URLs Amigables y HTTPS
 <IfModule mod_rewrite.c>

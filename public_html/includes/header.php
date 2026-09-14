@@ -36,11 +36,15 @@ require_once __DIR__ . '/gtm-body.php';
     </div>
 
     <!-- Menú de Navegación Principal / Desplegable en Móviles -->
+    <?php 
+      $currentScript = $_SERVER['SCRIPT_NAME'] ?? '';
+      $isInicio = ($currentScript === '/inicio.php' || $currentScript === '/');
+    ?>
     <nav class="main-nav" id="main-nav">
       <ul>
-        <li><a href="/inicio.php" class="<?php echo $_SERVER['SCRIPT_NAME'] === '/inicio.php' ? 'active' : ''; ?>">Inicio</a></li>
-        <li><a href="/index.php" class="<?php echo $_SERVER['SCRIPT_NAME'] === '/index.php' ? 'active' : ''; ?>">Tienda</a></li>
-        <li><a href="/faq.php" class="<?php echo $_SERVER['SCRIPT_NAME'] === '/faq.php' ? 'active' : ''; ?>">Preguntas Frecuentes</a></li>
+        <li><a href="/inicio.php" class="<?php echo $isInicio ? 'active' : ''; ?>">Inicio</a></li>
+        <li><a href="/index.php" class="<?php echo $currentScript === '/index.php' ? 'active' : ''; ?>">Tienda</a></li>
+        <li><a href="/faq.php" class="<?php echo $currentScript === '/faq.php' ? 'active' : ''; ?>">Preguntas Frecuentes</a></li>
         <li><a href="https://wa.me/59899655283" target="_blank" rel="noopener">Contacto Directo</a></li>
 
         <!-- Estado de Autenticación de Usuario (Login / Registro / Mi Cuenta) -->
