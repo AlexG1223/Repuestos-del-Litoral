@@ -18,7 +18,7 @@ Options -Indexes
     # Reescritura de URL amigable para producto: /producto/slug-ejemplo -> producto.php?slug=slug-ejemplo
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^producto/([a-z0-9\-]+)/?$ producto.php?slug=$1 [L,QSA]
+    RewriteRule ^producto/(.+)$ producto.php?slug=$1 [L,QSA]
 </IfModule>
 
 # Bloquear acceso directo a archivos sensibles

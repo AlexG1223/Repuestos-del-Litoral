@@ -27,16 +27,26 @@ try {
     $products = $productsData['items'] ?? [];
     foreach ($products as $prod) {
         if (!empty($prod['slug']) && !empty($prod['name'])) {
+            $img = '';
+            if (!empty($prod['primary_image']) && !str_contains($prod['primary_image'], 'placeholder.jpg')) {
+                $img = $prod['primary_image'];
+            } elseif (!empty($prod['images']) && is_array($prod['images'])) {
+                $firstImg = $prod['images'][0]['url'] ?? '';
+                if (!empty($firstImg) && !str_contains($firstImg, 'placeholder.jpg')) {
+                    $img = $firstImg;
+                }
+            }
+
+            // Omitir productos sin imagen real (Google Merchant Center rechaza imágenes placeholder o vacías)
+            if (empty($img)) {
+                continue;
+            }
+
+            $imageUrl = str_starts_with($img, 'http') ? $img : $baseUrl . $img;
             $prodUrl = $baseUrl . '/producto/' . rawurlencode($prod['slug']);
             $price = number_format((float)($prod['display_price'] ?? $prod['retail_price'] ?? 0), 2, '.', '');
             $stock = (int)($prod['stock'] ?? 0);
             $availability = $stock > 0 ? 'in_stock' : 'out_of_stock';
-            
-            $img = '/assets/uploads/products/placeholder.jpg';
-            if (!empty($prod['images']) && is_array($prod['images'])) {
-                $img = $prod['images'][0]['url'] ?? $img;
-            }
-            $imageUrl = str_starts_with($img, 'http') ? $img : $baseUrl . $img;
             $rawDesc = !empty($prod['description']) ? strip_tags($prod['description']) : ($prod['name'] . ' disponible en Repuestos del Litoral, Dolores, Soriano, Uruguay.');
 
             echo "    <item>\n";

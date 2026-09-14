@@ -12,7 +12,9 @@ export function useProductDetail() {
     if (!container) return;
 
     const urlParams = new URLSearchParams(window.location.search);
-    currentSlug = urlParams.get('slug');
+    const dataSlug = container.getAttribute('data-slug');
+    const pathSlug = decodeURIComponent(window.location.pathname.replace(/^\/producto\/?/, '').replace(/\/$/, ''));
+    currentSlug = dataSlug || urlParams.get('slug') || pathSlug;
 
     if (!currentSlug) {
       renderError('No se ha especificado un producto válido.');
