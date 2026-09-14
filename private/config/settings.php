@@ -36,11 +36,11 @@ if (!defined('GTM_CONTAINER_ID')) {
 }
 
 if (!defined('GA4_MEASUREMENT_ID')) {
-    define('GA4_MEASUREMENT_ID', getenv('GA4_MEASUREMENT_ID') ?: 'G-XXXXXXX');
+    define('GA4_MEASUREMENT_ID', getenv('GA4_MEASUREMENT_ID') ?: 'G-SKQP4XXET0');
 }
 
 if (!defined('META_PIXEL_ID')) {
-    define('META_PIXEL_ID', getenv('META_PIXEL_ID') ?: 'XXXXXXXXXXXXXXX');
+    define('META_PIXEL_ID', getenv('META_PIXEL_ID') ?: '');
 }
 
 if (!defined('SEARCH_CONSOLE_VERIFICATION')) {

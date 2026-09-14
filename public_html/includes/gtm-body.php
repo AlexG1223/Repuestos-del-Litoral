@@ -11,6 +11,8 @@ if (!defined('GTM_CONTAINER_ID')) {
 $gtmContainerId = defined('GTM_CONTAINER_ID') ? GTM_CONTAINER_ID : 'GTM-XXXXXXX';
 ?>
 <!-- Google Tag Manager (noscript) -->
+<?php if (!empty($gtmContainerId) && $gtmContainerId !== 'GTM-XXXXXXX'): ?>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<?php echo htmlspecialchars($gtmContainerId, ENT_QUOTES, 'UTF-8'); ?>"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<?php endif; ?>
 <!-- End Google Tag Manager (noscript) -->
