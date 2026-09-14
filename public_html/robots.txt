@@ -35,5 +35,6 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-# Declaración del mapa del sitio
+# Declaración del mapa del sitio y feed de productos Google Shopping
 Sitemap: https://repuestosdellitoral.com/sitemap.xml
+Sitemap: https://repuestosdellitoral.com/feed-google.xml

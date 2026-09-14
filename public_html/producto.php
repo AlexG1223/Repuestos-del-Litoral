@@ -156,9 +156,18 @@ if ($product) {
               <h2 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Descripción y Especificaciones:</h2>
               <p><?= nl2br(htmlspecialchars($rawDesc)) ?></p>
             </div>
-            <div style="margin-top: 1.5rem; padding: 1rem; background: #FFF9F2; border-radius: 6px; font-size: 0.9rem;">
-              <p>📍 <strong>Vendido por Repuestos del Litoral</strong> — Asencio 1930, Dolores, Soriano, Uruguay.</p>
-              <p>📞 Consultas telefónicas: 4534 4109 | WhatsApp: 099 655 283</p>
+            <div style="margin-top: 1.5rem; padding: 1.25rem; background: #FFF9F2; border-radius: 8px; border: 1px solid #FFE0B2; font-size: 0.92rem;">
+              <p style="margin-bottom: 0.75rem; color: #2D3748;">
+                📍 <strong>Vendido por Repuestos del Litoral</strong> — Asencio 1930, Dolores, Soriano, Uruguay.
+              </p>
+              <p style="margin-bottom: 1rem; color: #2D3748;">
+                🚚 <strong>Envíos:</strong> A todo el país por agencias de carga (DAC, Mirtrans, De Punta) | 💳 <strong>Pagos:</strong> Tarjetas, Redpagos, Abitab o Mercado Pago.
+              </p>
+              <a href="https://wa.me/59899655283?text=<?= urlencode('Hola Repuestos del Litoral, quiero hacer una consulta/pedido por el producto: ' . $product['name'] . ' (' . $canonicalUrl . ')') ?>" 
+                 target="_blank" rel="noopener noreferrer" 
+                 style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.75rem 1.25rem; background-color: #25D366; color: white; font-weight: bold; border-radius: 6px; text-decoration: none; font-size: 0.95rem; width: 100%; box-sizing: border-box; box-shadow: 0 4px 12px rgba(37,211,102,0.25);">
+                💬 Consultar o Pedir por WhatsApp
+              </a>
             </div>
             
             <!-- Enlazado interno SEO hacia categorías principales -->
