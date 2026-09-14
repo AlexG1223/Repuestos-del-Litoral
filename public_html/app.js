@@ -67,7 +67,42 @@ function handlePaymentFeedback() {
   }
 }
 
+function initMobileMenu() {
+  const btnMobileMenu = document.getElementById('btn-mobile-menu');
+  const mainNav = document.getElementById('main-nav');
+
+  if (!btnMobileMenu || !mainNav) return;
+
+  btnMobileMenu.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = mainNav.classList.toggle('is-open');
+    btnMobileMenu.classList.toggle('is-active', isOpen);
+    btnMobileMenu.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Cerrar menú al hacer clic en cualquier enlace interno u opción
+  mainNav.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+      mainNav.classList.remove('is-open');
+      btnMobileMenu.classList.remove('is-active');
+      btnMobileMenu.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Cerrar menú si se hace clic fuera del menú o header
+  document.addEventListener('click', (e) => {
+    if (!btnMobileMenu.contains(e.target) && !mainNav.contains(e.target)) {
+      mainNav.classList.remove('is-open');
+      btnMobileMenu.classList.remove('is-active');
+      btnMobileMenu.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Manejo de menú desplegable responsive
+  initMobileMenu();
+
   // Manejo de notificación de estado de pago de Mercado Pago
   handlePaymentFeedback();
 
