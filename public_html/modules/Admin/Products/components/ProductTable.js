@@ -32,6 +32,7 @@ export function ProductTable(products) {
         <td>${statusBadge}</td>
         <td>
           <div style="display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap;">
+            <a href="/admin/utm-builder.php?product_id=${p.id}" class="admin-btn" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; background: #0284c7; color: #fff;" title="Generar link UTM para historias o redes">🔗 UTM</a>
             <a href="/admin/producto-editar.php?id=${p.id}" class="admin-btn secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Editar</a>
             ${toggleStatusBtn}
             <button type="button" class="admin-btn danger btn-delete-product" data-id="${p.id}" data-name="${p.name}" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" title="Eliminar permanentemente este producto de la base de datos">Eliminar</button>

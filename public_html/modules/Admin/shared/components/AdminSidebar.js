@@ -23,6 +23,7 @@ export function renderAdminSidebar(currentPath) {
         <a href="/admin/categorias.php" class="${currentPath.includes('categoria') ? 'active' : ''}">📁 Categorías</a>
         <a href="/admin/importar.php" class="${currentPath.includes('importar') ? 'active' : ''}">Importar Catálogo</a>
         <a href="/admin/clientes.php" class="${currentPath.includes('clientes') ? 'active' : ''}">Mayoristas</a>
+        <a href="/admin/utm-builder.php" class="${currentPath.includes('utm-builder') ? 'active' : ''}">🔗 Generador UTM</a>
         <a href="/admin/configuracion.php" class="${currentPath.includes('configuracion') ? 'active' : ''}">Configuración</a>
       </nav>
       <div class="admin-nav-footer">

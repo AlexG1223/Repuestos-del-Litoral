@@ -14,6 +14,51 @@ export function resetEcommerce() {
 }
 
 /**
+ * Captura y almacena parámetros UTM presentes en la URL actual para atribución de sesión y conversión.
+ */
+export function captureAndStoreUtms() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+    let hasNewUtms = false;
+    const currentUtms = {};
+
+    utmKeys.forEach(key => {
+      const val = urlParams.get(key);
+      if (val) {
+        currentUtms[key] = val.trim().toLowerCase();
+        hasNewUtms = true;
+      }
+    });
+
+    if (hasNewUtms) {
+      sessionStorage.setItem('rdl_session_utms', JSON.stringify(currentUtms));
+      if (!localStorage.getItem('rdl_first_utms')) {
+        localStorage.setItem('rdl_first_utms', JSON.stringify(currentUtms));
+      }
+    }
+  } catch (e) {
+    console.warn('No se pudieron guardar las UTMs:', e);
+  }
+}
+
+/**
+ * Obtiene las UTMs almacenadas de la sesión actual o primer contacto.
+ */
+export function getStoredUtms() {
+  try {
+    const sessionUtms = sessionStorage.getItem('rdl_session_utms');
+    if (sessionUtms) return JSON.parse(sessionUtms);
+    const firstUtms = localStorage.getItem('rdl_first_utms');
+    if (firstUtms) return JSON.parse(firstUtms);
+  } catch (e) {}
+  return {};
+}
+
+// Autoejecutar al importar
+captureAndStoreUtms();
+
+/**
  * Evento view_item: Se dispara al cargar la ficha de un producto.
  * @param {Object} product Datos del producto (id, name, display_price/retail_price, category_name)
  */
@@ -124,6 +169,8 @@ export function trackPurchase(orderId, total, items = []) {
     };
   });
 
+  const utms = getStoredUtms();
+
   resetEcommerce();
   window.dataLayer.push({
     event: 'purchase',
@@ -132,6 +179,7 @@ export function trackPurchase(orderId, total, items = []) {
       value: parseFloat(total) || 0,
       currency: 'UYU',
       items: formattedItems
-    }
+    },
+    attribution: utms
   });
 }
