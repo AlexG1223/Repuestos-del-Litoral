@@ -40,7 +40,8 @@ if (!defined('GA4_MEASUREMENT_ID')) {
 }
 
 if (!defined('META_PIXEL_ID')) {
-    define('META_PIXEL_ID', getenv('META_PIXEL_ID') ?: '');
+    $envMetaPixel = getenv('META_PIXEL_ID');
+    define('META_PIXEL_ID', (!empty($envMetaPixel) && $envMetaPixel !== 'XXXXXXXXXXXXXXX') ? $envMetaPixel : '2135035337888153');
 }
 
 if (!defined('SEARCH_CONSOLE_VERIFICATION')) {

@@ -87,6 +87,18 @@ export function trackViewItem(product) {
       ]
     }
   });
+
+  if (typeof window.fbq === 'function') {
+    try {
+      window.fbq('track', 'ViewContent', {
+        value: price,
+        currency: 'UYU',
+        content_name: String(product.name || 'Producto'),
+        content_ids: [String(product.id || product.productId || product.code || '')],
+        content_type: 'product'
+      });
+    } catch (e) { console.warn('Meta Pixel ViewContent error:', e); }
+  }
 }
 
 /**
@@ -119,6 +131,18 @@ export function trackAddToCart(product, qty = 1) {
       ]
     }
   });
+
+  if (typeof window.fbq === 'function') {
+    try {
+      window.fbq('track', 'AddToCart', {
+        value: price * quantity,
+        currency: 'UYU',
+        content_name: String(product.name || 'Producto'),
+        content_ids: [String(product.productId || product.id || product.code || '')],
+        content_type: 'product'
+      });
+    } catch (e) { console.warn('Meta Pixel AddToCart error:', e); }
+  }
 }
 
 /**
@@ -148,6 +172,19 @@ export function trackBeginCheckout(cartItems = [], total = 0) {
       items: formattedItems
     }
   });
+
+  if (typeof window.fbq === 'function') {
+    try {
+      const contentIds = formattedItems.map(i => i.item_id).filter(Boolean);
+      window.fbq('track', 'InitiateCheckout', {
+        value: parseFloat(total) || 0,
+        currency: 'UYU',
+        content_ids: contentIds,
+        num_items: formattedItems.length,
+        content_type: 'product'
+      });
+    } catch (e) { console.warn('Meta Pixel InitiateCheckout error:', e); }
+  }
 }
 
 /**
@@ -182,4 +219,18 @@ export function trackPurchase(orderId, total, items = []) {
     },
     attribution: utms
   });
+
+  if (typeof window.fbq === 'function') {
+    try {
+      const contentIds = formattedItems.map(i => i.item_id).filter(Boolean);
+      window.fbq('track', 'Purchase', {
+        value: parseFloat(total) || 0,
+        currency: 'UYU',
+        transaction_id: String(orderId),
+        content_ids: contentIds,
+        num_items: formattedItems.length,
+        content_type: 'product'
+      });
+    } catch (e) { console.warn('Meta Pixel Purchase error:', e); }
+  }
 }

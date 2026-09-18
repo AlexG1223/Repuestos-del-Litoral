@@ -51,14 +51,17 @@ Crear 4 disparadores de tipo **Custom Event**:
 4. **GA4 Event - Begin Checkout**: Event Name: `begin_checkout`, Disparador: `ce - begin_checkout`.
 5. **GA4 Event - Purchase**: Event Name: `purchase`, Disparador: `ce - purchase`.
 
-### D. Etiquetas de Meta Pixel
+### D. Etiquetas de Meta Pixel (Pixel ID: `2135035337888153`)
+
+> **Importación Rápida**: Se provee el archivo [`gtm_meta_pixel_import.json`](file:///c:/xampp/htdocs/repuestosDelLitoral/gtm_meta_pixel_import.json) para importar y fusionar (Merge) directamente todas las etiquetas, disparadores y variables en la consola de Google Tag Manager (Admin -> Import Container).
+
 1. **Meta Pixel Base (PageView)**:
-   - Script de Meta Pixel base apuntando a `META_PIXEL_ID`.
+   - Script de Meta Pixel base apuntando a `2135035337888153`.
    - Disparador: `All Pages`.
 2. **Meta Pixel - ViewContent**: Disparador `ce - view_item`, parámetros `{ value: {{dlv - ecommerce.value}}, currency: 'UYU' }`.
 3. **Meta Pixel - AddToCart**: Disparador `ce - add_to_cart`, parámetros `{ value: {{dlv - ecommerce.value}}, currency: 'UYU' }`.
 4. **Meta Pixel - InitiateCheckout**: Disparador `ce - begin_checkout`, parámetros `{ value: {{dlv - ecommerce.value}}, currency: 'UYU' }`.
-5. **Meta Pixel - Purchase**: Disparador `ce - purchase`, parámetros `{ value: {{dlv - ecommerce.value}}, currency: 'UYU' }`.
+5. **Meta Pixel - Purchase**: Disparador `ce - purchase`, parámetros `{ value: {{dlv - ecommerce.value}}, currency: 'UYU', transaction_id: {{dlv - ecommerce.transaction_id}} }`.
 
 ---
 

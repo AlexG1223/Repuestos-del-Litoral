@@ -51,6 +51,25 @@ class Product {
         $stmtCount->execute($params);
         $total = (int)($stmtCount->fetchColumn() ?: 0);
 
+        // Verificar y crear dinámicamente la columna views_count si no existe
+        static $hasViewsColumn = null;
+        if ($hasViewsColumn === null) {
+            try {
+                $db->exec("ALTER TABLE products ADD COLUMN views_count INT UNSIGNED NOT NULL DEFAULT 0");
+                $hasViewsColumn = true;
+            } catch (\Throwable $e) {
+                try {
+                    $chk = $db->query("SHOW COLUMNS FROM products LIKE 'views_count'");
+                    $hasViewsColumn = (bool)($chk && $chk->fetch());
+                } catch (\Throwable $e2) {
+                    $hasViewsColumn = false;
+                }
+            }
+        }
+
+        $viewsSelect = $hasViewsColumn ? "COALESCE(p.views_count, 0) AS views_count" : "0 AS views_count";
+        $viewsOrder = $hasViewsColumn ? "views_count DESC," : "";
+
         $sql = "
             SELECT 
                 p.id,
@@ -71,11 +90,18 @@ class Product {
                     WHERE pi.product_id = p.id 
                     ORDER BY pi.is_primary DESC, pi.sort_order ASC, pi.id ASC 
                     LIMIT 1
-                ) AS primary_image
+                ) AS primary_image,
+                COALESCE((
+                    SELECT SUM(oi.quantity) 
+                    FROM order_items oi 
+                    WHERE oi.product_id = p.id 
+                       OR (p.code IS NOT NULL AND p.code != '' AND oi.product_code = p.code)
+                ), 0) AS total_sold,
+                {$viewsSelect}
             FROM products p
             LEFT JOIN categories c ON p.category_id = c.id
             WHERE {$whereClause}
-            ORDER BY p.name ASC, p.id DESC
+            ORDER BY total_sold DESC, {$viewsOrder} p.name ASC, p.id DESC
             LIMIT ? OFFSET ?
         ";
 
@@ -110,6 +136,26 @@ class Product {
             'per_page'    => $perPage,
             'total_pages' => $totalPages
         ];
+    }
+
+    /**
+     * Incrementa en 1 las visitas de un producto en la base de datos.
+     */
+    public static function incrementViews(int $id): void {
+        try {
+            $db = Database::getConnection();
+            static $columnChecked = false;
+            if (!$columnChecked) {
+                try {
+                    $db->exec("ALTER TABLE products ADD COLUMN views_count INT UNSIGNED NOT NULL DEFAULT 0");
+                } catch (\Throwable $e) {}
+                $columnChecked = true;
+            }
+            $stmt = $db->prepare("UPDATE products SET views_count = views_count + 1 WHERE id = ?");
+            $stmt->execute([$id]);
+        } catch (\Throwable $e) {
+            // Silencioso para garantizar cero errores
+        }
     }
 
     /**
@@ -154,6 +200,9 @@ class Product {
         if (!$product) {
             return null;
         }
+
+        // Incrementar el contador de visitas del producto en detalle
+        self::incrementViews((int)$product['id']);
 
         $product['retail_price'] = (float)$product['retail_price'];
         $product['wholesale_price'] = isset($product['wholesale_price']) ? (float)$product['wholesale_price'] : null;
