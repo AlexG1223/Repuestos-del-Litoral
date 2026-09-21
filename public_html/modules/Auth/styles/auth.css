@@ -139,6 +139,52 @@
   margin-top: -0.5rem;
 }
 
+/* Aviso para compras particulares / minoristas */
+.auth-retail-notice {
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-left: 5px solid #0284c7;
+  border-radius: var(--radius-sm, 6px);
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notice-badge-info {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0369a1;
+  letter-spacing: 0.5px;
+}
+
+.retail-notice-main {
+  font-size: 0.88rem;
+  color: #0c4a6e;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.auth-wholesale-header {
+  border-top: 1px dashed var(--color-gray-border, #e2e8f0);
+  padding-top: 1.25rem;
+}
+
+.wholesale-tag {
+  display: inline-block;
+  background-color: #fff7ed;
+  color: var(--color-primary, #f5821f);
+  border: 1px solid rgba(245, 130, 31, 0.3);
+  padding: 0.2rem 0.65rem;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+}
+
 .form-checkbox-group {
   margin: 0.5rem 0;
 }

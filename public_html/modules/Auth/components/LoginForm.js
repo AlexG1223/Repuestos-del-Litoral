@@ -1,5 +1,5 @@
 /**
- * Componente que renderiza el formulario de Inicio de Sesión.
+ * Componente que renderiza el formulario de Inicio de Sesión (para Mayoristas/Admin).
  * @param {Object} formData 
  * @param {string|null} error 
  * @param {boolean} isSubmitting 
@@ -10,8 +10,17 @@ export function LoginForm(formData = {}, error = null, isSubmitting = false) {
 
   return `
     <form id="login-form" class="auth-form-box" novalidate>
-      <h2 class="auth-title">🔑 Iniciar Sesión</h2>
-      <p class="auth-subtitle">Ingresa tu cuenta para acceder a tus pedidos y precios especiales.</p>
+      
+      <!-- Cartel Informativo para Compras Particulares -->
+      <div class="auth-retail-notice">
+        <p class="retail-notice-main" style="margin: 0; font-size: 0.85rem;">
+          💡 <strong>¿Deseas comprar como cliente particular?</strong><br>
+          No necesitas iniciar sesión. Ve directamente al <a href="/index.php" style="color:var(--color-primary); font-weight:bold;">Catálogo de la Tienda</a> y agrega tus productos al carrito.
+        </p>
+      </div>
+
+      <h2 class="auth-title" style="margin-top: 0.5rem;">🔑 Acceso a Cuenta</h2>
+      <p class="auth-subtitle">Ingresa con tu correo y contraseña para acceder a tarifas mayoristas y panel comercial.</p>
 
       ${errorHtml}
 
@@ -45,8 +54,8 @@ export function LoginForm(formData = {}, error = null, isSubmitting = false) {
       </button>
 
       <div class="auth-footer-links">
-        <span>¿No tienes una cuenta aún?</span>
-        <a href="/registro.php">Crear cuenta nueva</a>
+        <span>¿Eres taller, comercio o revendedor y no tienes cuenta?</span>
+        <a href="/registro.php">Solicitar cuenta mayorista</a>
       </div>
     </form>
   `;

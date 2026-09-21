@@ -7,8 +7,8 @@ export function AccountStatus(user = null) {
   if (!user) {
     return `
       <div class="header-auth-links">
-        <a href="/login.php" class="auth-link-btn">Iniciar Sesión</a>
-        <a href="/registro.php" class="auth-link-btn auth-link-primary">Registrarme</a>
+        <a href="/login.php" class="auth-link-btn" title="Acceso a cuenta mayorista o administrador">Iniciar Sesión</a>
+        <a href="/registro.php" class="auth-link-btn auth-link-primary" title="Registro exclusivo para clientes mayoristas, talleres y revendedores">Registro Mayorista</a>
       </div>
     `;
   }

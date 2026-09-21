@@ -9,8 +9,8 @@ require_once __DIR__ . '/../private/config/settings.php';
   <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crear Cuenta Nueva | Repuestos del Litoral</title>
-  <meta name="description" content="Regístrese como cliente minorista o solicite su cuenta de cliente mayorista en Repuestos del Litoral.">
+  <title>Registro de Cuenta Mayorista | Repuestos del Litoral</title>
+  <meta name="description" content="Solicitud de cuenta exclusiva para clientes mayoristas, talleres y revendedores. Las compras de clientes particulares no requieren crear cuenta.">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
   
   <link rel="stylesheet" href="/globals/main.css">

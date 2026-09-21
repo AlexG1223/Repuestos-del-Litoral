@@ -1,5 +1,5 @@
 /**
- * Componente que renderiza el formulario de Registro de Usuario.
+ * Componente que renderiza el formulario de Registro de Usuario Exclusivo para Mayoristas.
  * @param {Object} formData 
  * @param {Object} errors 
  * @param {boolean} isSubmitting 
@@ -14,17 +14,37 @@ export function RegisterForm(formData = {}, errors = {}, isSubmitting = false) {
   const businessErr = errors.businessName ? `<span class="field-error">${errors.businessName}</span>` : '';
   const genErr = errors.general ? `<div class="alert-error" style="margin-bottom:1.25rem;">⚠️ ${errors.general}</div>` : '';
 
-  const wantsWholesale = !!formData.wantsWholesale;
+  // Por defecto la opción de cuenta mayorista se mantiene activa
+  const wantsWholesale = formData.wantsWholesale !== false;
 
   return `
     <form id="register-form" class="auth-form-box" novalidate>
-      <h2 class="auth-title">📝 Crear Cuenta Nueva</h2>
-      <p class="auth-subtitle">Regístrate para acelerar tus compras y acceder a beneficios comerciales.</p>
+      
+      <!-- Cartel de Aclaración para Compradores Particulares / Minoristas -->
+      <div class="auth-retail-notice">
+        <div class="notice-header">
+          <span class="notice-badge-info">ℹ️ INFORMACIÓN IMPORTANTE SOBRE TU COMPRA</span>
+        </div>
+        <p class="retail-notice-main">
+          <strong>¿Deseas comprar como cliente particular?</strong><br>
+          <strong>¡NO necesitas crear ninguna cuenta!</strong> Puedes agregar directamente tus productos al carrito y finalizar tu pedido sin registrarte.
+        </p>
+        <a href="/index.php" class="btn btn-outline btn-sm btn-block" style="margin-top:0.3rem; text-decoration:none; text-align:center; font-weight:700;">
+          🛒 Ir a la Tienda a Comprar Directamente
+        </a>
+      </div>
+
+      <!-- Encabezado de Registro Exclusivo para Mayoristas -->
+      <div class="auth-wholesale-header">
+        <span class="wholesale-tag">🏢 REGISTRO EXCLUSIVO PARA MAYORISTAS</span>
+        <h2 class="auth-title" style="margin-top:0.4rem;">Solicitud de Cuenta Mayorista</h2>
+        <p class="auth-subtitle">Formulario para talleres, comercios y revendedores que desean solicitar tarifa de precio al por mayor.</p>
+      </div>
 
       ${genErr}
 
       <div class="form-group ${errors.name ? 'has-error' : ''}">
-        <label for="reg-name">Nombre y Apellido <span class="required">*</span></label>
+        <label for="reg-name">Nombre y Apellido del Titular <span class="required">*</span></label>
         <input 
           type="text" 
           id="reg-name" 
@@ -50,7 +70,7 @@ export function RegisterForm(formData = {}, errors = {}, isSubmitting = false) {
       </div>
 
       <div class="form-group ${errors.phone ? 'has-error' : ''}">
-        <label for="reg-phone">Teléfono / WhatsApp <span class="required">*</span></label>
+        <label for="reg-phone">Teléfono / WhatsApp de Contacto <span class="required">*</span></label>
         <input 
           type="tel" 
           id="reg-phone" 
@@ -60,6 +80,33 @@ export function RegisterForm(formData = {}, errors = {}, isSubmitting = false) {
           required 
         />
         ${phoneErr}
+      </div>
+
+      <!-- Opción de Cuenta Mayorista (Activa) -->
+      <div class="form-checkbox-group" style="display:none;">
+        <label class="checkbox-label">
+          <input 
+            type="checkbox" 
+            id="reg-wants-wholesale" 
+            name="wantsWholesale" 
+            checked
+          />
+          <span>Solicitar cuenta de Cliente Mayorista (requiere aprobación manual)</span>
+        </label>
+      </div>
+
+      <!-- Campo de Nombre del Negocio -->
+      <div class="form-group ${errors.businessName ? 'has-error' : ''}" id="business-name-group">
+        <label for="reg-business">Nombre de tu Empresa / Taller / Negocio <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="reg-business" 
+          name="businessName" 
+          value="${formData.businessName || ''}" 
+          placeholder="Ej. Taller Mecánico El Litoral" 
+          required
+        />
+        ${businessErr}
       </div>
 
       <div class="form-group ${errors.password ? 'has-error' : ''}">
@@ -86,39 +133,13 @@ export function RegisterForm(formData = {}, errors = {}, isSubmitting = false) {
         ${confirmErr}
       </div>
 
-      <!-- Opción de Cuenta Mayorista -->
-      <div class="form-checkbox-group">
-        <label class="checkbox-label">
-          <input 
-            type="checkbox" 
-            id="reg-wants-wholesale" 
-            name="wantsWholesale" 
-            ${wantsWholesale ? 'checked' : ''}
-          />
-          <span>Solicitar cuenta de Cliente Mayorista (requiere aprobación manual)</span>
-        </label>
-      </div>
-
-      <!-- Campo condicional de Nombre del Negocio -->
-      <div class="form-group ${errors.businessName ? 'has-error' : ''}" id="business-name-group" style="${wantsWholesale ? '' : 'display:none;'}">
-        <label for="reg-business">Nombre de tu Empresa / Negocio <span class="required">*</span></label>
-        <input 
-          type="text" 
-          id="reg-business" 
-          name="businessName" 
-          value="${formData.businessName || ''}" 
-          placeholder="Ej. Taller Mecánico El Litoral" 
-        />
-        ${businessErr}
-      </div>
-
       <button type="submit" class="btn btn-primary btn-block" style="margin-top:1rem;" ${isSubmitting ? 'disabled' : ''}>
-        ${isSubmitting ? 'Creando cuenta...' : 'Completar Registro'}
+        ${isSubmitting ? 'Enviando solicitud...' : 'Enviar Solicitud Mayorista'}
       </button>
 
       <div class="auth-footer-links">
-        <span>¿Ya tienes una cuenta registrada?</span>
-        <a href="/login.php">Iniciar Sesión</a>
+        <span>¿Ya posees una cuenta mayorista aprobada?</span>
+        <a href="/login.php">Iniciar Sesión Mayorista</a>
       </div>
     </form>
   `;
