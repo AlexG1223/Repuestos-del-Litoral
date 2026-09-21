@@ -24,7 +24,7 @@ class SeoService {
             'url' => $baseUrl . '/',
             'logo' => $baseUrl . '/assets/img/logo.png',
             'image' => $baseUrl . '/assets/img/inicio-1.jpg',
-            'description' => 'Venta minorista y mayorista de repuestos para maquinaria agrícola e industrial, motosierras, desmalezadoras, motores 4T y herramientas en Dolores, Soriano, Uruguay.',
+            'description' => 'Tu mejor solución en repuestos originales y alternativos, reparación y servicio técnico especializado para máquinas de jardín y equipos a motor (motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas) en Dolores, Soriano, Uruguay. Envíos a todo el país.',
             'telephone' => '+59845344109',
             'contactPoint' => [
                 '@type' => 'ContactPoint',

@@ -2,7 +2,7 @@
   <div class="footer-container">
     <div class="footer-col">
       <h3>Repuestos del Litoral</h3>
-      <p>Venta minorista y mayorista de repuestos agrícolas, motosierras, desmalezadoras, motores 4T y herramientas de jardín en Dolores, Soriano, Uruguay.</p>
+      <p>Tu mejor solución en repuestos originales y alternativos, reparación y servicio técnico para máquinas de jardín y equipos a motor. Atención personalizada y envíos a todo el país desde Dolores, Soriano, Uruguay. Tu máquina en buenas manos.</p>
     </div>
 
     <div class="footer-col">

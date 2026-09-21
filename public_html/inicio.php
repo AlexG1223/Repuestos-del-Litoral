@@ -27,15 +27,15 @@ try {
   <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Repuestos del Litoral | Repuestos de Maquinaria, Motosierras y Motores en Dolores</title>
+  <title>Repuestos del Litoral | Repuestos y Reparación de Máquinas de Jardín y Equipos a Motor</title>
   <meta name="description"
-    content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Especialistas en repuestos de motosierras, desmalezadoras, maquinaria agrícola y motores.">
+    content="Tu mejor solución en repuestos originales y alternativos, reparación y servicio técnico especializado para motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas. Envíos a todo el país.">
   <link rel="canonical" href="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 
   <!-- Open Graph / Redes Sociales -->
-  <meta property="og:title" content="Repuestos del Litoral | Repuestos de Maquinaria y Motosierras en Dolores">
-  <meta property="og:description" content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de repuestos de motosierras, desmalezadoras, maquinaria agrícola y motores.">
+  <meta property="og:title" content="Repuestos del Litoral | Solución en Repuestos y Equipos a Motor">
+  <meta property="og:description" content="Repuestos originales y alternativos, servicio técnico especializado y envíos a todo el país para motosierras, desmalezadoras, cortacéspedes, tractores y generadores. Tu máquina en buenas manos.">
   <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">
@@ -111,8 +111,12 @@ try {
         Repuestos del Litoral
       </h1>
       <p
-        style="font-size: 1.25rem; color: #E0E0E0; margin-bottom: 1.5rem; font-weight: 500; text-shadow: 1px 2px 5px rgba(0,0,0,0.5);">
-        Especialistas en repuestos de maquinaria agrícola e industrial, motosierras, desmalezadoras, motores 4T, generadores y herramientas in <strong>Dolores, Soriano (Uruguay)</strong>. Venta minorista y mayorista.
+        style="font-size: 1.35rem; color: #FFFFFF; margin-bottom: 1rem; font-weight: 700; text-shadow: 1px 2px 5px rgba(0,0,0,0.7);">
+        Tu mejor solución en repuestos y reparación de máquinas de jardín y equipos a motor
+      </p>
+      <p
+        style="font-size: 1.1rem; color: #E0E0E0; margin-bottom: 1.5rem; font-weight: 400; text-shadow: 1px 2px 5px rgba(0,0,0,0.5); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        Ofrecemos repuestos originales y alternativos para motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas. Brindamos atención personalizada, servicio técnico especializado y envíos a todo el país para mantener tu máquina siempre en buenas manos desde <strong>Dolores, Soriano (Uruguay)</strong>.
       </p>
 
 
@@ -145,7 +149,7 @@ try {
     <div style="max-width: var(--max-width); margin: 0 auto;">
       <h2
         style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); margin-bottom: 3rem; text-transform: uppercase;">
-        Especialistas en Repuestos y Maquinaria — Dolores, Soriano
+        Tu Solución Integral en Repuestos y Reparación — Dolores, Soriano
       </h2>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
@@ -154,7 +158,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-1.jpg" alt="Repuestos para Maquinaria Agrícola e Industrial en Dolores, Soriano"
+            <img src="/assets/img/card-1.jpg" alt="Máquinas de Jardín y Equipos a Motor en Dolores, Soriano"
               loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -162,8 +166,8 @@ try {
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
-              Repuestos de Maquinaria</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Piezas originales y reemplazos para tractores, implementos agrícolas, herramientas y motores in Soriano y el Litoral.</p>
+              Máquinas de Jardín & Equipos a Motor</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Repuestos y piezas para motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas.</p>
           </div>
         </article>
 
@@ -171,7 +175,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-2.jpg" alt="Motosierras y Desmalezadoras en Dolores Uruguay"
+            <img src="/assets/img/card-2.jpg" alt="Repuestos Originales y Alternativos con Envíos a todo el país"
               loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -179,8 +183,8 @@ try {
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
-              Motosierras & Desmalezadoras</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Repuestos, espadas, cadenas, pistones, carburadores y accesorios para equipos de corte y desmalezado.</p>
+              Repuestos Originales & Alternativos</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Amplia variedad de componentes con atención personalizada y envíos rápidos a todo el país.</p>
           </div>
         </article>
 
@@ -188,7 +192,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-3.jpg" alt="Motores 4T y Generadores en Dolores"
+            <img src="/assets/img/card-3.jpg" alt="Servicio Técnico Especializado en Dolores"
               loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -196,8 +200,8 @@ try {
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
-              Motores 4T & Generadores</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Insumos, carburadores, filtros, arrancadores y repuestos de motorización para motobombas y grupos electrógenos.</p>
+              Servicio Técnico Especializado</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Mantenimiento integral y reparación experta de equipos a motor. Tu máquina en las mejores manos.</p>
           </div>
         </article>
 
