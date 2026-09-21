@@ -149,7 +149,7 @@ try {
     <div style="max-width: var(--max-width); margin: 0 auto;">
       <h2
         style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); margin-bottom: 3rem; text-transform: uppercase;">
-        Especialistas en Repuestos y Máquinas de Jardín — Dolores, Soriano
+        Especialistas en repuestos y máquinas de jardín — Dolores, Soriano
       </h2>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
