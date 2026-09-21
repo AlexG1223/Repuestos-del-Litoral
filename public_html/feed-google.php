@@ -20,7 +20,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
   <channel>
     <title>Repuestos del Litoral - Catálogo de Productos</title>
     <link><?= htmlspecialchars($baseUrl) ?></link>
-    <description>Ferretería industrial, repuestos de maquinaria agrícola, motosierras, desmalezadoras y herramientas en Dolores, Soriano, Uruguay.</description>
+    <description>Repuestos de maquinaria agrícola e industrial, motosierras, desmalezadoras, motores 4T, generadores y herramientas de jardín en Dolores, Soriano, Uruguay.</description>
 <?php
 try {
     $productsData = Product::paginate(1, 2000, []);

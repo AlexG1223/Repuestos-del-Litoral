@@ -27,15 +27,15 @@ try {
   <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Repuestos del Litoral | Motosierras y Ferretería en Dolores</title>
+  <title>Repuestos del Litoral | Repuestos de Maquinaria, Motosierras y Motores en Dolores</title>
   <meta name="description"
-    content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de motosierras, desmalezadoras, repuestos agrícolas y herramientas de jardín.">
+    content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Especialistas en repuestos de motosierras, desmalezadoras, maquinaria agrícola y motores.">
   <link rel="canonical" href="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 
   <!-- Open Graph / Redes Sociales -->
-  <meta property="og:title" content="Repuestos del Litoral | Motosierras y Ferretería en Dolores">
-  <meta property="og:description" content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de motosierras, desmalezadoras, repuestos agrícolas y herramientas de jardín.">
+  <meta property="og:title" content="Repuestos del Litoral | Repuestos de Maquinaria y Motosierras en Dolores">
+  <meta property="og:description" content="Repuestos del Litoral en Dolores, Soriano (Uruguay). Venta de repuestos de motosierras, desmalezadoras, maquinaria agrícola y motores.">
   <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">
@@ -59,6 +59,7 @@ try {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
 
@@ -69,37 +70,19 @@ try {
       width: 100%;
       height: 100%;
       opacity: 0;
-      transition: opacity 1.5s ease-in-out, transform 8s linear;
-      transform: scale(1.05);
+      transition: opacity 1.5s ease-in-out;
       z-index: 1;
     }
 
     .carousel-bg.active {
       opacity: 1;
-      transform: scale(1);
     }
 
     .hero-content {
       position: relative;
       z-index: 2;
       max-width: 850px;
-      margin: 0 auto;
-      animation: fadeInUp 1.2s ease-out forwards;
     }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-
   </style>
 </head>
 
@@ -108,8 +91,8 @@ try {
   <!-- Cabecera compartida -->
   <?php require_once __DIR__ . '/includes/header.php'; ?>
 
-  <!-- Banner Héroe / Presentación Animado -->
-  <section class="hero-banner" id="hero-carousel">
+  <!-- Sección Hero Principal con Carrusel Animado -->
+  <section class="hero-banner">
 
     <!-- Imágenes de fondo que rotarán -->
     <div class="carousel-bg active"
@@ -129,14 +112,14 @@ try {
       </h1>
       <p
         style="font-size: 1.25rem; color: #E0E0E0; margin-bottom: 1.5rem; font-weight: 500; text-shadow: 1px 2px 5px rgba(0,0,0,0.5);">
-        Tu comercio integral en <strong>Dolores, Soriano (Uruguay)</strong>. Especialistas en repuestos de maquinaria agrícola e industrial, herramientas de ferretería, calzado de trabajo, mates, artículos de pesca y mascotas. Venta minorista y mayorista.
+        Especialistas en repuestos de maquinaria agrícola e industrial, motosierras, desmalezadoras, motores 4T, generadores y herramientas in <strong>Dolores, Soriano (Uruguay)</strong>. Venta minorista y mayorista.
       </p>
 
 
       <div style="margin-top: 2rem;">
         <a href="/index.php" class="btn btn-primary"
           style="padding: 1rem 3rem; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(245,130,31,0.4); border-radius: 30px;">
-          Explorar Catálogo Completo
+          Explorar Catálogo de Repuestos
         </a>
       </div>
     </div>
@@ -162,7 +145,7 @@ try {
     <div style="max-width: var(--max-width); margin: 0 auto;">
       <h2
         style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); margin-bottom: 3rem; text-transform: uppercase;">
-        Todo lo que necesitas en un solo lugar — Dolores, Soriano
+        Especialistas en Repuestos y Maquinaria — Dolores, Soriano
       </h2>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
@@ -180,7 +163,7 @@ try {
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
               Repuestos de Maquinaria</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Piezas originales y genéricas para tractores, motosierras, desmalezadoras y motores agrícolas en Soriano y el Litoral.</p>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Piezas originales y reemplazos para tractores, implementos agrícolas, herramientas y motores in Soriano y el Litoral.</p>
           </div>
         </article>
 
@@ -188,7 +171,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-2.jpg" alt="Ferretería y Calzado de Trabajo en Dolores Uruguay"
+            <img src="/assets/img/card-2.jpg" alt="Motosierras y Desmalezadoras en Dolores Uruguay"
               loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -196,8 +179,8 @@ try {
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
-              Ferretería & Calzado de Trabajo</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Herramientas manuales, insumos de taller y calzado de seguridad resistente para el trabajo rural y urbano.</p>
+              Motosierras & Desmalezadoras</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Repuestos, espadas, cadenas, pistones, carburadores y accesorios para equipos de corte y desmalezado.</p>
           </div>
         </article>
 
@@ -205,7 +188,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-3.jpg" alt="Mates, Artículos de Pesca y Mascotas en Dolores"
+            <img src="/assets/img/card-3.jpg" alt="Motores 4T y Generadores en Dolores"
               loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
@@ -213,8 +196,8 @@ try {
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
-              Mates, Pesca & Mascotas</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Equipamiento de pesca para el Río San Salvador, mates criollos, termos y productos para el cuidado de tus mascotas.</p>
+              Motores 4T & Generadores</h3>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Insumos, carburadores, filtros, arrancadores y repuestos de motorización para motobombas y grupos electrógenos.</p>
           </div>
         </article>
 

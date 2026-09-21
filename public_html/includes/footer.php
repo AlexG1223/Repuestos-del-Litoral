@@ -2,7 +2,7 @@
   <div class="footer-container">
     <div class="footer-col">
       <h3>Repuestos del Litoral</h3>
-      <p>Venta minorista y mayorista de repuestos agrícolas, motosierras, desmalezadoras, herramientas de jardín y ferretería en Dolores, Soriano, Uruguay.</p>
+      <p>Venta minorista y mayorista de repuestos agrícolas, motosierras, desmalezadoras, motores 4T y herramientas de jardín en Dolores, Soriano, Uruguay.</p>
     </div>
 
     <div class="footer-col">
@@ -21,7 +21,7 @@
         <li><a href="/index.php?category=motosierras" style="color: inherit;">Motosierras y Repuestos Stihl / Husqvarna</a></li>
         <li><a href="/index.php?category=desmalezadoras" style="color: inherit;">Desmalezadoras, Discos y Carburadores</a></li>
         <li><a href="/motosierra-a-nafta.php" style="color: inherit;">Guía de Motosierras a Nafta</a></li>
-        <li><a href="/faq.php" style="color: inherit;">Preguntas Frecuentes & Ferretería Dolores</a></li>
+        <li><a href="/faq.php" style="color: inherit;">Preguntas Frecuentes sobre Repuestos</a></li>
       </ul>
     </div>
   </div>

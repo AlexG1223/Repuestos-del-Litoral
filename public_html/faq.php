@@ -14,27 +14,19 @@ $qaList = [
         'answer' => 'En Repuestos del Litoral, ubicado en Asencio 1930, Dolores (Soriano, Uruguay), encontrarás un completo stock de repuestos para maquinaria agrícola e industrial, motosierras, desmalezadoras y motores. Teléfono: 4534 4109 / WhatsApp: 099 655 283.'
     ],
     [
-        'question' => '¿Venden artículos de ferretería y herramientas en Dolores, Uruguay?',
-        'answer' => 'Sí, contamos con un amplio catálogo de artículos de ferretería industrial, herramientas manuales, insumos de taller, accesorios para desmalezado y productos de mantenimiento.'
+        'question' => '¿Qué tipos de repuestos para motosierras y desmalezadoras ofrecen?',
+        'answer' => 'Contamos con repuestos originales y compatibles para todas las marcas líderes: espadas, cadenas, pistones, cilindros, carburadores, arrancadores, filtros y repuestos de motorización.'
     ],
     [
-        'question' => '¿Tienen calzado de trabajo y botas de campo?',
-        'answer' => 'Ofrecemos calzado de seguridad, botas de trabajo y calzado industrial de alta durabilidad pensado para labores agrícolas, rurales y de taller.'
-    ],
-    [
-        'question' => '¿Qué variedad de mates y artículos de pesca ofrecen?',
-        'answer' => 'Disponemos de mates de calabaza y madera, bombillas de alpaca y acero inoxidable, termos y marroquinería, así como equipamiento completo de pesca deportiva (cañas, reeles y accesorios).'
-    ],
-    [
-        'question' => '¿Venden alimentos y productos para mascotas en Repuestos del Litoral?',
-        'answer' => 'Sí, incorporamos una selección de productos y alimentos para mascotas y animales de granja, cubriendo las necesidades del hogar y el campo.'
+        'question' => '¿Venden repuestos para motores 4T y generadores?',
+        'answer' => 'Sí, disponemos de insumos, piezas de repuesto, carburadores, filtros y componentes para motores 4T, grupos electrógenos, motobombas y herramientas de jardín.'
     ],
     [
         'question' => '¿Cuáles son la dirección y horarios de atención en Dolores, Soriano?',
         'answer' => 'Estamos en Asencio 1930, Dolores, Soriano. Horarios: Lunes a Viernes de 08:00 a 12:00 y de 14:00 a 18:00 hs. Sábados de 08:00 a 12:00 hs.'
     ],
     [
-        'question' => '¿Realizan envíos a todo Uruguay?',
+        'question' => '¿Realizan envíos de repuestos a todo Uruguay?',
         'answer' => 'Sí, realizamos envíos a todo el territorio uruguayo a través de agencias de carga, atendiendo a clientes en Soriano, Río Negro, Colonia y el resto del país.'
     ]
 ];
@@ -43,7 +35,7 @@ $faqSchema = SeoService::getFaqSchema($qaList);
 $localSchema = SeoService::getLocalBusinessSchema();
 $breadcrumbSchema = SeoService::getBreadcrumbSchema([
     ['name' => 'Inicio', 'url' => '/inicio.php'],
-    ['name' => 'Preguntas Frecuentes & SEO Local', 'url' => '/faq.php']
+    ['name' => 'Preguntas Frecuentes', 'url' => '/faq.php']
 ]);
 ?>
 <!DOCTYPE html>
@@ -53,15 +45,15 @@ $breadcrumbSchema = SeoService::getBreadcrumbSchema([
   <?php require_once __DIR__ . '/includes/gtm-head.php'; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preguntas Frecuentes y Cobertura Local | Repuestos del Litoral (Dolores, Soriano)</title>
+  <title>Preguntas Frecuentes | Repuestos del Litoral (Dolores, Soriano)</title>
   <meta name="description"
-    content="Preguntas frecuentes sobre repuestos de maquinaria, ferretería, calzado de trabajo, mates, pesca y mascotas en Repuestos del Litoral, Dolores, Soriano, Uruguay.">
+    content="Preguntas frecuentes sobre repuestos de maquinaria agrícola, motosierras, desmalezadoras y motores en Repuestos del Litoral, Dolores, Soriano, Uruguay.">
   <link rel="canonical" href="<?= htmlspecialchars($baseUrl . '/faq.php') ?>">
   <link rel="icon" href="/assets/img/logo.png" type="image/x-icon">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Preguntas Frecuentes | Repuestos del Litoral (Dolores, Soriano)">
-  <meta property="og:description" content="Información fáctica sobre repuestos agrícolas, ferretería, calzado, mates, pesca y mascotas en Dolores, Soriano.">
+  <meta property="og:description" content="Información fáctica sobre repuestos agrícolas, motosierras, desmalezadoras y motores en Dolores, Soriano.">
   <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/faq.php') ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">
@@ -148,7 +140,7 @@ $breadcrumbSchema = SeoService::getBreadcrumbSchema([
 
   <section class="faq-hero">
     <h1>Preguntas Frecuentes y Cobertura Local</h1>
-    <p>Respuestas claras sobre nuestros servicios, productos de ferretería, repuestos de maquinaria, calzado, pesca, mates y envíos en Soriano y todo Uruguay.</p>
+    <p>Respuestas claras sobre nuestros repuestos de maquinaria, motosierras, desmalezadoras, motores 4T y envíos a todo Uruguay.</p>
   </section>
 
   <main class="faq-container">

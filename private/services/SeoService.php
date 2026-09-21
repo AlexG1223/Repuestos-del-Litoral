@@ -24,7 +24,7 @@ class SeoService {
             'url' => $baseUrl . '/',
             'logo' => $baseUrl . '/assets/img/logo.png',
             'image' => $baseUrl . '/assets/img/inicio-1.jpg',
-            'description' => 'Venta minorista y mayorista de repuestos para maquinaria agrícola e industrial, artículos de ferretería, calzado de trabajo, mates, artículos de pesca y productos para mascotas en Dolores, Soriano, Uruguay.',
+            'description' => 'Venta minorista y mayorista de repuestos para maquinaria agrícola e industrial, motosierras, desmalezadoras, motores 4T y herramientas en Dolores, Soriano, Uruguay.',
             'telephone' => '+59845344109',
             'contactPoint' => [
                 '@type' => 'ContactPoint',
@@ -223,16 +223,16 @@ class SeoService {
 
         if ($normalized === 'herramientas-de-jardin' || $normalized === 'jardin' || $normalized === 'bordeadoras' || str_contains($normalized, 'jardin') || str_contains($normalized, 'bordeadora')) {
             return [
-                'title' => 'Herramientas de Jardín y Bordeadoras | Repuestos del Litoral',
-                'meta_description' => 'Ferretería y herramientas de jardín en Dolores, Soriano. Bordeadoras, repuestos e insumos agrícolas en Repuestos del Litoral Uruguay.',
+                'title' => 'Herramientas de Jardín, Bordeadoras y Repuestos | Repuestos del Litoral',
+                'meta_description' => 'Herramientas de jardín, bordeadoras y repuestos de corte en Dolores, Soriano. Repuestos e insumos agrícolas en Repuestos del Litoral Uruguay.',
                 'h1' => 'Herramientas de Jardín, Bordeadoras y Repuestos'
             ];
         }
 
         return [
-            'title' => 'Motosierras, Desmalezadoras y Repuestos | Repuestos del Litoral',
-            'meta_description' => 'Repuestos del Litoral en Dolores, Soriano. Venta de motosierras, desmalezadoras, repuestos agrícolas, ferretería y herramientas en Uruguay.',
-            'h1' => 'Catálogo de Repuestos, Motosierras y Ferretería'
+            'title' => 'Motosierras, Desmalezadoras y Repuestos de Maquinaria | Repuestos del Litoral',
+            'meta_description' => 'Repuestos del Litoral en Dolores, Soriano. Venta de repuestos para motosierras, desmalezadoras, maquinaria agrícola y motores en Uruguay.',
+            'h1' => 'Catálogo de Repuestos para Maquinaria y Motosierras'
         ];
     }
 
@@ -276,7 +276,7 @@ class SeoService {
         if ($rawDesc !== '') {
             $desc = mb_substr($rawDesc, 0, 100) . '... Compra en Repuestos del Litoral, Dolores, Soriano (Uruguay). Envíos a todo el país.';
         } else {
-            $desc = "Compre {$name} en Repuestos del Litoral, Dolores, Soriano (Uruguay). Venta de repuestos agrícolas, motosierras y ferretería.";
+            $desc = "Compre {$name} en Repuestos del Litoral, Dolores, Soriano (Uruguay). Especialistas en repuestos de maquinaria agrícola, motosierras y motores.";
         }
 
         if (mb_strlen($desc) > 155) {
