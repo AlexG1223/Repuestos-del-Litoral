@@ -46,39 +46,34 @@ class Database
             $pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : 'jDA9JvLL9';
             $charset = 'utf8mb4';
 
-            $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";
-
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES => false,
             ];
 
-            try {
-                self::$instance = new PDO($dsn, $user, $pass, $options);
-                self::$instance->exec("SET time_zone = '-03:00'");
-            } catch (PDOException $e) {
-                // Intentar fallback si falla por credenciales incorretas (root vs producción Hostinger)
-                $fallbacks = [
-                    ['user' => 'u750013204_repdellitoral', 'pass' => 'jDA9JvLL9'],
-                    ['user' => 'root', 'pass' => '']
-                ];
+            $hostsToTry = array_unique([$host, '127.0.0.1', 'localhost']);
+            $fallbacks = [
+                ['user' => $user, 'pass' => $pass],
+                ['user' => 'u750013204_repdellitoral', 'pass' => 'jDA9JvLL9'],
+                ['user' => 'root', 'pass' => '']
+            ];
 
+            $lastException = null;
+            foreach ($hostsToTry as $h) {
+                $dsn = "mysql:host={$h};dbname={$db};charset={$charset}";
                 foreach ($fallbacks as $fb) {
-                    if ($fb['user'] === $user && $fb['pass'] === $pass) {
-                        continue;
-                    }
                     try {
                         self::$instance = new PDO($dsn, $fb['user'], $fb['pass'], $options);
                         self::$instance->exec("SET time_zone = '-03:00'");
                         return self::$instance;
-                    } catch (PDOException $fbEx) {
-                        // continuar intentando
+                    } catch (PDOException $e) {
+                        $lastException = $e;
                     }
                 }
-
-                throw new RuntimeException("Error de conexión a la Base de Datos: " . $e->getMessage(), (int) $e->getCode());
             }
+
+            throw new RuntimeException("Error de conexión a la Base de Datos: " . ($lastException ? $lastException->getMessage() : 'Desconocido'), (int) ($lastException ? $lastException->getCode() : 0));
         }
 
         return self::$instance;

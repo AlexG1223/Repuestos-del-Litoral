@@ -88,8 +88,19 @@ export function useCatalog() {
       state.meta = data.meta || { total: 0, page: 1, per_page: 12, total_pages: 1 };
       state.hasMore = state.currentPage < state.meta.total_pages;
 
-      if (!state.hasMore) {
+      if (data.recommended && data.recommended.length > 0) {
+        state.recommendedProducts = data.recommended;
+      } else if (!state.hasMore) {
         await loadRecommendedProducts();
+      }
+
+      // Tracking de evento 'search' si el usuario realizó una búsqueda
+      if (state.searchTerm && window.dataLayer) {
+        window.dataLayer.push({
+          event: 'search',
+          search_term: state.searchTerm,
+          results_count: state.meta.total || 0
+        });
       }
     } catch (err) {
       state.error = err.message;
@@ -122,7 +133,7 @@ export function useCatalog() {
         state.hasMore = false;
       }
 
-      if (!state.hasMore) {
+      if (!state.hasMore && state.recommendedProducts.length === 0) {
         await loadRecommendedProducts();
       }
     } catch (err) {
@@ -139,7 +150,6 @@ export function useCatalog() {
     state.isLoadingRecommended = true;
 
     try {
-      // Cargar productos destacados generales de la tienda para la sección de recomendaciones
       const recData = await fetchProducts({
         page: 1,
         category: '',
@@ -171,19 +181,108 @@ export function useCatalog() {
     // Búsqueda
     const searchInput = container.querySelector('#catalog-search-input');
     const searchBtn = container.querySelector('#catalog-search-btn');
+    const searchBoxContainer = container.querySelector('.search-box');
 
     if (searchBtn && searchInput) {
       const handleSearch = () => {
         state.searchTerm = searchInput.value.trim();
+        closeSuggestions();
         updateUrlParams();
         resetAndLoadProducts();
       };
 
       searchBtn.onclick = handleSearch;
       searchInput.onkeyup = (e) => {
-        if (e.key === 'Enter') handleSearch();
+        if (e.key === 'Enter') {
+          handleSearch();
+        }
       };
+
+      // Autocompletado / Live Suggestions (Typeahead)
+      let debounceTimer = null;
+      let suggestionsDropdown = null;
+
+      const closeSuggestions = () => {
+        if (suggestionsDropdown && suggestionsDropdown.parentNode) {
+          suggestionsDropdown.parentNode.removeChild(suggestionsDropdown);
+        }
+        suggestionsDropdown = null;
+      };
+
+      searchInput.oninput = () => {
+        const val = searchInput.value.trim();
+        clearTimeout(debounceTimer);
+
+        if (val.length < 2) {
+          closeSuggestions();
+          return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+          try {
+            const res = await fetch(`/api/search-suggestions.php?q=${encodeURIComponent(val)}`);
+            const data = await res.json();
+            if (!data.success || !data.data || data.data.length === 0) {
+              closeSuggestions();
+              return;
+            }
+
+            closeSuggestions();
+
+            suggestionsDropdown = document.createElement('div');
+            suggestionsDropdown.className = 'search-suggestions-dropdown';
+
+            const itemsHtml = data.data.map(item => `
+              <a href="/producto/${item.slug}" class="suggestion-item">
+                <img src="${item.primary_image}" alt="${item.name}" onerror="this.src='/assets/uploads/products/placeholder.jpg';" />
+                <div class="suggestion-info">
+                  <div class="suggestion-title">${item.name}</div>
+                  <div class="suggestion-meta">
+                    ${item.code ? `<span class="suggestion-code">SKU: ${item.code}</span>` : ''}
+                    ${item.category_name ? `<span class="suggestion-cat">${item.category_name}</span>` : ''}
+                  </div>
+                </div>
+                <div class="suggestion-price">$${item.retail_price.toLocaleString('es-UY', { minimumFractionDigits: 2 })}</div>
+              </a>
+            `).join('');
+
+            suggestionsDropdown.innerHTML = `
+              <div class="suggestions-list">${itemsHtml}</div>
+              <div class="suggestions-footer">
+                <span>Presiona <strong>Enter</strong> o haz clic en Buscar para ver todos los resultados</span>
+              </div>
+            `;
+
+            if (searchBoxContainer) {
+              searchBoxContainer.style.position = 'relative';
+              searchBoxContainer.appendChild(suggestionsDropdown);
+            }
+          } catch (e) {
+            console.warn('Error al cargar sugerencias de búsqueda:', e);
+          }
+        }, 220);
+      };
+
+      document.addEventListener('click', (e) => {
+        if (searchBoxContainer && !searchBoxContainer.contains(e.target)) {
+          closeSuggestions();
+        }
+      });
     }
+
+    // Clics en sugerencia "¿Quisiste decir...?"
+    const didYouMeanBtns = container.querySelectorAll('.did-you-mean-btn');
+    didYouMeanBtns.forEach(btn => {
+      btn.onclick = () => {
+        const suggestion = btn.getAttribute('data-search');
+        if (suggestion) {
+          state.searchTerm = suggestion;
+          if (searchInput) searchInput.value = suggestion;
+          updateUrlParams();
+          resetAndLoadProducts();
+        }
+      };
+    });
 
     // Categorías y subcategorías
     const catButtons = container.querySelectorAll('.category-pill, .category-dropdown-item');

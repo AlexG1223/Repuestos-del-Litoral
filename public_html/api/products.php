@@ -12,6 +12,7 @@ require_once __DIR__ . '/../../private/models/ProductImage.php';
 require_once __DIR__ . '/../../private/models/Product.php';
 require_once __DIR__ . '/../../private/services/SessionService.php';
 require_once __DIR__ . '/../../private/services/PricingService.php';
+require_once __DIR__ . '/../../private/services/SearchService.php';
 require_once __DIR__ . '/../../private/controllers/CatalogController.php';
 
 use RepuestosDelLitoral\Controllers\CatalogController;
@@ -43,16 +44,24 @@ try {
     // Listado paginado de productos
     $result = $controller->listProducts($_GET);
 
-    echo json_encode([
+    $responsePayload = [
         'success' => true,
-        'data'    => $result['items'],
+        'data'    => $result['items'] ?? [],
         'meta'    => [
-            'total'       => $result['total'],
-            'page'        => $result['page'],
-            'per_page'    => $result['per_page'],
-            'total_pages' => $result['total_pages']
+            'total'       => $result['total'] ?? 0,
+            'page'        => $result['page'] ?? 1,
+            'per_page'    => $result['per_page'] ?? 12,
+            'total_pages' => $result['total_pages'] ?? 1,
+            'did_you_mean' => $result['did_you_mean'] ?? null,
+            'is_fallback' => $result['is_fallback'] ?? false
         ]
-    ], JSON_UNESCAPED_UNICODE);
+    ];
+
+    if (!empty($result['recommended'])) {
+        $responsePayload['recommended'] = $result['recommended'];
+    }
+
+    echo json_encode($responsePayload, JSON_UNESCAPED_UNICODE);
 
 } catch (\Throwable $e) {
     http_response_code(500);

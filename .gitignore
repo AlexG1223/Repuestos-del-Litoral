@@ -18,3 +18,6 @@ public_html/assets/uploads/products/*
 Thumbs.db
 .vscode/
 .idea/
+
+# Backups locales
+private/backups/
