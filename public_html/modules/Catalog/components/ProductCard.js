@@ -14,7 +14,7 @@ export function ProductCard(product) {
   const inStock = product.stock > 0;
   const stockBadge = inStock 
     ? '<span class="badge badge-success">En Stock</span>'
-    : '<span class="badge badge-warning">Consulte Stock</span>';
+    : '<span class="badge badge-danger">Sin Stock</span>';
 
   // Determinar precio efectivo según sesión (mayorista o minorista)
   const effectivePrice = product.display_price !== undefined 
@@ -24,7 +24,7 @@ export function ProductCard(product) {
   const isWholesale = product.is_wholesale || product.price_tier === 'wholesale';
   const showOriginalPrice = isWholesale && product.retail_price && product.retail_price > effectivePrice;
 
-  const waAdviceMessage = encodeURIComponent(`Hola! Quisiera solicitar asesoramiento sobre el producto: ${product.name}${product.code ? ` (Cód: ${product.code})` : ''}.`);
+  const waAdviceMessage = encodeURIComponent(`Hola! Quisiera consultar disponibilidad / reingreso del producto: ${product.name}${product.code ? ` (Cód: ${product.code})` : ''}.`);
   const waAdviceUrl = `https://wa.me/59899655283?text=${waAdviceMessage}`;
 
   // Objeto serializado de forma segura para pasar al botón de agregar al carrito
@@ -66,12 +66,17 @@ export function ProductCard(product) {
           </div>
         </div>
         <div class="product-card-actions">
-          <button type="button" 
-                  class="btn btn-primary btn-add-cart" 
-                  data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'
-                  ${!inStock ? 'disabled' : ''}>
-            🛒 Agregar al carrito
-          </button>
+          ${inStock ? `
+            <button type="button" 
+                    class="btn btn-primary btn-add-cart" 
+                    data-product='${JSON.stringify(productData).replace(/'/g, "&apos;")}'>
+              🛒 Agregar al carrito
+            </button>
+          ` : `
+            <a href="${waAdviceUrl}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-card-wa">
+              💬 Consultar por WPP
+            </a>
+          `}
           <a href="${detailUrl}" class="btn btn-outline btn-card-detail">
             Ver detalle
           </a>

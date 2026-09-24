@@ -322,6 +322,24 @@ body {
   color: #E65100;
 }
 
+.badge-danger {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+.btn-whatsapp {
+  background-color: #25D366;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1EBE5D;
+  color: #FFFFFF !important;
+}
+
 /* Spinners y Estados de Carga */
 .loading-spinner {
   display: flex;

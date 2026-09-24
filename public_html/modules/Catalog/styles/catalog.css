@@ -514,6 +514,17 @@
   text-align: center;
 }
 
+.btn-card-wa {
+  flex: 1.3;
+  padding: 0.6rem 0.5rem;
+  font-size: 0.8rem;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 /* Estado vacío */
 .catalog-empty {
   background-color: var(--color-light);

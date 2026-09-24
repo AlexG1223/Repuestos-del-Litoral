@@ -26,9 +26,9 @@ export function ProductDetailView(product) {
   const inStock = product.stock > 0;
   const stockBadge = inStock 
     ? '<span class="badge badge-success">En Stock Disponible</span>'
-    : '<span class="badge badge-warning">Consulte Disponibilidad</span>';
+    : '<span class="badge badge-danger">Sin Stock Actualmente</span>';
 
-  const waMessage = encodeURIComponent(`Hola! Quisiera solicitar asesoramiento sobre el producto: ${product.name}${product.code ? ` (Cód: ${product.code})` : ''}.`);
+  const waMessage = encodeURIComponent(`Hola! Quisiera consultar disponibilidad / reingreso del producto: ${product.name}${product.code ? ` (Cód: ${product.code})` : ''}.`);
   const waUrl = `https://wa.me/59899655283?text=${waMessage}`;
 
   const effectivePrice = product.display_price !== undefined 
@@ -90,24 +90,39 @@ export function ProductDetailView(product) {
 
           <!-- Selector de Cantidad y Botones de Acción -->
           <div class="detail-actions">
-            <div class="quantity-selector">
-              <label for="product-qty">Cantidad:</label>
-              <div class="qty-controls">
-                <button type="button" class="qty-btn" id="qty-minus">-</button>
-                <input type="number" id="product-qty" value="1" min="1" max="${product.stock > 0 ? product.stock : 99}" readonly />
-                <button type="button" class="qty-btn" id="qty-plus">+</button>
+            ${inStock ? `
+              <div class="quantity-selector">
+                <label for="product-qty">Cantidad:</label>
+                <div class="qty-controls">
+                  <button type="button" class="qty-btn" id="qty-minus">-</button>
+                  <input type="number" id="product-qty" value="1" min="1" max="${product.stock}" readonly />
+                  <button type="button" class="qty-btn" id="qty-plus">+</button>
+                </div>
               </div>
-            </div>
 
-            <div class="detail-buttons-group">
-              <button type="button" class="btn btn-primary btn-add-cart-detail" id="btn-add-to-cart-detail" ${!inStock ? 'disabled' : ''}>
-                🛒 Agregar al Carrito
-              </button>
+              <div class="detail-buttons-group">
+                <button type="button" class="btn btn-primary btn-add-cart-detail" id="btn-add-to-cart-detail">
+                  🛒 Agregar al Carrito
+                </button>
 
-              <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-consult-wa">
-                💬 Solicitar asesoramiento sobre ${product.name}
-              </a>
-            </div>
+                <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-outline btn-consult-wa">
+                  💬 Solicitar asesoramiento por WhatsApp
+                </a>
+              </div>
+            ` : `
+              <div class="out-of-stock-box">
+                <div class="out-of-stock-header">
+                  <span>⚠️</span>
+                  <span>Este producto no cuenta con stock actualmente</span>
+                </div>
+                <p class="out-of-stock-desc">
+                  Si deseas consultar disponibilidad, fecha de reingreso o encargarlo especialmente, ¡contáctanos directamente por WhatsApp!
+                </p>
+                <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-out-of-stock-wa">
+                  💬 Consultar disponibilidad por WhatsApp
+                </a>
+              </div>
+            `}
           </div>
 
           <!-- Descripción -->

@@ -359,6 +359,47 @@
   border-top: 1px solid var(--color-gray-border);
 }
 
+/* Caja de Producto Sin Stock */
+.out-of-stock-box {
+  background-color: #FFF5F5;
+  border: 1.5px dashed #FEB2B2;
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.out-of-stock-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #C62828;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.out-of-stock-desc {
+  font-size: 0.9rem;
+  color: #4A5568;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.btn-out-of-stock-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+  box-sizing: border-box;
+}
+
 .product-detail-description h3 {
   font-family: var(--font-heading);
   font-size: 1.1rem;

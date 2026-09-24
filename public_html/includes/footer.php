@@ -36,3 +36,7 @@ $minOrderAmount = \RepuestosDelLitoral\Models\Setting::get('min_order_amount', '
     minOrderAmount: <?= json_encode((int)$minOrderAmount) ?>
   };
 </script>
+
+<!-- Guía interactiva de bienvenida (Onboarding Tour) -->
+<script defer src="/assets/js/rdl-tour.js?v=1.0.0"></script>
+

@@ -15,9 +15,9 @@ $localSchema = SeoService::getLocalBusinessSchema();
 
 $topBestSellers = [];
 try {
-    $topBestSellers = Product::getTopBestSellers(3);
+  $topBestSellers = Product::getTopBestSellers(3);
 } catch (\Throwable $e) {
-    $topBestSellers = [];
+  $topBestSellers = [];
 }
 ?>
 <!DOCTYPE html>
@@ -35,7 +35,8 @@ try {
 
   <!-- Open Graph / Redes Sociales -->
   <meta property="og:title" content="Repuestos del Litoral | Solución en Repuestos y Equipos a Motor">
-  <meta property="og:description" content="Repuestos originales y alternativos, servicio técnico especializado y envíos a todo el país para motosierras, desmalezadoras, cortacéspedes, tractores y generadores. Tu máquina en buenas manos.">
+  <meta property="og:description"
+    content="Repuestos originales y alternativos, servicio técnico especializado y envíos a todo el país para motosierras, desmalezadoras, cortacéspedes, tractores y generadores. Tu máquina en buenas manos.">
   <meta property="og:url" content="<?= htmlspecialchars($baseUrl . '/inicio.php') ?>">
   <meta property="og:type" content="website">
   <meta property="og:image" content="<?= htmlspecialchars($baseUrl . '/assets/img/inicio-1.jpg') ?>">
@@ -116,7 +117,9 @@ try {
       </p>
       <p
         style="font-size: 1.1rem; color: #E0E0E0; margin-bottom: 1.5rem; font-weight: 400; text-shadow: 1px 2px 5px rgba(0,0,0,0.5); max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-        Ofrecemos repuestos originales y alternativos para motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas. Brindamos atención personalizada, servicio técnico especializado y envíos a todo el país para mantener tu máquina siempre en buenas manos desde <strong>Dolores, Soriano (Uruguay)</strong>.
+        Ofrecemos repuestos originales y alternativos para motosierras, desmalezadoras, cortacéspedes, tractores de
+        jardín, generadores y motobombas. Brindamos atención personalizada, servicio técnico especializado y envíos a
+        todo el país para mantener tu máquina siempre en buenas manos desde <strong>Dolores, Soriano (Uruguay)</strong>.
       </p>
 
 
@@ -158,16 +161,16 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-1.jpg" alt="Máquinas de Jardín y Equipos a Motor en Dolores, Soriano"
-              loading="lazy"
-              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
+            <img src="/assets/img/card-1.jpeg" alt="Máquinas de Jardín y Equipos a Motor en Dolores, Soriano"
+              loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
               Máquinas de Jardín & Equipos a Motor</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Repuestos y piezas para motosierras, desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas.</p>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Repuestos y piezas para motosierras,
+              desmalezadoras, cortacéspedes, tractores de jardín, generadores y motobombas.</p>
           </div>
         </article>
 
@@ -176,15 +179,15 @@ try {
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
             <img src="/assets/img/card-2.jpg" alt="Repuestos Originales y Alternativos con Envíos a todo el país"
-              loading="lazy"
-              style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
+              loading="lazy" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
           <div style="padding: 1.5rem;">
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
               Repuestos Originales & Alternativos</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Amplia variedad de componentes con atención personalizada y envíos rápidos a todo el país.</p>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Amplia variedad de componentes con atención
+              personalizada y envíos rápidos a todo el país.</p>
           </div>
         </article>
 
@@ -192,8 +195,7 @@ try {
         <article
           style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); transition: var(--transition);">
           <div style="height: 250px; overflow: hidden;">
-            <img src="/assets/img/card-3.jpg" alt="Servicio Técnico Especializado en Dolores"
-              loading="lazy"
+            <img src="/assets/img/card-3.jpg" alt="Servicio Técnico Especializado en Dolores" loading="lazy"
               style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s;"
               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
           </div>
@@ -201,7 +203,8 @@ try {
             <h3
               style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--color-primary); margin-bottom: 0.5rem;">
               Servicio Técnico Especializado</h3>
-            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Mantenimiento integral y reparación experta de equipos a motor. Tu máquina en las mejores manos.</p>
+            <p style="color: var(--color-text-muted); font-size: 0.95rem;">Mantenimiento integral y reparación experta
+              de equipos a motor. Tu máquina en las mejores manos.</p>
           </div>
         </article>
 
@@ -210,73 +213,82 @@ try {
   </section>
 
   <?php if (!empty($topBestSellers)): ?>
-  <!-- Sección de Productos Más Vendidos -->
-  <section style="padding: 4rem 1.5rem; background-color: #F8F9FA; border-top: 1px solid #E2E8F0;">
-    <div style="max-width: var(--max-width); margin: 0 auto; text-align: center;">
-      <h2 style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); text-transform: uppercase; margin-bottom: 0.5rem;">
-        🔥 Productos Más Vendidos
-      </h2>
-      <p style="color: var(--color-text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;">
-        Los repuestos y herramientas más elegidos por nuestros clientes
-      </p>
+    <!-- Sección de Productos Más Vendidos -->
+    <section style="padding: 4rem 1.5rem; background-color: #F8F9FA; border-top: 1px solid #E2E8F0;">
+      <div style="max-width: var(--max-width); margin: 0 auto; text-align: center;">
+        <h2
+          style="font-family: var(--font-heading); font-size: 2rem; color: var(--color-dark); text-transform: uppercase; margin-bottom: 0.5rem;">
+          🔥 Productos Más Vendidos
+        </h2>
+        <p style="color: var(--color-text-muted); font-size: 1.05rem; margin-bottom: 2.5rem;">
+          Los repuestos y herramientas más elegidos por nuestros clientes
+        </p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left;">
-        <?php foreach ($topBestSellers as $prod): 
-          $prodUrl = '/producto/' . rawurlencode($prod['slug']);
-          $price = (float)($prod['display_price'] ?? $prod['retail_price']);
-          $imgUrl = !empty($prod['primary_image']) ? $prod['primary_image'] : '/assets/uploads/products/placeholder.jpg';
-        ?>
-          <article style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; position: relative; border: 1px solid #EDF2F7; transition: transform 0.25s, box-shadow 0.25s;"
-                   onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.1)';" 
-                   onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-card)';">
-            
-            <!-- Insignia Destacada -->
-            <span style="position: absolute; top: 12px; left: 12px; background: var(--color-primary); color: white; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 20px; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-              🔥 Top Venta
-            </span>
+        <div
+          style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; text-align: left;">
+          <?php foreach ($topBestSellers as $prod):
+            $prodUrl = '/producto/' . rawurlencode($prod['slug']);
+            $price = (float) ($prod['display_price'] ?? $prod['retail_price']);
+            $imgUrl = !empty($prod['primary_image']) ? $prod['primary_image'] : '/assets/uploads/products/placeholder.jpg';
+            ?>
+            <article
+              style="background: white; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-card); display: flex; flex-direction: column; position: relative; border: 1px solid #EDF2F7; transition: transform 0.25s, box-shadow 0.25s;"
+              onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 24px rgba(0,0,0,0.1)';"
+              onmouseout="this.style.transform='none'; this.style.boxShadow='var(--shadow-card)';">
 
-            <!-- Imagen del Producto (Clickable) -->
-            <a href="<?= htmlspecialchars($prodUrl) ?>" style="display: block; height: 230px; overflow: hidden; background: #FFF;">
-              <img src="<?= htmlspecialchars($imgUrl) ?>" 
-                   alt="<?= htmlspecialchars($prod['name']) ?>" 
-                   loading="lazy"
-                   style="width: 100%; height: 100%; object-fit: contain; padding: 1rem; transition: transform 0.3s;"
-                   onmouseover="this.style.transform='scale(1.06)'" 
-                   onmouseout="this.style.transform='scale(1)'">
-            </a>
+              <!-- Insignia Destacada -->
+              <span
+                style="position: absolute; top: 12px; left: 12px; background: var(--color-primary); color: white; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 20px; z-index: 2; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+                🔥 Top Venta
+              </span>
 
-            <!-- Contenido del Producto -->
-            <div style="padding: 1.25rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
-              <div>
-                <?php if (!empty($prod['category_name'])): ?>
-                  <span style="font-size: 0.78rem; text-transform: uppercase; color: var(--color-primary); font-weight: 700; letter-spacing: 0.5px; display: block; margin-bottom: 0.3rem;">
-                    <?= htmlspecialchars($prod['category_name']) ?>
-                  </span>
-                <?php endif; ?>
-                
-                <h3 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-dark); margin: 0 0 0.75rem 0; line-height: 1.35;">
-                  <a href="<?= htmlspecialchars($prodUrl) ?>" style="color: inherit; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--color-primary)'" onmouseout="this.style.color='var(--color-dark)'">
-                    <?= htmlspecialchars($prod['name']) ?>
-                  </a>
-                </h3>
-              </div>
+              <!-- Imagen del Producto (Clickable) -->
+              <a href="<?= htmlspecialchars($prodUrl) ?>"
+                style="display: block; height: 230px; overflow: hidden; background: #FFF;">
+                <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($prod['name']) ?>" loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: contain; padding: 1rem; transition: transform 0.3s;"
+                  onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">
+              </a>
 
-              <div>
-                <div style="font-size: 1.3rem; font-weight: 800; color: var(--color-dark); margin-bottom: 1rem;">
-                  UYU $<?= number_format($price, 2) ?>
+              <!-- Contenido del Producto -->
+              <div
+                style="padding: 1.25rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+                <div>
+                  <?php if (!empty($prod['category_name'])): ?>
+                    <span
+                      style="font-size: 0.78rem; text-transform: uppercase; color: var(--color-primary); font-weight: 700; letter-spacing: 0.5px; display: block; margin-bottom: 0.3rem;">
+                      <?= htmlspecialchars($prod['category_name']) ?>
+                    </span>
+                  <?php endif; ?>
+
+                  <h3
+                    style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-dark); margin: 0 0 0.75rem 0; line-height: 1.35;">
+                    <a href="<?= htmlspecialchars($prodUrl) ?>"
+                      style="color: inherit; text-decoration: none; transition: color 0.2s;"
+                      onmouseover="this.style.color='var(--color-primary)'"
+                      onmouseout="this.style.color='var(--color-dark)'">
+                      <?= htmlspecialchars($prod['name']) ?>
+                    </a>
+                  </h3>
                 </div>
 
-                <a href="<?= htmlspecialchars($prodUrl) ?>" class="btn btn-primary" style="width: 100%; box-sizing: border-box; text-align: center; justify-content: center; font-size: 0.9rem; border-radius: var(--radius-sm);">
-                  Ver Detalles del Producto
-                </a>
-              </div>
-            </div>
+                <div>
+                  <div style="font-size: 1.3rem; font-weight: 800; color: var(--color-dark); margin-bottom: 1rem;">
+                    UYU $<?= number_format($price, 2) ?>
+                  </div>
 
-          </article>
-        <?php endforeach; ?>
+                  <a href="<?= htmlspecialchars($prodUrl) ?>" class="btn btn-primary"
+                    style="width: 100%; box-sizing: border-box; text-align: center; justify-content: center; font-size: 0.9rem; border-radius: var(--radius-sm);">
+                    Ver Detalles del Producto
+                  </a>
+                </div>
+              </div>
+
+            </article>
+          <?php endforeach; ?>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
   <?php endif; ?>
 
   <!-- Sección de Ubicación (Mapa) -->
@@ -294,8 +306,8 @@ try {
       </p>
       <div style="margin-bottom: 2rem;">
         <a href="https://www.google.com/maps/place/Semiller%C3%ADa+My.Vi.Da/@-33.5279796,-58.248913,13.57z/data=!4m10!1m2!2m1!1sAsencio+1930,+Dolores,+Soriano,+Uruguay!3m6!1s0x95a5291884f9ab0f:0x6aa8bf331873e2d1!8m2!3d-33.5352914!4d-58.2143246!15sCidBc2VuY2lvIDE5MzAsIERvbG9yZXMsIFNvcmlhbm8sIFVydWd1YXlaJiIkYXNlbmNpbyAxOTMwIGRvbG9yZXMgc29yaWFubyB1cnVndWF5kgEOaGFyZHdhcmVfc3RvcmXgAQA!16s%2Fg%2F11sg5q09v5?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D"
-           target="_blank" rel="noopener noreferrer"
-           style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; background-color: var(--color-primary); color: #000; font-weight: bold; border-radius: var(--radius-sm); text-decoration: none;">
+          target="_blank" rel="noopener noreferrer"
+          style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; background-color: var(--color-primary); color: #000; font-weight: bold; border-radius: var(--radius-sm); text-decoration: none;">
           🗺️ Ver en Google Maps
         </a>
       </div>
