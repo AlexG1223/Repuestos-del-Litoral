@@ -1,4 +1,5 @@
 import { uploadImage, removeImage, setPrimaryImage, reorderImages } from '../services/adminProductService.js';
+import { downloadProductImage } from '../utils/downloadHelper.js';
 
 export function renderImageUploader(containerId, productId, images) {
   const container = document.getElementById(containerId);
@@ -51,6 +52,7 @@ export function renderImageUploader(containerId, productId, images) {
             <button type="button" class="admin-btn secondary btn-primary-toggle" data-id="${img.id}" style="width: 100%; padding: 0.25rem;">
               ${img.is_primary ? '★ Principal' : '☆ Marcar principal'}
             </button>
+            <button type="button" class="admin-btn btn-download-card-img" data-url="${img.url}" data-idx="${index}" style="width: 100%; padding: 0.25rem; background: #10b981; color: #fff;">📥 Descargar</button>
             <button type="button" class="admin-btn danger btn-delete-img" data-id="${img.id}" style="width: 100%; padding: 0.25rem;">Eliminar</button>
           ` : '<small>Placeholder</small>'}
         </div>
@@ -62,6 +64,13 @@ export function renderImageUploader(containerId, productId, images) {
   }
 
   function attachGalleryEvents() {
+    document.querySelectorAll('.btn-download-card-img').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const url = e.currentTarget.dataset.url;
+        const idx = parseInt(e.currentTarget.dataset.idx, 10);
+        downloadProductImage(url, `producto_${productId}_img${idx + 1}`);
+      });
+    });
     document.querySelectorAll('.btn-delete-img').forEach(btn => {
       btn.addEventListener('click', async (e) => {
         if (!confirm('¿Eliminar esta imagen?')) return;

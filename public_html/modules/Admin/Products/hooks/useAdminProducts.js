@@ -1,5 +1,7 @@
 import { fetchProducts, fetchProductById, deleteProduct, toggleProductStatus } from '../services/adminProductService.js';
 import { ProductTable } from '../components/ProductTable.js';
+import { openProductImageModal } from '../components/ProductImageModal.js';
+import { downloadProductImage } from '../utils/downloadHelper.js';
 
 export function useAdminProducts() {
   const tableRoot = document.getElementById('admin-product-table-root');
@@ -27,6 +29,44 @@ export function useAdminProducts() {
   }
 
   function attachTableEvents() {
+    // Abrir modal de imagenes para ver y descargar
+    document.querySelectorAll('.btn-open-img-modal').forEach(el => {
+      el.addEventListener('click', async (e) => {
+        const id = parseInt(e.currentTarget.dataset.id, 10);
+        const initialProd = products.find(p => p.id === id) || {
+          id: id,
+          name: e.currentTarget.dataset.name,
+          code: e.currentTarget.dataset.code,
+          primary_image: e.currentTarget.dataset.img
+        };
+
+        // Open modal with initial data immediately
+        openProductImageModal(initialProd);
+
+        // Fetch full product details including complete image gallery
+        try {
+          const res = await fetchProductById(id);
+          if (res.success && res.data) {
+            openProductImageModal(res.data);
+          }
+        } catch (err) {
+          console.error("Error cargando galería completa", err);
+        }
+      });
+    });
+
+    // Descarga directa de la imagen principal
+    document.querySelectorAll('.btn-download-img-direct').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const imgUrl = e.currentTarget.dataset.img;
+        const name = e.currentTarget.dataset.name;
+        const code = e.currentTarget.dataset.code;
+        const suggestedName = `${code ? code + '_' : ''}${name}`;
+        downloadProductImage(imgUrl, suggestedName);
+      });
+    });
+
     // Alternar estado activo / inactivo (Baja / Alta)
     document.querySelectorAll('.btn-toggle-status').forEach(btn => {
       btn.addEventListener('click', async (e) => {
